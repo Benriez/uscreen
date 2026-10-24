@@ -18,7 +18,9 @@ artifacts**. The source code is developed in a private repository.
 
 ## Download
 
-**[UScreen 0.2.0 — Apple Silicon (arm64), macOS 13+](https://github.com/Benriez/uscreen/releases/latest)**
+**[UScreen 0.2.0 — Apple Silicon (arm64), macOS 13+](https://github.com/Benriez/uscreen/releases/tag/v0.2.0-preview.1)**
+
+It is a pre-release: `releases/latest` does not point at it yet.
 
 | | |
 |---|---|
