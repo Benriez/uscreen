@@ -6,13 +6,19 @@
   // <details>-based mobile menu: close it after choosing a destination.
   const menu = document.querySelector(".nav-mobile");
   if (menu) {
-    menu.addEventListener("click", (event) => {
-      if (event.target.closest("a")) menu.removeAttribute("open");
+    const sheet = document.querySelector(".nav-sheet");
+    const close = () => menu.removeAttribute("open");
+
+    if (sheet) sheet.addEventListener("click", (event) => {
+      if (event.target.closest("a")) close();
     });
     document.addEventListener("click", (event) => {
-      if (menu.hasAttribute("open") && !menu.contains(event.target)) {
-        menu.removeAttribute("open");
-      }
+      if (!menu.hasAttribute("open")) return;
+      if (menu.contains(event.target) || (sheet && sheet.contains(event.target))) return;
+      close();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") close();
     });
   }
 })();
