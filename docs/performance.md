@@ -54,6 +54,26 @@ broken", and not "60 fps".
 
 ---
 
+## Live session (interactive, 1600×960)
+
+The benchmark above drives a continuous 1:1 motion pattern at 2000×1200. An ordinary
+interactive session is a different measurement, and it is much slower:
+
+| Measurement | Value | Context |
+|---|---|---|
+| Captured | **12.3 fps** | interactive session, 1600×960, USB |
+| Acknowledged by the tablet | **12.1 fps** | same session |
+| Dropped or blank frames | 0 | observed in this session |
+
+Both figures are real; they were measured under different conditions. The gap between
+55.7 fps and ~12 fps has **not** been isolated. The tablet's decode pipeline and the
+USB link are the usual suspects — the decode term is already the largest single term
+in the frame-age breakdown above — but no measurement here separates them.
+
+Do not quote the benchmark number as an expected result.
+
+---
+
 ## Stability
 
 | Test | Duration | Result |

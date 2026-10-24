@@ -3,6 +3,28 @@
 Release artifacts and provenance records live on the
 [releases page](https://github.com/Benriez/uscreen/releases).
 
+## 0.2.0-preview.2 — 2026-10-25
+
+Second public preview: version identity fixed, Android receiver published.
+
+**Fixed**
+- `uscreen-macos --version` reported `0.1.0` while the bundle reported `0.2.0`. Both
+  report `0.2.0` now; bundle build number `2026.10.25.2`.
+- Release backend is built with `--remap-path-prefix`, so no builder home path is
+  embedded in the shipped binary.
+
+**Added**
+- Android receiver published for the first time:
+  `UScreen-0.2.0-preview.2-android.apk` (`com.uscreen` 0.2.0-preview.2, versionCode 20,
+  minSdk 27), release build with R8, signed with a project-local key (APK Signature
+  Scheme v2 + v3). A tablet carrying an upstream build must uninstall it first.
+- `LICENSE` (MIT, upstream copyright) ships inside the macOS archive.
+- Release notes for this preview.
+
+**Not verified**
+- Neither artifact has been through a hardware session after this rebuild; the APK has
+  not been installed on a tablet.
+
 ## 0.2.0-preview.1 — 2026-10-25
 
 First public preview build for Apple Silicon.

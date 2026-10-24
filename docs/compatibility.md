@@ -54,14 +54,16 @@ macOS version, tablet model, Android version, decoder name from
 
 ## Tablet-side application
 
-The receiver is the **unmodified upstream UScreen Android app** from the Linux project.
-This repository does not distribute an APK, and no Android release is published here.
+The receiver is the upstream UScreen Android app (MIT) with local changes for the macOS
+host. This repository publishes the build as `UScreen-0.2.0-preview.2-android.apk`. It is
+signed with a project-local key, not the upstream author’s, so a tablet carrying an
+upstream build must uninstall it first.
 
 | Item | State |
 |---|---|
-| APK in this release | not included |
-| Android build published here | none |
-| Compatible app | upstream UScreen receiver matching the documented protocol |
+| APK in this release | `UScreen-0.2.0-preview.2-android.apk` |
+| Android version | `com.uscreen` 0.2.0-preview.2 (versionCode 20), minSdk 27 |
+| Compatible app | the receiver shipped in this release, or an upstream build of the same protocol |
 | Install helper | `uscreen-macos install-apk <file.apk>` |
 
 The protocol is documented in [Architecture](architecture.md) precisely so that a

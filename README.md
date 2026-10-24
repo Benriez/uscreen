@@ -18,26 +18,29 @@ artifacts**. The source code is developed in a private repository.
 
 ## Download
 
-**[UScreen 0.2.0 — Apple Silicon (arm64), macOS 13+](https://github.com/Benriez/uscreen/releases/tag/v0.2.0-preview.1)**
+**[UScreen 0.2.0-preview.2 — macOS (arm64, 13+) and Android 8.1+](https://github.com/Benriez/uscreen/releases/tag/v0.2.0-preview.2)**
 
 It is a pre-release: `releases/latest` does not point at it yet.
 
 | | |
 |---|---|
-| Archive | `UScreen-0.2.0-macos-arm64.zip` (2.3 MB) |
-| SHA-256 | `dafb425b62e26c18d0759e503e3d890af3717e3bfa774c49f03a0a0802060eb7` |
-| Signature | local self-signed certificate — not notarized |
-| Provenance | [`PUBLICATION_BUILD.json`](https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.1/PUBLICATION_BUILD.json) |
+| macOS archive | `UScreen-0.2.0-preview.2-macos-arm64.zip` (2.3 MB) |
+| macOS SHA-256 | `f38107a5804962bf8184862d014650e309bc35bc59a051263052c6dca054169f` |
+| Android receiver | `UScreen-0.2.0-preview.2-android.apk` (1.5 MB) |
+| Android SHA-256 | `510f24e76557727c15f1e603a5172c2a2564a412eee5f3af3e50b0198dde7c8e` |
+| Signature | project-local self-signed keys — the macOS app is **not notarized** |
+| Provenance | [`PUBLICATION_BUILD.json`](https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.2/PUBLICATION_BUILD.json) |
 
-The archive contains `UScreen.app` and `INSTALL.txt`. There is **no Android APK** in
-this release; use the upstream UScreen receiver that matches the protocol described in
-[Architecture](docs/architecture.md).
+The macOS archive contains `UScreen.app`, `INSTALL.txt` and `LICENSE`. The receiver APK
+is signed with a project-local key, so a tablet that already carries an upstream build
+has to uninstall it first.
 
 Quick start:
 
 ```bash
 mkdir -p ~/Applications && cp -R UScreen.app ~/Applications/
 open ~/Applications/UScreen.app        # right-click → Open on first launch
+adb install UScreen-0.2.0-preview.2-android.apk
 ~/Applications/UScreen/bin/uscreen-macos setup install --activate \
   --serial "$(adb devices | awk 'NR==2{print $1}')"
 ```
@@ -82,7 +85,7 @@ notarization.
 | [FAQ](docs/faq.md) | Common questions |
 | [Privacy](docs/privacy.md) | Data flows and local artifacts |
 | [Building](docs/building.md) | Toolchain and verification commands |
-| [Release notes](docs/release-notes/v0.2.0-preview.1.md) | What changed in this preview |
+| [Release notes](docs/release-notes/v0.2.0-preview.2.md) | What changed in this preview |
 
 ## Verification status of this build
 

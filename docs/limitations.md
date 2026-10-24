@@ -11,10 +11,10 @@ run; there is no multi-hour or multi-day evidence.
 **One machine.** All end-to-end verification happened on an M1 Pro with macOS 26.5.1 and
 a DOOGEE U12. Every other combination is untested, including other Apple Silicon Macs.
 
-**This build has not been re-tested on hardware.** The published 0.2.0 preview was
-rebuilt from a hardened source tree after the last hardware session. Hardware-free tests
-and packaging were verified; a full session was not. The differences are listed in the
-[release notes](release-notes/v0.2.0-preview.1.md).
+**This build has not been re-tested on hardware.** The published 0.2.0-preview.2
+artifacts were rebuilt from a hardened source tree after the last hardware session.
+Hardware-free tests and packaging were verified; a full session was not. The differences
+are listed in the [release notes](release-notes/v0.2.0-preview.2.md).
 
 ---
 
@@ -77,7 +77,7 @@ unresponsive, stop the host rather than trying to reconfigure it.
 | Local self-signed certificate | There is no Apple-issued trust chain. `spctl` will reject the app by policy. |
 | No Intel build | `arm64` only. |
 | No auto-update | Download a new release manually. |
-| No Android APK distributed here | The receiver comes from the upstream project. |
+| Self-signed Android key | The receiver APK is signed with a project-local key; an upstream build on the tablet must be uninstalled before installing it. |
 
 ---
 

@@ -16,7 +16,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307080a'/%3E%3Crect x='6.5' y='6.5' width='19' height='19' rx='4' fill='none' stroke='%235eead4' stroke-width='2'/%3E%3Crect x='12' y='12' width='8' height='8' rx='1.5' fill='%235eead4'/%3E%3C/svg%3E">
 <!-- Bump ?v= on styles.css/app.js whenever either file changes:
        GitHub Pages caches assets for 10 minutes. -->
-  <link rel="stylesheet" href="assets/styles.css?v=20261025-4">
+  <link rel="stylesheet" href="assets/styles.css?v=20261025-5">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -55,7 +55,7 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-      <p class="kicker"><span class="dot" aria-hidden="true"></span> Experimental preview · v0.2.0</p>
+      <p class="kicker"><span class="dot" aria-hidden="true"></span> Experimental preview · v0.2.0-preview.2</p>
       <h1>Your Android tablet, as a <em>real</em> second Mac display.</h1>
       <p class="lede">
         Not mirroring, not a remote desktop window, not a browser tab. UScreen creates
@@ -64,8 +64,8 @@
       </p>
       <div class="cta-row">
         <a class="btn btn-primary" href="#download">
-          Download for Apple Silicon
-          <span class="sz">2.3 MB</span>
+          Download macOS + Android
+          <span class="sz">2.3 + 1.5 MB</span>
         </a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
       </div>
@@ -230,6 +230,11 @@
               <td class="dim">Session survived an adb interruption and resumed with a fresh keyframe</td>
             </tr>
             <tr>
+              <td>Android receiver build</td>
+              <td><span class="tag tag-partial">built, not installed</span></td>
+              <td class="dim">Release APK <code>com.uscreen</code> 0.2.0-preview.2 (versionCode 20), signed v2+v3; it has not been installed on a tablet for this build</td>
+            </tr>
+            <tr>
               <td>Touch injection</td>
               <td><span class="tag tag-ok">working</span></td>
               <td class="dim">Normalized (0.5, 0.5) landed on the expected global point</td>
@@ -252,7 +257,7 @@
             <tr>
               <td>This exact build on hardware</td>
               <td><span class="tag tag-partial">not re-tested</span></td>
-              <td class="dim">The preview bundle was rebuilt after the last hardware session</td>
+              <td class="dim">Both artifacts were rebuilt after the last hardware session</td>
             </tr>
           </tbody>
         </table>
@@ -290,6 +295,8 @@
             <tr><td>End-to-end frame age, p95</td><td class="num">109.9 ms</td><td class="dim">2000×1200, 10-minute soak</td></tr>
             <tr><td>Encode rate, median</td><td class="num">54.6 fps</td><td class="dim">2000×1200 @ 60 Hz, 12 Mbit/s</td></tr>
             <tr><td>Capture / send / ACK</td><td class="num">55.7 fps</td><td class="dim">60-second continuous-motion benchmark</td></tr>
+            <tr><td>Live session, captured</td><td class="num">12.3 fps</td><td class="dim">1600×960, interactive use, USB</td></tr>
+            <tr><td>Live session, acknowledged</td><td class="num">12.1 fps</td><td class="dim">Same session; no dropped or blank frames reported</td></tr>
             <tr><td>Dropped or stale frames</td><td class="num">0</td><td class="dim">Every dynamic window of the soak</td></tr>
             <tr><td>Sessions during soak</td><td class="num">2</td><td class="dim">Initial, plus one after an adb interruption</td></tr>
           </tbody>
@@ -302,6 +309,14 @@
         60-second motion benchmark the chain delivered 55.7 of 60 possible frames — the
         deficit sits at the animation-to-display-sampling boundary, not in the encoder.
         The honest label is 55.7/60 with an unproven cause.
+      </div>
+
+      <div class="note" style="margin-top:14px">
+        <strong>The benchmark is not what you will see.</strong> The 55.7 fps figure comes
+        from a synthetic 1:1 motion benchmark; in an interactive session at 1600×960 the
+        chain captured about 12.3 and the tablet acknowledged about 12.1 frames per second.
+        Both numbers are real, they were measured under different conditions, and the gap
+        has not been isolated. The tablet decoder and the cable are the usual suspects.
       </div>
     </div>
   </section>
@@ -328,6 +343,7 @@
             <tr><td>macOS</td><td class="num">26.5.1</td><td class="dim">Bundle declares a 13.0 minimum; older releases untested</td></tr>
             <tr><td>Tablet</td><td class="num">DOOGEE U12</td><td class="dim">Android 8.1+ with USB debugging, H.264 decoder required</td></tr>
             <tr><td>Resolution</td><td class="num">1600×960 · 2000×1200</td><td class="dim">Other modes untested; changes need a host restart</td></tr>
+            <tr><td>Android receiver</td><td class="num">0.2.0-preview.2</td><td class="dim"><code>com.uscreen</code> · minSdk 27 · project-local signature</td></tr>
             <tr><td>Cable</td><td class="num">USB data</td><td class="dim">Charge-only cables fail; that is the most common setup fault</td></tr>
             <tr><td>Network</td><td class="num">not used</td><td class="dim">Loopback sockets tunneled through adb</td></tr>
           </tbody>
@@ -351,7 +367,7 @@
         <li><b>No pen input</b><span>Pressure, tilt and eraser are not implemented on macOS. Two fingers scroll; pinch does not zoom.</span></li>
         <li><b>Graphics-stack care</b><span>Long sessions stress ColorSync and WindowServer on the test machine. The supervisor watches and can stop a session.</span></li>
         <li><b>Not notarized</b><span>Signed with a local self-signed certificate. macOS will require a per-app override on first launch.</span></li>
-        <li><b>APK not bundled</b><span>The Android receiver is not distributed here. Use the upstream UScreen APK that matches the documented protocol.</span></li>
+        <li><b>Self-signed receiver</b><span>The Android APK is signed with a project-local key, not the upstream author’s. A tablet carrying an upstream build must uninstall it first; Android refuses a differently signed update.</span></li>
       </ul>
     </div>
   </section>
@@ -392,7 +408,8 @@ cp -R UScreen.app ~/Applications/</code></pre>
             <h3>Connect and authorize the tablet</h3>
             <p>Enable USB debugging, plug in a data cable, accept the RSA prompt, then check that exactly one device is listed.</p>
 <pre><code>brew install android-platform-tools   # if adb is missing
-adb devices</code></pre>
+adb devices
+adb install UScreen-0.2.0-preview.2-android.apk   # receiver, same release</code></pre>
           </div>
         </li>
         <li>
@@ -531,9 +548,11 @@ adb devices</code></pre>
         <details>
           <summary>Is there an Android APK in the download?</summary>
           <div class="body">
-            <p>No. The receiver app is not bundled with this preview, and no Android release
-               is published from this repository. Use the upstream UScreen APK that matches
-               the protocol described in the architecture notes.</p>
+            <p>Yes. The same release carries <code>UScreen-0.2.0-preview.2-android.apk</code>
+               (<code>com.uscreen</code>, Android 8.1+). It is signed with a project-local key,
+               so a tablet that already has an upstream build has to uninstall it first.
+               This exact APK has not been installed on hardware; the receiver code ran in
+               earlier debug builds on the same device.</p>
           </div>
         </details>
       </div>
@@ -545,36 +564,42 @@ adb devices</code></pre>
       <div class="download">
         <div>
           <span class="section-index">10 — Download</span>
-          <h2 id="dl-h">UScreen 0.2.0 for macOS</h2>
+          <h2 id="dl-h">UScreen 0.2.0-preview.2</h2>
           <p class="muted" style="font-size:.94rem">
-            Apple Silicon · macOS 13 or newer · pre-release. The archive contains the app
-            bundle and an <code>INSTALL.txt</code> with the same steps as above.
+            Apple Silicon macOS 13+ and Android 8.1+. The macOS archive contains the app
+            bundle, <code>INSTALL.txt</code> and the licence; the receiver is a separate
+            APK in the same release.
           </p>
           <div class="cta-row" style="margin-top:22px">
-            <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.1/UScreen-0.2.0-macos-arm64.zip">
-              Download .zip <span class="sz">2.3 MB</span>
+            <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.2/UScreen-0.2.0-preview.2-macos-arm64.zip">
+              macOS .zip <span class="sz">2.3 MB</span>
             </a>
-            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases">All releases</a>
+            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.2/UScreen-0.2.0-preview.2-android.apk">
+              Android .apk <span class="sz">1.5 MB</span>
+            </a>
           </div>
           <p class="small muted" style="margin-top:18px">
-            After downloading, you can check the archive:
+            Check both downloads before installing:
           </p>
-<pre><code>shasum -a 256 UScreen-0.2.0-macos-arm64.zip</code></pre>
-          <span class="sha">dafb425b62e26c18d0759e503e3d890af3717e3bfa774c49f03a0a0802060eb7</span>
+<pre><code>shasum -a 256 UScreen-0.2.0-preview.2-macos-arm64.zip \
+              UScreen-0.2.0-preview.2-android.apk</code></pre>
+          <span class="sha">f38107a5804962bf8184862d014650e309bc35bc59a051263052c6dca054169f  macOS</span>
+          <span class="sha">510f24e76557727c15f1e603a5172c2a2564a412eee5f3af3e50b0198dde7c8e  Android</span>
         </div>
         <dl class="meta">
-          <div><dt>Version</dt><dd>0.2.0 (preview.1)</dd></div>
-          <div><dt>Architecture</dt><dd>arm64</dd></div>
-          <div><dt>Minimum OS</dt><dd>macOS 13.0</dd></div>
-          <div><dt>Signature</dt><dd>local certificate</dd></div>
+          <div><dt>Version</dt><dd>0.2.0 (preview.2)</dd></div>
+          <div><dt>macOS</dt><dd>arm64 · 13.0+</dd></div>
+          <div><dt>Android</dt><dd>8.1+ · minSdk 27</dd></div>
+          <div><dt>Signature</dt><dd>project-local, both</dd></div>
           <div><dt>Notarized</dt><dd>no</dd></div>
           <div style="border-bottom:0"><dt>Released</dt><dd><time datetime="2026-10-25">2026-10-25</time></dd></div>
         </dl>
       </div>
       <p class="small muted" style="margin-top:20px">
-        Release notes: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.2.0-preview.1.md">v0.2.0-preview.1</a>
-        · Checksums: <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.1/SHA256SUMS">SHA256SUMS</a>
-        · Provenance: <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.1/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
+        Release notes: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.2.0-preview.2.md">v0.2.0-preview.2</a>
+        · Checksums: <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.2/SHA256SUMS">SHA256SUMS</a>
+        · Provenance: <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.2/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
+        · <a href="https://github.com/Benriez/uscreen/releases">All releases</a>
       </p>
     </div>
   </section>
@@ -636,6 +661,6 @@ adb devices</code></pre>
   </div>
 </footer>
 
-<script src="assets/app.js?v=20261025-4" defer></script>
+<script src="assets/app.js?v=20261025-5" defer></script>
 </body>
 </html>

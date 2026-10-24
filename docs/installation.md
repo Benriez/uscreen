@@ -1,7 +1,8 @@
 # Installation
 
-This guide installs UScreen 0.2.0 (preview) on Apple Silicon macOS. It assumes no
-administrator password, no developer tools and no prior knowledge of the project.
+This guide installs UScreen 0.2.0-preview.2 on Apple Silicon macOS and the matching
+Android receiver. It assumes no administrator password, no developer tools and no prior
+knowledge of the project.
 
 If anything here fails, [Troubleshooting](troubleshooting.md) starts from the actual
 error message rather than from the setup order.
@@ -51,10 +52,10 @@ is present, a Touch ID confirmation.
 
 ```bash
 cd ~/Downloads
-shasum -a 256 UScreen-0.2.0-macos-arm64.zip      # compare with the release page
-ditto -x -k UScreen-0.2.0-macos-arm64.zip .
+shasum -a 256 UScreen-0.2.0-preview.2-macos-arm64.zip   # compare with the release page
+ditto -x -k UScreen-0.2.0-preview.2-macos-arm64.zip .
 mkdir -p ~/Applications
-cp -R UScreen-0.2.0/UScreen.app ~/Applications/
+cp -R UScreen-0.2.0-preview.2/UScreen.app ~/Applications/
 ```
 
 ### 3.2 First launch
@@ -87,6 +88,21 @@ adb devices
 
 `unauthorized` means the RSA prompt was not accepted. `offline` usually means a bad
 cable or a stalled adbd; see [Troubleshooting](troubleshooting.md).
+
+4. Install the receiver app from the same release:
+
+```bash
+adb install UScreen-0.2.0-preview.2-android.apk
+```
+
+If the tablet already carries a build of `com.uscreen` signed by a different key
+(the upstream release, or an older debug build), Android refuses the update with
+`INSTALL_FAILED_UPDATE_INCOMPATIBLE`. Uninstall it first:
+
+```bash
+adb uninstall com.uscreen
+adb install UScreen-0.2.0-preview.2-android.apk
+```
 
 ### 3.4 Run setup
 
@@ -186,7 +202,7 @@ waiting for a socket that no longer exists; quitting the app on the tablet is en
 | Health, read-only, creates nothing | `uscreen-macos health` |
 | Effective configuration | `uscreen-macos config` |
 | Encoder throughput without a tablet | `uscreen-macos bench` |
-| Install the receiver APK on the tablet | `uscreen-macos install-apk <file.apk>` |
+| Install the receiver APK on the tablet | `uscreen-macos install-apk UScreen-0.2.0-preview.2-android.apk` |
 | Profiles and what they change | `uscreen-macos profiles` |
 | Quarantine state | `uscreen-macos quarantine` |
 
