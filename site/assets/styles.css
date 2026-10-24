@@ -208,26 +208,28 @@ pre code { background: none; border: 0; padding: 0; font-size: 13px; }
 }
 .nav-mobile summary::-webkit-details-marker { display: none; }
 .nav-mobile[open] summary { color: var(--accent); border-color: var(--accent); }
+.nav-mobile:not([open]) > nav { display: none; }
 .nav-mobile nav {
   position: absolute;
   right: 0;
   top: calc(100% + 10px);
-  min-width: 190px;
-  background: var(--panel);
-  border: 1px solid var(--line-strong);
+  min-width: 210px;
+  background: #171d25;
+  border: 1px solid #3a4453;
   border-radius: 10px;
-  padding: 8px;
+  padding: 6px;
   display: grid;
   gap: 2px;
-  box-shadow: 0 24px 60px rgba(0,0,0,.55);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, .78), 0 2px 12px rgba(0, 0, 0, .6);
+  z-index: 5;
 }
 .nav-mobile nav a {
-  color: var(--fg-dim);
-  padding: 8px 10px;
+  color: var(--fg);
+  padding: 10px 12px;
   border-radius: 6px;
-  font-size: .88rem;
+  font-size: .9rem;
 }
-.nav-mobile nav a:hover { background: var(--panel-2); color: var(--fg); text-decoration: none; }
+.nav-mobile nav a:hover { background: rgba(255,255,255,.06); color: var(--accent); text-decoration: none; }
 
 /* ---------- hero ---------- */
 
