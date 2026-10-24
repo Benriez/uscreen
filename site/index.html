@@ -1,0 +1,639 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UScreen for macOS — your Android tablet as a real extended display</title>
+<meta name="description" content="UScreen turns an Android tablet into a genuine extended macOS display over USB. ScreenCaptureKit capture, hardware H.264, a real virtual display, touch input back to the Mac. Experimental preview build for Apple Silicon.">
+<meta name="theme-color" content="#07080a">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://benriez.github.io/uscreen/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="UScreen for macOS">
+<meta property="og:description" content="An Android tablet as a real extended macOS display over USB. Experimental preview for Apple Silicon.">
+<meta property="og:url" content="https://benriez.github.io/uscreen/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307080a'/%3E%3Crect x='6.5' y='6.5' width='19' height='19' rx='4' fill='none' stroke='%235eead4' stroke-width='2'/%3E%3Crect x='12' y='12' width='8' height='8' rx='1.5' fill='%235eead4'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="wrap nav">
+    <a class="brand" href="./">
+      <span class="brand-mark" aria-hidden="true"></span>
+      UScreen <small>macOS</small>
+    </a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#status">Status</a>
+      <a href="#performance">Performance</a>
+      <a href="#install">Install</a>
+      <a href="https://github.com/Benriez/uscreen/tree/main/docs">Docs</a>
+      <a class="nav-cta" href="#download">Download ↓</a>
+    </div>
+    <details class="nav-mobile">
+      <summary>Menu</summary>
+      <nav aria-label="Mobile">
+        <a href="#how">How it works</a>
+        <a href="#status">Status</a>
+        <a href="#performance">Performance</a>
+        <a href="#install">Install</a>
+        <a href="#limitations">Limitations</a>
+        <a href="https://github.com/Benriez/uscreen/tree/main/docs">Documentation</a>
+        <a href="#download">Download</a>
+      </nav>
+    </details>
+  </div>
+</header>
+
+<main id="main">
+
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+      <p class="kicker"><span class="dot" aria-hidden="true"></span> Experimental preview · v0.2.0</p>
+      <h1>Your Android tablet, as a <em>real</em> second Mac display.</h1>
+      <p class="lede">
+        Not mirroring, not a remote desktop window, not a browser tab. UScreen creates
+        an actual extended display in macOS and drives the tablet over the USB cable
+        you already have — with touch flowing back to the Mac.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#download">
+          Download for Apple Silicon
+          <span class="sz">2.3 MB</span>
+        </a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
+      </div>
+      <ul class="chips">
+        <li class="chip is-accent">Apple Silicon · arm64</li>
+        <li class="chip">macOS 13+</li>
+        <li class="chip">USB only — no Wi-Fi, no account</li>
+        <li class="chip is-warn">Pre-release · not notarized</li>
+      </ul>
+      </div>
+
+      <aside class="spec" aria-label="Pipeline at a glance">
+        <div class="spec-head">
+          <span>pipeline</span>
+          <span class="spec-state"><span class="dot" aria-hidden="true"></span>local only</span>
+        </div>
+        <dl class="spec-list">
+          <div class="spec-row"><dt>capture</dt><dd>ScreenCaptureKit · bound to the virtual display</dd></div>
+          <div class="spec-row"><dt>encode</dt><dd>VideoToolbox · H.264 · realtime, no reordering</dd></div>
+          <div class="spec-row"><dt>transport</dt><dd><code>adb reverse</code> · <code>127.0.0.1:8890</code></dd></div>
+          <div class="spec-row"><dt>decode</dt><dd>MediaCodec · tablet hardware</dd></div>
+          <div class="spec-row"><dt>input</dt><dd>CGEvent · tap, drag, two-finger scroll</dd></div>
+          <div class="spec-row"><dt>display</dt><dd>CGVirtualDisplay · extended, not mirrored</dd></div>
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section" id="what" aria-labelledby="what-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-index">01 — The short version</span>
+        <h2 id="what-h">A display macOS believes in.</h2>
+        <p>
+          Most tablet-as-second-screen tools hand you a mirrored picture or a video
+          stream inside an app. UScreen does what a physical monitor does: it registers
+          a virtual display with the window server, the system lays windows out across
+          it, and the pixels are captured, encoded and sent down the USB cable.
+        </p>
+      </div>
+      <div class="grid grid-3">
+        <article class="card">
+          <span class="ico">EXTEND</span>
+          <h3>Extended, not mirrored</h3>
+          <p>Windows can be dragged onto the tablet. The menu bar, Mission Control and
+             window layout treat it as another screen, because it is one.</p>
+        </article>
+        <article class="card">
+          <span class="ico">CAPTURE</span>
+          <h3>Native capture pipeline</h3>
+          <p>ScreenCaptureKit captures the display; VideoToolbox encodes H.264 with the
+             media engine. No ffmpeg child process, no software encoder in the default path.</p>
+        </article>
+        <article class="card">
+          <span class="ico">INPUT</span>
+          <h3>Touch returns to the Mac</h3>
+          <p>Taps, drags and two-finger scrolling on the tablet become real pointer and
+             scroll events on the Mac, mapped to the virtual display's geometry.</p>
+        </article>
+        <article class="card">
+          <span class="ico">TRANSPORT</span>
+          <h3>One cable, local only</h3>
+          <p>Video and input travel over <code>adb reverse</code> on loopback ports. Nothing
+             is exposed to the network, and no cloud service is involved.</p>
+        </article>
+        <article class="card">
+          <span class="ico">LIFECYCLE</span>
+          <h3>Display that cleans up</h3>
+          <p>The virtual display is removed when the host exits, and an independent
+             supervisor watches the session and can stop it.</p>
+        </article>
+        <article class="card">
+          <span class="ico">HONESTY</span>
+          <h3>Failures are reported</h3>
+          <p>If the display cannot be created, or the tablet is not the authorized one,
+             the app says so. It never fakes a working session.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="how" aria-labelledby="how-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-index">02 — Architecture</span>
+        <h2 id="how-h">What actually runs where</h2>
+        <p>
+          Two processes on the Mac, one unmodified app on the tablet. The host is Rust;
+          the parts that need Apple frameworks are a small Swift library loaded over FFI.
+        </p>
+      </div>
+
+      <div class="flow">
+        <div class="flow-node">
+          <h3>macOS host</h3>
+          <ul class="flow-list">
+            <li><b>CGVirtualDisplay</b> — creates the display</li>
+            <li><b>ScreenCaptureKit</b> — captures that display</li>
+            <li><b>VideoToolbox</b> — hardware H.264</li>
+            <li><b>CGEvent</b> — injects pointer + scroll</li>
+            <li><b>Rust backend</b> — protocol, session, adb, supervisor</li>
+          </ul>
+        </div>
+        <div class="flow-link" aria-hidden="true">
+          <span class="pair"><span class="arrow">→</span> video · 8890</span>
+          <span class="pair"><span class="arrow">←</span> input · 8891</span>
+          <span class="via">USB · adb reverse</span>
+        </div>
+        <div class="flow-node">
+          <h3>Android tablet</h3>
+          <ul class="flow-list">
+            <li><b>MediaCodec</b> — hardware H.264 decode</li>
+            <li><b>SurfaceView</b> — presents the stream</li>
+            <li><b>TouchCapture</b> — sends pointer events</li>
+            <li><b>StreamingService</b> — keeps it foreground</li>
+            <li><b>Unmodified app</b> — same wire protocol</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="note" style="margin-top:22px">
+        <strong>The private-API caveat, up front.</strong> A real extended display is created
+        through <code>CGVirtualDisplay</code>, an unsupported CoreGraphics interface. It works
+        on current macOS, it launches no kernel extension, and it can break in a future
+        release. When it fails, UScreen reports the failure instead of quietly falling back
+        to mirroring.
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="status" aria-labelledby="status-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-index">03 — Status</span>
+        <h2 id="status-h">What is proven, and what is not</h2>
+        <p>
+          This is a preview, so the table below separates "verified with evidence" from
+          "implemented but not re-verified on this build". The distinction is the point.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption class="sr-only">Component status with verification evidence</caption>
+          <thead>
+            <tr><th scope="col">Component</th><th scope="col">State</th><th scope="col">Evidence</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Extended virtual display</td>
+              <td><span class="tag tag-ok">working</span></td>
+              <td class="dim">Display created at 2000×1200, bounds confirmed via <code>CGDisplayBounds</code></td>
+            </tr>
+            <tr>
+              <td>Capture → encode → send chain</td>
+              <td><span class="tag tag-ok">working</span></td>
+              <td class="dim">1:1 across capture, encode, send and ACK in a 60-second motion benchmark</td>
+            </tr>
+            <tr>
+              <td>USB transport + reconnect</td>
+              <td><span class="tag tag-ok">working</span></td>
+              <td class="dim">Session survived an adb interruption and resumed with a fresh keyframe</td>
+            </tr>
+            <tr>
+              <td>Touch injection</td>
+              <td><span class="tag tag-ok">working</span></td>
+              <td class="dim">Normalized (0.5, 0.5) landed on the expected global point</td>
+            </tr>
+            <tr>
+              <td>Clean teardown</td>
+              <td><span class="tag tag-ok">working</span></td>
+              <td class="dim">Display removed, primary display geometry unchanged</td>
+            </tr>
+            <tr>
+              <td>60 fps</td>
+              <td><span class="tag tag-partial">not met</span></td>
+              <td class="dim">Capture tops out around 50–56 fps on the test host; the encoder keeps up</td>
+            </tr>
+            <tr>
+              <td>Pen pressure / tilt / pinch</td>
+              <td><span class="tag tag-no">out of scope</span></td>
+              <td class="dim">Two fingers are treated as scroll. No multitouch injection.</td>
+            </tr>
+            <tr>
+              <td>This exact build on hardware</td>
+              <td><span class="tag tag-partial">not re-tested</span></td>
+              <td class="dim">The preview bundle was rebuilt after the last hardware session</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="small muted" style="margin-top:16px">
+        Hardware-free verification for this build: 894 Rust tests pass, the Swift menu-bar
+        self-test passes, all four code signatures verify, and the installer was exercised
+        into a temporary root. That is not the same as a full hardware session, and it is
+        not presented as one.
+      </p>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="performance" aria-labelledby="perf-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-index">04 — Performance</span>
+        <h2 id="perf-h">Numbers, with the conditions attached</h2>
+        <p>
+          Measured on one machine: Apple Silicon M1 Pro, macOS 26.5.1, DOOGEE U12 tablet
+          over USB. Your tablet's decoder decides the floor, so treat these as one data
+          point rather than a specification.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption class="sr-only">Measured performance on the development host</caption>
+          <thead>
+            <tr><th scope="col">Measurement</th><th scope="col">Value</th><th scope="col">Configuration</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>End-to-end frame age, median</td><td class="num">69.5 ms</td><td class="dim">2000×1200, 10-minute soak</td></tr>
+            <tr><td>End-to-end frame age, p95</td><td class="num">109.9 ms</td><td class="dim">2000×1200, 10-minute soak</td></tr>
+            <tr><td>Encode rate, median</td><td class="num">54.6 fps</td><td class="dim">2000×1200 @ 60 Hz, 12 Mbit/s</td></tr>
+            <tr><td>Capture / send / ACK</td><td class="num">55.7 fps</td><td class="dim">60-second continuous-motion benchmark</td></tr>
+            <tr><td>Dropped or stale frames</td><td class="num">0</td><td class="dim">Every dynamic window of the soak</td></tr>
+            <tr><td>Sessions during soak</td><td class="num">2</td><td class="dim">Initial, plus one after an adb interruption</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note warn" style="margin-top:18px">
+        <strong>60 Hz is not 60 fps.</strong> The virtual display refreshes at 60 Hz; the
+        frames captured per second depend on how much of the screen changes. In the
+        60-second motion benchmark the chain delivered 55.7 of 60 possible frames — the
+        deficit sits at the animation-to-display-sampling boundary, not in the encoder.
+        The honest label is 55.7/60 with an unproven cause.
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="compatibility" aria-labelledby="compat-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-index">05 — Compatibility</span>
+        <h2 id="compat-h">Narrow, and stated as such</h2>
+        <p>
+          One hardware combination has been exercised end to end. Everything else is
+          expected to work but has not been demonstrated.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption class="sr-only">Compatibility matrix</caption>
+          <thead>
+            <tr><th scope="col">Layer</th><th scope="col">Tested</th><th scope="col">Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Mac</td><td class="num">M1 Pro, arm64</td><td class="dim">Intel builds do not exist</td></tr>
+            <tr><td>macOS</td><td class="num">26.5.1</td><td class="dim">Bundle declares a 13.0 minimum; older releases untested</td></tr>
+            <tr><td>Tablet</td><td class="num">DOOGEE U12</td><td class="dim">Android 8.1+ with USB debugging, H.264 decoder required</td></tr>
+            <tr><td>Resolution</td><td class="num">1600×960 · 2000×1200</td><td class="dim">Other modes untested; changes need a host restart</td></tr>
+            <tr><td>Cable</td><td class="num">USB data</td><td class="dim">Charge-only cables fail; that is the most common setup fault</td></tr>
+            <tr><td>Network</td><td class="num">not used</td><td class="dim">Loopback sockets tunneled through adb</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="limitations" aria-labelledby="lim-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-index">06 — Limitations</span>
+        <h2 id="lim-h">Read this before you install</h2>
+        <p>These are properties of the current design, not unfinished UI.</p>
+      </div>
+      <ul class="limits">
+        <li><b>Experimental</b><span>No long-term stability claim. Sessions have been run for tens of minutes, not days.</span></li>
+        <li><b>Private API</b><span>The display is created with <code>CGVirtualDisplay</code>, which Apple does not support and may change.</span></li>
+        <li><b>No resize in-process</b><span>Changing resolution requires restarting the host; the display cannot be resized live.</span></li>
+        <li><b>H.264 only</b><span>HEVC is not wired up. There is no codec negotiation.</span></li>
+        <li><b>No pen input</b><span>Pressure, tilt and eraser are not implemented on macOS. Two fingers scroll; pinch does not zoom.</span></li>
+        <li><b>Graphics-stack care</b><span>Long sessions stress ColorSync and WindowServer on the test machine. The supervisor watches and can stop a session.</span></li>
+        <li><b>Not notarized</b><span>Signed with a local self-signed certificate. macOS will require a per-app override on first launch.</span></li>
+        <li><b>APK not bundled</b><span>The Android receiver is not distributed here. Use the upstream UScreen APK that matches the documented protocol.</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="install" aria-labelledby="install-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-index">07 — Install</span>
+        <h2 id="install-h">Six steps, one cable</h2>
+        <p>
+          The app installs user-level services into your home folder. No administrator
+          password, no kernel extension, no system modification.
+        </p>
+      </div>
+
+      <ol class="steps">
+        <li>
+          <div>
+            <h3>Download and move the app</h3>
+            <p>Unzip and put the bundle in your user Applications folder.</p>
+<pre><code>mkdir -p ~/Applications
+cp -R UScreen.app ~/Applications/</code></pre>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Approve the first launch</h3>
+            <p>
+              The build is not notarized, so a double-click will be refused once.
+              Right-click → <strong>Open</strong> → <strong>Open</strong>, or use
+              System Settings → Privacy &amp; Security → “Open Anyway”.
+              Do not disable Gatekeeper or SIP.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Connect and authorize the tablet</h3>
+            <p>Enable USB debugging, plug in a data cable, accept the RSA prompt, then check that exactly one device is listed.</p>
+<pre><code>brew install android-platform-tools   # if adb is missing
+adb devices</code></pre>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Run the built-in setup</h3>
+            <p>Menu-bar icon → <strong>Set Up UScreen</strong>. It installs the backend, the native library and two user LaunchAgents. It creates no display and issues no authorization.</p>
+<pre><code>~/Applications/UScreen/bin/uscreen-macos setup install --activate \
+  --serial &lt;your-adb-serial&gt; --profile low_latency</code></pre>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Grant the two permissions</h3>
+            <p>
+              Screen Recording (capture) and Accessibility (input injection) must be granted
+              to the <em>installed</em> backend
+              <code>~/Applications/UScreen/bin/uscreen-macos</code>, then the app restarted.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Connect</h3>
+            <p>Menu-bar icon → <strong>Connect</strong>. Confirm the Touch ID prompt if it appears. Drag a window across and touch the tablet.</p>
+<pre><code>~/Applications/UScreen/bin/uscreen-macos stop</code></pre>
+          </div>
+        </li>
+      </ol>
+
+      <div class="note" style="margin-top:26px">
+        <strong>Uninstall</strong> is symmetrical:
+        <code>uscreen-macos setup uninstall</code> removes both LaunchAgents and the installed
+        backend, and deleting <code>~/Applications/UScreen.app</code> plus
+        <code>~/Applications/UScreen</code> removes the rest. Full detail in
+        <a href="https://github.com/Benriez/uscreen/blob/main/docs/installation.md">the installation guide</a>.
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="security" aria-labelledby="sec-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-index">08 — Security &amp; privacy</span>
+        <h2 id="sec-h">What leaves the machine: nothing</h2>
+      </div>
+      <div class="grid grid-2">
+        <div class="card">
+          <span class="ico">SCOPE</span>
+          <h3>Local sockets only</h3>
+          <p>The video and input servers bind to loopback. Reachability comes from
+             <code>adb reverse</code>, which is scoped to the attached device. There is no
+             listening port on your network.</p>
+        </div>
+        <div class="card">
+          <span class="ico">AUTH</span>
+          <h3>Token before pixels</h3>
+          <p>A client that does not present the 64-character token is dropped before the
+             greeting. The token is delivered to the tablet through adb, not typed by you.</p>
+        </div>
+        <div class="card">
+          <span class="ico">BINDING</span>
+          <h3>One authorized device</h3>
+          <p>An installation is bound to one ADB serial. A different tablet is refused at
+             preparation, before the display is created, and during the session.</p>
+        </div>
+        <div class="card">
+          <span class="ico">TELEMETRY</span>
+          <h3>None</h3>
+          <p>No analytics, no crash reporting, no accounts, no update pings. The site you
+             are reading sets no cookies and loads no third-party scripts.</p>
+        </div>
+      </div>
+      <p class="small muted" style="margin-top:18px">
+        Full detail, including what the supervisor records locally:
+        <a href="https://github.com/Benriez/uscreen/blob/main/docs/privacy.md">privacy notes</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-index">09 — Questions</span>
+        <h2 id="faq-h">Frequently asked</h2>
+      </div>
+      <div class="faq">
+        <details>
+          <summary>Is this the same project as UScreen for Linux?</summary>
+          <div class="body">
+            <p>It is a macOS port built on the same wire protocol and the same unmodified
+               Android app. The Linux host uses EVDI, ffmpeg and uinput; on macOS those are
+               replaced by CGVirtualDisplay, ScreenCaptureKit/VideoToolbox and CGEvent. The
+               original Linux project is by <a href="https://github.com/majmichu1/UScreen">majmichu1</a>.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Why is macOS so insistent about opening it?</summary>
+          <div class="body">
+            <p>Because it is signed with a local certificate and not notarized by Apple.
+               That is the honest state of a preview build without a paid developer account.
+               Use the per-app override; do not turn off system security for it.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Does it work over Wi-Fi?</summary>
+          <div class="body">
+            <p>No. The transport is USB with adb reverse. Wireless adb is not supported and
+               is refused where an authorization specifies USB.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Can I use more than one tablet?</summary>
+          <div class="body">
+            <p>One at a time. Each installation is bound to a single ADB serial; a second
+               device is not silently substituted. Reinstall with the other serial to switch.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Why is the frame rate below my display's refresh rate?</summary>
+          <div class="body">
+            <p>Capture is damage-driven: it delivers frames when content changes, and the
+               host's capture callback has a ceiling around 50–56 fps. The encoder is not the
+               bottleneck — capture, encode, send and ACK stay 1:1. Your tablet's decoder sets
+               the latency floor.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Where is the source code?</summary>
+          <div class="body">
+            <p>This repository hosts the site, the documentation and the release artifacts.
+               The source is developed in a private repository and is not published here.
+               The release includes a provenance record naming the exact commit it was built
+               from, so claims in these docs can be traced.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Is there an Android APK in the download?</summary>
+          <div class="body">
+            <p>No. The receiver app is not bundled with this preview, and no Android release
+               is published from this repository. Use the upstream UScreen APK that matches
+               the protocol described in the architecture notes.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="download" aria-labelledby="dl-h">
+    <div class="wrap">
+      <div class="download">
+        <div>
+          <span class="section-index">10 — Download</span>
+          <h2 id="dl-h">UScreen 0.2.0 for macOS</h2>
+          <p class="muted" style="font-size:.94rem">
+            Apple Silicon · macOS 13 or newer · pre-release. The archive contains the app
+            bundle and an <code>INSTALL.txt</code> with the same steps as above.
+          </p>
+          <div class="cta-row" style="margin-top:22px">
+            <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.1/UScreen-0.2.0-macos-arm64.zip">
+              Download .zip <span class="sz">2.3 MB</span>
+            </a>
+            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases">All releases</a>
+          </div>
+          <p class="small muted" style="margin-top:18px">
+            After downloading, you can check the archive:
+          </p>
+<pre><code>shasum -a 256 UScreen-0.2.0-macos-arm64.zip</code></pre>
+          <span class="sha">dafb425b62e26c18d0759e503e3d890af3717e3bfa774c49f03a0a0802060eb7</span>
+        </div>
+        <dl class="meta">
+          <div><dt>Version</dt><dd>0.2.0 (preview.1)</dd></div>
+          <div><dt>Architecture</dt><dd>arm64</dd></div>
+          <div><dt>Minimum OS</dt><dd>macOS 13.0</dd></div>
+          <div><dt>Signature</dt><dd>local certificate</dd></div>
+          <div><dt>Notarized</dt><dd>no</dd></div>
+          <div style="border-bottom:0"><dt>Released</dt><dd><time datetime="2026-10-25">2026-10-25</time></dd></div>
+        </dl>
+      </div>
+      <p class="small muted" style="margin-top:20px">
+        Release notes: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.2.0-preview.1.md">v0.2.0-preview.1</a>
+        · Checksums: <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.1/SHA256SUMS">SHA256SUMS</a>
+        · Provenance: <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.1/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
+      </p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="brand" href="./" style="margin-bottom:12px">
+          <span class="brand-mark" aria-hidden="true"></span>
+          UScreen <small>macOS</small>
+        </a>
+        <p class="small" style="max-width:34ch; margin-top:12px">
+          An Android tablet as a real extended macOS display over USB.
+          Experimental preview, built and documented in the open about its limits.
+        </p>
+      </div>
+      <div>
+        <h3>Product</h3>
+        <ul>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#status">Status</a></li>
+          <li><a href="#performance">Performance</a></li>
+          <li><a href="#install">Install</a></li>
+          <li><a href="#download">Download</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Documentation</h3>
+        <ul>
+          <li><a href="https://github.com/Benriez/uscreen/blob/main/docs/installation.md">Installation</a></li>
+          <li><a href="https://github.com/Benriez/uscreen/blob/main/docs/architecture.md">Architecture</a></li>
+          <li><a href="https://github.com/Benriez/uscreen/blob/main/docs/troubleshooting.md">Troubleshooting</a></li>
+          <li><a href="https://github.com/Benriez/uscreen/blob/main/docs/limitations.md">Limitations</a></li>
+          <li><a href="https://github.com/Benriez/uscreen/blob/main/docs/faq.md">FAQ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Project</h3>
+        <ul>
+          <li><a href="https://github.com/Benriez/uscreen">Repository</a></li>
+          <li><a href="https://github.com/Benriez/uscreen/releases">Releases</a></li>
+          <li><a href="https://github.com/Benriez/uscreen/blob/main/CHANGELOG.md">Changelog</a></li>
+          <li><a href="https://github.com/majmichu1/UScreen">Upstream (Linux)</a></li>
+          <li><a href="https://github.com/Benriez/uscreen/blob/main/LICENSE">MIT licence</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-legal">
+      <p>
+        MIT licensed. Built on the UScreen protocol and Android app by majmichu1.
+        macOS port is independent work. Not affiliated with Apple or Google.
+        Android is a trademark of Google LLC; macOS is a trademark of Apple Inc.
+      </p>
+      <p>© <span id="year">2026</span> · No cookies, no tracking, no fonts fetched from anywhere.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/app.js" defer></script>
+</body>
+</html>
