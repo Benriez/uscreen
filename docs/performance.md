@@ -57,7 +57,42 @@ broken", and not "60 fps".
 ## Live session (interactive, 1600×960)
 
 The benchmark above drives a continuous 1:1 motion pattern at 2000×1200. An ordinary
-interactive session is a different measurement, and it is much slower:
+interactive session is a different measurement. Two live sessions are recorded here —
+an earlier build and the published 0.2.0-preview.2 build:
+
+### Preview.2 acceptance session (published packages)
+
+| Measurement | Value | Context |
+|---|---|---|
+| Captured | **17.6 – 38.4 fps** | 1600×960 @ 60 Hz, a window dragged on the extended display |
+| Encoded | within 0.4 fps of capture | VideoToolbox H.264, 8 Mbit/s |
+| Sent | within 0.4 fps of capture | USB / `adb reverse` |
+| Acknowledged | **18.0 – 37.8 fps** | tablet acknowledgement |
+| Blank frames | 0 | every metrics window |
+| Dropped frames | 0 | every metrics window |
+| Frame age, p50 / p95 | 32 ms / 95 ms | capture → present |
+| Capture age, p50 | 1.1 – 1.9 ms | frame freshness at capture |
+| Tablet decode | 28.7 – 29.4 ms | hardware decoder |
+| Present | 0.2 ms | tablet surface |
+| Frames in flight | 1.1 – 1.2 | no transport backpressure |
+
+The rate follows how much of the screen changes: it drops to 0 fps on a static desktop
+and rises while a window moves. Capture is the limiting stage — encode, transport and
+decode all track it within 0.4 fps, and the frames in flight stay at ~1. The display
+refreshes at 60 Hz, but the pipeline delivered 38.4 fps at best, so **60 fps was not
+reached**.
+
+One video session was re-established during the session (the receiver reconnected once);
+the stream resumed at an IDR with 2 frames skipped. The host, the virtual display and the
+USB tunnel stayed up throughout.
+
+### Earlier session (older build)
+
+| Measurement | Value | Context |
+|---|---|---|
+| Captured | **12.3 fps** | interactive session, 1600×960, USB |
+| Acknowledged | **12.1 fps** | same session |
+| Dropped or blank frames | 0 | observed in this session |
 
 | Measurement | Value | Context |
 |---|---|---|
@@ -65,12 +100,16 @@ interactive session is a different measurement, and it is much slower:
 | Acknowledged by the tablet | **12.1 fps** | same session |
 | Dropped or blank frames | 0 | observed in this session |
 
-Both figures are real; they were measured under different conditions. The gap between
-55.7 fps and ~12 fps has **not** been isolated. The tablet's decode pipeline and the
-USB link are the usual suspects — the decode term is already the largest single term
-in the frame-age breakdown above — but no measurement here separates them.
+All of these figures are real; they were measured under different conditions. The gap
+between the 55.7 fps benchmark and the 12–38 fps live range has **not** been isolated.
+In the preview.2 session the evidence points at capture cadence rather than at the
+transport or the tablet: the capture rate is what varies, encode/send/ack track it
+within 0.4 fps, in-flight frames stay at ~1, and the tablet's decode latency (29 ms)
+is a fixed cost per frame rather than a queueing bottleneck. The machine was also under
+external load during the session (the display server alone was using 20–46 % CPU).
 
-Do not quote the benchmark number as an expected result.
+Do not quote the benchmark number as an expected result, and do not quote any of these
+numbers as 60 fps.
 
 ---
 

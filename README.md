@@ -96,7 +96,7 @@ notarization.
 | Code signature (app + three nested binaries) | valid on disk, satisfies Designated Requirement |
 | Installer into a temporary root | binary, native library, two LaunchAgents, install marker |
 | Gatekeeper assessment | rejected — expected for a non-notarized build |
-| Full hardware session on this build | **not performed** |
+| Full hardware session on this build | one attended session — live desktop, window drag and touch confirmed by the operator; clean stop |
 
 ## Project and licence
 

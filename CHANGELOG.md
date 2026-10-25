@@ -5,6 +5,14 @@ Release artifacts and provenance records live on the
 
 ## 0.2.0-preview.2 — 2026-10-25
 
+**Hardware acceptance** — the published packages were installed and exercised once,
+end to end, on the reference machine and the tablet: extended display created and
+removed cleanly, live desktop on the tablet confirmed by the operator, window drag onto
+the tablet, tap and touch-drag confirmed, 17.6–38.4 fps captured and 18.0–37.8 fps
+acknowledged with 0 blank and 0 dropped frames, and a verified shutdown with the ledger,
+lease and commissioning records consistent. 60 fps was not reached and long-term
+stability is not claimed.
+
 Second public preview: version identity fixed, Android receiver published.
 
 **Fixed**

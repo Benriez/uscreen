@@ -217,27 +217,27 @@
             <tr>
               <td>Extended virtual display</td>
               <td><span class="tag tag-ok">working</span></td>
-              <td class="dim">Display created at 2000×1200, bounds confirmed via <code>CGDisplayBounds</code></td>
+              <td class="dim">Display id 20 created at 1600×960 @ 60 Hz during the preview.2 acceptance session and removed cleanly on stop</td>
             </tr>
             <tr>
               <td>Capture → encode → send chain</td>
               <td><span class="tag tag-ok">working</span></td>
-              <td class="dim">1:1 across capture, encode, send and ACK in a 60-second motion benchmark</td>
+              <td class="dim">In the preview.2 session: capture 17.6–38.4 fps, encode and send within 0.4 fps of capture, acknowledged within 0.4 fps; blank and dropped frames 0</td>
             </tr>
             <tr>
               <td>USB transport + reconnect</td>
               <td><span class="tag tag-ok">working</span></td>
-              <td class="dim">Session survived an adb interruption and resumed with a fresh keyframe</td>
+              <td class="dim">In the preview.2 session the video session was re-established once and resumed at an IDR with 2 frames skipped; the host, the display and the USB tunnel stayed up</td>
             </tr>
             <tr>
               <td>Android receiver build</td>
-              <td><span class="tag tag-partial">built, not installed</span></td>
-              <td class="dim">Release APK <code>com.uscreen</code> 0.2.0-preview.2 (versionCode 20), signed v2+v3; it has not been installed on a tablet for this build</td>
+              <td><span class="tag tag-ok">working</span></td>
+              <td class="dim">Published APK <code>com.uscreen</code> 0.2.0-preview.2 (versionCode 20), signed v2+v3, installed on the tablet and verified by certificate fingerprint</td>
             </tr>
             <tr>
               <td>Touch injection</td>
               <td><span class="tag tag-ok">working</span></td>
-              <td class="dim">Normalized (0.5, 0.5) landed on the expected global point</td>
+              <td class="dim">In the preview.2 session the operator confirmed that a tap on the tablet moved the Mac pointer to the correct desktop position and that touch-dragging moved a window</td>
             </tr>
             <tr>
               <td>Clean teardown</td>
@@ -247,7 +247,7 @@
             <tr>
               <td>60 fps</td>
               <td><span class="tag tag-partial">not met</span></td>
-              <td class="dim">Capture tops out around 50–56 fps on the test host; the encoder keeps up</td>
+              <td class="dim">Not reached. The best live rate on the preview.2 build was 38.4 fps captured / 37.8 fps acknowledged while a window was dragged; the encoder always kept up</td>
             </tr>
             <tr>
               <td>Pen pressure / tilt / pinch</td>
@@ -256,8 +256,8 @@
             </tr>
             <tr>
               <td>This exact build on hardware</td>
-              <td><span class="tag tag-partial">not re-tested</span></td>
-              <td class="dim">Both artifacts were rebuilt after the last hardware session</td>
+              <td><span class="tag tag-ok">one session</span></td>
+              <td class="dim">One attended session on the published packages: live desktop on the tablet, a window dragged onto it, tap and touch-drag confirmed by the operator, clean stop</td>
             </tr>
           </tbody>
         </table>
@@ -295,8 +295,12 @@
             <tr><td>End-to-end frame age, p95</td><td class="num">109.9 ms</td><td class="dim">2000×1200, 10-minute soak</td></tr>
             <tr><td>Encode rate, median</td><td class="num">54.6 fps</td><td class="dim">2000×1200 @ 60 Hz, 12 Mbit/s</td></tr>
             <tr><td>Capture / send / ACK</td><td class="num">55.7 fps</td><td class="dim">60-second continuous-motion benchmark</td></tr>
-            <tr><td>Live session, captured</td><td class="num">12.3 fps</td><td class="dim">1600×960, interactive use, USB</td></tr>
-            <tr><td>Live session, acknowledged</td><td class="num">12.1 fps</td><td class="dim">Same session; no dropped or blank frames reported</td></tr>
+            <tr><td>Live session (older build), captured</td><td class="num">12.3 fps</td><td class="dim">1600×960, interactive use, USB</td></tr>
+            <tr><td>Live session (older build), acknowledged</td><td class="num">12.1 fps</td><td class="dim">Same session; no dropped or blank frames reported</td></tr>
+            <tr><td>Preview.2 session, captured</td><td class="num">17.6–38.4 fps</td><td class="dim">1600×960 @ 60 Hz, window dragged on the extended display</td></tr>
+            <tr><td>Preview.2 session, acknowledged</td><td class="num">18.0–37.8 fps</td><td class="dim">Same session; 0 blank, 0 dropped frames</td></tr>
+            <tr><td>Preview.2 session, frame age</td><td class="num">32 ms p50</td><td class="dim">95 ms p95, capture → present</td></tr>
+            <tr><td>Preview.2 session, decode</td><td class="num">29 ms</td><td class="dim">Tablet hardware decoder</td></tr>
             <tr><td>Dropped or stale frames</td><td class="num">0</td><td class="dim">Every dynamic window of the soak</td></tr>
             <tr><td>Sessions during soak</td><td class="num">2</td><td class="dim">Initial, plus one after an adb interruption</td></tr>
           </tbody>
@@ -313,10 +317,14 @@
 
       <div class="note" style="margin-top:14px">
         <strong>The benchmark is not what you will see.</strong> The 55.7 fps figure comes
-        from a synthetic 1:1 motion benchmark; in an interactive session at 1600×960 the
-        chain captured about 12.3 and the tablet acknowledged about 12.1 frames per second.
-        Both numbers are real, they were measured under different conditions, and the gap
-        has not been isolated. The tablet decoder and the cable are the usual suspects.
+        from a synthetic 1:1 motion benchmark. In live sessions at 1600×960 the rate follows
+        how much of the screen actually changes: an earlier session measured about 12.3
+        captured and 12.1 acknowledged frames per second, and the preview.2 acceptance
+        session measured 17.6–38.4 captured and 18.0–37.8 acknowledged frames per second
+        while a window was being dragged, dropping to zero on a static desktop. All of these
+        are real measurements under different conditions. None of them is 60 fps, and the
+        capture rate — not the encoder, the transport or the tablet decoder — is what sets
+        the ceiling.
       </div>
     </div>
   </section>
@@ -360,7 +368,7 @@
         <p>These are properties of the current design, not unfinished UI.</p>
       </div>
       <ul class="limits">
-        <li><b>Experimental</b><span>No long-term stability claim. Sessions have been run for tens of minutes, not days.</span></li>
+        <li><b>Experimental</b><span>No long-term stability claim. The longest session on the published preview.2 build lasted about three minutes; sessions of tens of minutes exist on older builds, but nothing has been run for days.</span></li>
         <li><b>Private API</b><span>The display is created with <code>CGVirtualDisplay</code>, which Apple does not support and may change.</span></li>
         <li><b>No resize in-process</b><span>Changing resolution requires restarting the host; the display cannot be resized live.</span></li>
         <li><b>H.264 only</b><span>HEVC is not wired up. There is no codec negotiation.</span></li>
