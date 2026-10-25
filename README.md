@@ -86,6 +86,7 @@ notarization.
 | [Privacy](docs/privacy.md) | Data flows and local artifacts |
 | [Building](docs/building.md) | Toolchain and verification commands |
 | [Release notes](docs/release-notes/v0.2.0-preview.3.md) | What changed in this preview |
+| [Release closure report](docs/release-closure-v0.2.0-preview.3.md) | How the release was published and verified |
 
 ## Verification status of this build
 
