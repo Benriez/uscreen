@@ -1,7 +1,7 @@
 # Installation
 
-This guide installs UScreen 0.2.0-preview.2 on Apple Silicon macOS and the matching
-Android receiver. It assumes no administrator password, no developer tools and no prior
+This guide installs UScreen 0.2.0-preview.3 on Apple Silicon macOS and the matching
+Android receiver (which is unchanged since preview.2). It assumes no administrator password, no developer tools and no prior
 knowledge of the project.
 
 If anything here fails, [Troubleshooting](troubleshooting.md) starts from the actual
@@ -52,10 +52,10 @@ is present, a Touch ID confirmation.
 
 ```bash
 cd ~/Downloads
-shasum -a 256 UScreen-0.2.0-preview.2-macos-arm64.zip   # compare with the release page
-ditto -x -k UScreen-0.2.0-preview.2-macos-arm64.zip .
+shasum -a 256 UScreen-0.2.0-preview.3-macos-arm64.zip   # compare with the release page
+ditto -x -k UScreen-0.2.0-preview.3-macos-arm64.zip .
 mkdir -p ~/Applications
-cp -R UScreen-0.2.0-preview.2/UScreen.app ~/Applications/
+cp -R UScreen-0.2.0-preview.3/UScreen.app ~/Applications/
 ```
 
 ### 3.2 First launch

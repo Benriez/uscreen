@@ -58,7 +58,8 @@ broken", and not "60 fps".
 
 The benchmark above drives a continuous 1:1 motion pattern at 2000×1200. An ordinary
 interactive session is a different measurement. Two live sessions are recorded here —
-an earlier build and the published 0.2.0-preview.2 build:
+an earlier build and the published 0.2.0-preview.2 build (the preview.3 product
+session is above):
 
 ### Preview.3 product session (published packages)
 

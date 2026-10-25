@@ -55,7 +55,7 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-      <p class="kicker"><span class="dot" aria-hidden="true"></span> Experimental preview · v0.2.0-preview.2</p>
+      <p class="kicker"><span class="dot" aria-hidden="true"></span> Experimental preview · v0.2.0-preview.3</p>
       <h1>Your Android tablet, as a <em>real</em> second Mac display.</h1>
       <p class="lede">
         Not mirroring, not a remote desktop window, not a browser tab. UScreen creates
@@ -217,7 +217,7 @@
             <tr>
               <td>Extended virtual display</td>
               <td><span class="tag tag-ok">working</span></td>
-              <td class="dim">Display id 20 created at 1600×960 @ 60 Hz during the preview.2 acceptance session and removed cleanly on stop</td>
+              <td class="dim">Created at 1600×960 @ 60 Hz during the preview.3 product session and removed cleanly when the operator disconnected</td>
             </tr>
             <tr>
               <td>Capture → encode → send chain</td>
@@ -232,12 +232,12 @@
             <tr>
               <td>Android receiver build</td>
               <td><span class="tag tag-ok">working</span></td>
-              <td class="dim">Published APK <code>com.uscreen</code> 0.2.0-preview.2 (versionCode 20), signed v2+v3, installed on the tablet and verified by certificate fingerprint</td>
+              <td class="dim">Published APK <code>com.uscreen</code> 0.2.0-preview.2 (versionCode 20), signed v2+v3, installed on the tablet and verified by certificate fingerprint; unchanged in preview.3</td>
             </tr>
             <tr>
               <td>Touch injection</td>
               <td><span class="tag tag-ok">working</span></td>
-              <td class="dim">In the preview.2 session the operator confirmed that a tap on the tablet moved the Mac pointer to the correct desktop position and that touch-dragging moved a window</td>
+              <td class="dim">In the preview.3 product session the operator confirmed that a tap on the tablet moved the Mac pointer to the correct desktop position and that touch-dragging moved a window</td>
             </tr>
             <tr>
               <td>Clean teardown</td>
@@ -381,7 +381,7 @@
         <p>These are properties of the current design, not unfinished UI.</p>
       </div>
       <ul class="limits">
-        <li><b>Experimental</b><span>No long-term stability claim. The longest session on the published preview.2 build lasted about three minutes; sessions of tens of minutes exist on older builds, but nothing has been run for days.</span></li>
+        <li><b>Experimental</b><span>No long-term stability claim. The longest session on the published preview.3 build lasted about eleven minutes; nothing has been run for hours or days.</span></li>
         <li><b>Private API</b><span>The display is created with <code>CGVirtualDisplay</code>, which Apple does not support and may change.</span></li>
         <li><b>No resize in-process</b><span>Changing resolution requires restarting the host; the display cannot be resized live.</span></li>
         <li><b>H.264 only</b><span>HEVC is not wired up. There is no codec negotiation.</span></li>
@@ -430,7 +430,7 @@ cp -R UScreen.app ~/Applications/</code></pre>
             <p>Enable USB debugging, plug in a data cable, accept the RSA prompt, then check that exactly one device is listed.</p>
 <pre><code>brew install android-platform-tools   # if adb is missing
 adb devices
-adb install UScreen-0.2.0-preview.2-android.apk   # receiver, same release</code></pre>
+adb install UScreen-0.2.0-preview.2-android.apk   # receiver, unchanged since preview.2</code></pre>
           </div>
         </li>
         <li>
@@ -454,7 +454,10 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, same release</code
         <li>
           <div>
             <h3>Connect</h3>
-            <p>Menu-bar icon → <strong>Connect</strong>. Confirm the Touch ID prompt if it appears. Drag a window across and touch the tablet.</p>
+            <p>Menu-bar icon → <strong>Connect</strong>, then confirm the Touch ID prompt:
+               it authorises one session. The session stays up until you disconnect, you
+               unplug the tablet, or a genuine safety condition stops it — there is no
+               time limit. Drag a window across and touch the tablet.</p>
 <pre><code>~/Applications/UScreen/bin/uscreen-macos stop</code></pre>
           </div>
         </li>
@@ -578,8 +581,8 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, same release</code
             <p>Yes. The same release carries <code>UScreen-0.2.0-preview.2-android.apk</code>
                (<code>com.uscreen</code>, Android 8.1+). It is signed with a project-local key,
                so a tablet that already has an upstream build has to uninstall it first.
-               This exact APK has not been installed on hardware; the receiver code ran in
-               earlier debug builds on the same device.</p>
+               This exact APK is the one installed on the tablet in the acceptance
+               session, and preview.3 did not change it.</p>
             <p>The receiver is the upstream UScreen Android app by majmichu1 (MIT), taken from
                the upstream 1.2.10 release and modified locally in four Kotlin files
                (+370/−48 lines): the receiver no longer overwrites the negotiated frame rate
@@ -607,7 +610,7 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, same release</code
             <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.3/UScreen-0.2.0-preview.3-macos-arm64.zip">
               macOS .zip <span class="sz">2.3 MB</span>
             </a>
-            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.3/UScreen-0.2.0-preview.3-android.apk">
+            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.3/UScreen-0.2.0-preview.2-android.apk">
               Android .apk <span class="sz">1.5 MB</span>
             </a>
           </div>
@@ -615,14 +618,14 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, same release</code
             Check both downloads before installing:
           </p>
 <pre><code>shasum -a 256 UScreen-0.2.0-preview.3-macos-arm64.zip
-shasum -a 256 UScreen-0.2.0-preview.3-android.apk</code></pre>
+shasum -a 256 UScreen-0.2.0-preview.2-android.apk</code></pre>
           <span class="sha">524377140fe9fc60545da7fe19d7b3dfbaa1e290859f15bee9cc510cc5ebceea  macOS</span>
           <span class="sha">510f24e76557727c15f1e603a5172c2a2564a412eee5f3af3e50b0198dde7c8e  Android</span>
         </div>
         <dl class="meta">
           <div><dt>Version</dt><dd>0.2.0 (preview.3)</dd></div>
           <div><dt>macOS</dt><dd>arm64 · 13.0+</dd></div>
-          <div><dt>Android</dt><dd>8.1+ · minSdk 27</dd></div>
+          <div><dt>Android</dt><dd>8.1+ · 0.2.0-preview.2</dd></div>
           <div><dt>Signature</dt><dd>project-local, both</dd></div>
           <div><dt>Notarized</dt><dd>no</dd></div>
           <div style="border-bottom:0"><dt>Released</dt><dd><time datetime="2026-10-25">2026-10-25</time></dd></div>

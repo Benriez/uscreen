@@ -26,10 +26,10 @@ It is a pre-release: `releases/latest` does not point at it yet.
 |---|---|
 | macOS archive | `UScreen-0.2.0-preview.3-macos-arm64.zip` (2.3 MB) |
 | macOS SHA-256 | `524377140fe9fc60545da7fe19d7b3dfbaa1e290859f15bee9cc510cc5ebceea` |
-| Android receiver | `UScreen-0.2.0-preview.3-android.apk` (1.5 MB) |
+| Android receiver | `UScreen-0.2.0-preview.2-android.apk` (1.5 MB) — unchanged since preview.2 |
 | Android SHA-256 | `510f24e76557727c15f1e603a5172c2a2564a412eee5f3af3e50b0198dde7c8e` |
 | Signature | project-local self-signed keys — the macOS app is **not notarized** |
-| Provenance | [`PUBLICATION_BUILD.json`](https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.2/PUBLICATION_BUILD.json) |
+| Provenance | [`PUBLICATION_BUILD.json`](https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.3/PUBLICATION_BUILD.json) |
 
 The macOS archive contains `UScreen.app`, `INSTALL.txt` and `LICENSE`. The receiver APK
 is signed with a project-local key, so a tablet that already carries an upstream build
