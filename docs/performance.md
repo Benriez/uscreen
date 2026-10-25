@@ -60,6 +60,25 @@ The benchmark above drives a continuous 1:1 motion pattern at 2000×1200. An ord
 interactive session is a different measurement. Two live sessions are recorded here —
 an earlier build and the published 0.2.0-preview.2 build:
 
+### Preview.3 product session (published packages)
+
+A normal, operator-initiated connection — no test grant, no time limit.
+
+| Measurement | Value | Context |
+|---|---|---|
+| Captured | **28.8 – 43.0 fps** | 1600×960 @ 60 Hz, a window dragged on the extended display |
+| Acknowledged | **28.0 – 42.8 fps** | same session |
+| Blank / dropped frames | 0 / 0 | every metrics window |
+| Frame age, p50 / p95 | 15.2 – 15.5 ms / 19 – 21 ms | capture → present |
+| Capture age, p50 | 1.1 – 1.9 ms | frame freshness at capture |
+| Tablet decode | 28.7 – 29.4 ms | hardware decoder |
+| Frames in flight | 0.2 | no transport backpressure |
+| Session length | 11+ minutes | ended only when the operator disconnected |
+
+The session ran until the operator ended it, then the display was removed cleanly
+and a **reconnect on the same attachment** worked — the product path that
+preview.2 could not reach.
+
 ### Preview.2 acceptance session (published packages)
 
 | Measurement | Value | Context |

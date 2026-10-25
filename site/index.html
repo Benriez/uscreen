@@ -222,7 +222,7 @@
             <tr>
               <td>Capture → encode → send chain</td>
               <td><span class="tag tag-ok">working</span></td>
-              <td class="dim">In the preview.2 session: capture 17.6–38.4 fps, encode and send within 0.4 fps of capture, acknowledged within 0.4 fps; blank and dropped frames 0</td>
+              <td class="dim">In the preview.3 product session: capture 28.8–43.0 fps, acknowledged 28.0–42.8 fps, blank and dropped frames 0</td>
             </tr>
             <tr>
               <td>USB transport + reconnect</td>
@@ -247,7 +247,7 @@
             <tr>
               <td>60 fps</td>
               <td><span class="tag tag-partial">not met</span></td>
-              <td class="dim">Not reached. The best live rate on the preview.2 build was 38.4 fps captured / 37.8 fps acknowledged while a window was dragged; the encoder always kept up</td>
+              <td class="dim">Not reached. The best live rate on the preview.3 build was 43.0 fps captured / 42.8 fps acknowledged while a window was dragged; the encoder always kept up</td>
             </tr>
             <tr>
               <td>Pen pressure / tilt / pinch</td>
@@ -256,8 +256,8 @@
             </tr>
             <tr>
               <td>This exact build on hardware</td>
-              <td><span class="tag tag-ok">one session</span></td>
-              <td class="dim">One attended session on the published packages: live desktop on the tablet, a window dragged onto it, tap and touch-drag confirmed by the operator, clean stop</td>
+              <td><span class="tag tag-ok">one product session</span></td>
+              <td class="dim">An attended <b>product</b> session on the published packages: live desktop on the tablet, a window dragged onto it, tap and touch-drag confirmed by the operator, 11+ minutes without ending by itself, clean disconnect and a verified reconnect</td>
             </tr>
           </tbody>
         </table>
@@ -297,6 +297,9 @@
             <tr><td>Capture / send / ACK</td><td class="num">55.7 fps</td><td class="dim">60-second continuous-motion benchmark</td></tr>
             <tr><td>Live session (older build), captured</td><td class="num">12.3 fps</td><td class="dim">1600×960, interactive use, USB</td></tr>
             <tr><td>Live session (older build), acknowledged</td><td class="num">12.1 fps</td><td class="dim">Same session; no dropped or blank frames reported</td></tr>
+            <tr><td>Preview.3 product session, captured</td><td class="num">28.8–43.0 fps</td><td class="dim">1600×960 @ 60 Hz, window dragged on the extended display</td></tr>
+            <tr><td>Preview.3 product session, acknowledged</td><td class="num">28.0–42.8 fps</td><td class="dim">Same session; 0 blank, 0 dropped frames</td></tr>
+            <tr><td>Preview.3 product session, frame age</td><td class="num">15 ms p50</td><td class="dim">19–21 ms p95, capture → present</td></tr>
             <tr><td>Preview.2 session, captured</td><td class="num">17.6–38.4 fps</td><td class="dim">1600×960 @ 60 Hz, window dragged on the extended display</td></tr>
             <tr><td>Preview.2 session, acknowledged</td><td class="num">18.0–37.8 fps</td><td class="dim">Same session; 0 blank, 0 dropped frames</td></tr>
             <tr><td>Preview.2 session, frame age</td><td class="num">32 ms p50</td><td class="dim">95 ms p95, capture → present</td></tr>
@@ -313,6 +316,16 @@
         60-second motion benchmark the chain delivered 55.7 of 60 possible frames — the
         deficit sits at the animation-to-display-sampling boundary, not in the encoder.
         The honest label is 55.7/60 with an unproven cause.
+      </div>
+
+      <div class="note" style="margin-top:14px">
+        <strong>What a product session actually reaches.</strong> In the preview.3
+        acceptance session — a normal, operator-initiated connection with no time
+        limit — the chain captured 28.8–43.0 fps while a window was dragged and the
+        tablet acknowledged 28.0–42.8 fps, with no blank and no dropped frames. The
+        frame age was 15 ms at the median and the tablet's decode cost 29 ms per
+        frame. The session ran for over eleven minutes and ended only when the
+        operator disconnected it.
       </div>
 
       <div class="note" style="margin-top:14px">
@@ -584,30 +597,30 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, same release</code
       <div class="download">
         <div>
           <span class="section-index">10 — Download</span>
-          <h2 id="dl-h">UScreen 0.2.0-preview.2</h2>
+          <h2 id="dl-h">UScreen 0.2.0-preview.3</h2>
           <p class="muted" style="font-size:.94rem">
             Apple Silicon macOS 13+ and Android 8.1+. The macOS archive contains the app
             bundle, <code>INSTALL.txt</code> and the licence; the receiver is a separate
             APK in the same release.
           </p>
           <div class="cta-row" style="margin-top:22px">
-            <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.2/UScreen-0.2.0-preview.2-macos-arm64.zip">
+            <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.3/UScreen-0.2.0-preview.3-macos-arm64.zip">
               macOS .zip <span class="sz">2.3 MB</span>
             </a>
-            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.2/UScreen-0.2.0-preview.2-android.apk">
+            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.3/UScreen-0.2.0-preview.3-android.apk">
               Android .apk <span class="sz">1.5 MB</span>
             </a>
           </div>
           <p class="small muted" style="margin-top:18px">
             Check both downloads before installing:
           </p>
-<pre><code>shasum -a 256 UScreen-0.2.0-preview.2-macos-arm64.zip
-shasum -a 256 UScreen-0.2.0-preview.2-android.apk</code></pre>
-          <span class="sha">f38107a5804962bf8184862d014650e309bc35bc59a051263052c6dca054169f  macOS</span>
+<pre><code>shasum -a 256 UScreen-0.2.0-preview.3-macos-arm64.zip
+shasum -a 256 UScreen-0.2.0-preview.3-android.apk</code></pre>
+          <span class="sha">524377140fe9fc60545da7fe19d7b3dfbaa1e290859f15bee9cc510cc5ebceea  macOS</span>
           <span class="sha">510f24e76557727c15f1e603a5172c2a2564a412eee5f3af3e50b0198dde7c8e  Android</span>
         </div>
         <dl class="meta">
-          <div><dt>Version</dt><dd>0.2.0 (preview.2)</dd></div>
+          <div><dt>Version</dt><dd>0.2.0 (preview.3)</dd></div>
           <div><dt>macOS</dt><dd>arm64 · 13.0+</dd></div>
           <div><dt>Android</dt><dd>8.1+ · minSdk 27</dd></div>
           <div><dt>Signature</dt><dd>project-local, both</dd></div>
@@ -616,9 +629,9 @@ shasum -a 256 UScreen-0.2.0-preview.2-android.apk</code></pre>
         </dl>
       </div>
       <p class="small muted" style="margin-top:20px">
-        Release notes: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.2.0-preview.2.md">v0.2.0-preview.2</a>
-        · Checksums: <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.2/SHA256SUMS">SHA256SUMS</a>
-        · Provenance: <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.2/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
+        Release notes: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.2.0-preview.3.md">v0.2.0-preview.3</a>
+        · Checksums: <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.3/SHA256SUMS">SHA256SUMS</a>
+        · Provenance: <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.3/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
         · <a href="https://github.com/Benriez/uscreen/releases">All releases</a>
       </p>
     </div>

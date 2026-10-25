@@ -11,13 +11,14 @@ run; there is no multi-hour or multi-day evidence.
 **One machine.** All end-to-end verification happened on an M1 Pro with macOS 26.5.1 and
 a DOOGEE U12. Every other combination is untested, including other Apple Silicon Macs.
 
-**One hardware session, not a stability claim.** The published 0.2.0-preview.2 packages
-were installed on the reference machine and the tablet and exercised once, end to end:
-the extended display was created, the tablet showed the live desktop, a window was
-dragged onto it, tap and touch-drag were confirmed by the operator, and the session was
-stopped cleanly with the display removed. That session lasted about three minutes. It is
+**One hardware session, not a stability claim.** The published 0.2.0-preview.3 packages
+were installed on the reference machine and the tablet and exercised as a normal
+product session: the extended display was created, the tablet showed the live desktop,
+a window was dragged onto it, tap and touch-drag were confirmed by the operator, and
+the session ran for over eleven minutes without ending by itself. The operator then
+disconnected (display removed cleanly) and reconnected on the same attachment. It is
 not a long-term stability claim, and the hardware-free test suite remains the broader
-evidence. The details are in the [release notes](release-notes/v0.2.0-preview.2.md).
+evidence. The details are in the [release notes](release-notes/v0.2.0-preview.3.md).
 
 ---
 

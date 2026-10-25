@@ -18,15 +18,15 @@ artifacts**. The source code is developed in a private repository.
 
 ## Download
 
-**[UScreen 0.2.0-preview.2 — macOS (arm64, 13+) and Android 8.1+](https://github.com/Benriez/uscreen/releases/tag/v0.2.0-preview.2)**
+**[UScreen 0.2.0-preview.3 — macOS (arm64, 13+) and Android 8.1+](https://github.com/Benriez/uscreen/releases/tag/v0.2.0-preview.3)**
 
 It is a pre-release: `releases/latest` does not point at it yet.
 
 | | |
 |---|---|
-| macOS archive | `UScreen-0.2.0-preview.2-macos-arm64.zip` (2.3 MB) |
-| macOS SHA-256 | `f38107a5804962bf8184862d014650e309bc35bc59a051263052c6dca054169f` |
-| Android receiver | `UScreen-0.2.0-preview.2-android.apk` (1.5 MB) |
+| macOS archive | `UScreen-0.2.0-preview.3-macos-arm64.zip` (2.3 MB) |
+| macOS SHA-256 | `524377140fe9fc60545da7fe19d7b3dfbaa1e290859f15bee9cc510cc5ebceea` |
+| Android receiver | `UScreen-0.2.0-preview.3-android.apk` (1.5 MB) |
 | Android SHA-256 | `510f24e76557727c15f1e603a5172c2a2564a412eee5f3af3e50b0198dde7c8e` |
 | Signature | project-local self-signed keys — the macOS app is **not notarized** |
 | Provenance | [`PUBLICATION_BUILD.json`](https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.2/PUBLICATION_BUILD.json) |
@@ -85,7 +85,7 @@ notarization.
 | [FAQ](docs/faq.md) | Common questions |
 | [Privacy](docs/privacy.md) | Data flows and local artifacts |
 | [Building](docs/building.md) | Toolchain and verification commands |
-| [Release notes](docs/release-notes/v0.2.0-preview.2.md) | What changed in this preview |
+| [Release notes](docs/release-notes/v0.2.0-preview.3.md) | What changed in this preview |
 
 ## Verification status of this build
 
@@ -96,7 +96,7 @@ notarization.
 | Code signature (app + three nested binaries) | valid on disk, satisfies Designated Requirement |
 | Installer into a temporary root | binary, native library, two LaunchAgents, install marker |
 | Gatekeeper assessment | rejected — expected for a non-notarized build |
-| Full hardware session on this build | one attended session — live desktop, window drag and touch confirmed by the operator; clean stop |
+| Full hardware session on this build | one attended **product** session of 11+ minutes — live desktop, window drag and touch confirmed by the operator; clean disconnect and a verified reconnect |
 
 ## Project and licence
 

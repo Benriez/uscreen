@@ -3,6 +3,44 @@
 Release artifacts and provenance records live on the
 [releases page](https://github.com/Benriez/uscreen/releases).
 
+## 0.2.0-preview.3 — 2026-10-25
+
+**A normal connection works, and keeps working.** Preview.2 could be connected
+once; after a failed start it could not be connected at all without clearing a
+quarantine, and a session that did start was a bounded controlled test rather
+than a product session.
+
+**Fixed**
+- The supervisor recognises a host only by a verified process identity. A
+  diagnostic (`doctor`, `bench`, `setup status`) takes the same instance lock
+  and was judged as a running host, which could quarantine the machine.
+- The relative ColorSync band bounds UScreen's own per-display contribution
+  instead of the machine total, using the attribution the supervisor already
+  collects. A storm (the measured incident was 1650 profiles/min) still
+  escalates and still stops the host.
+- The operator's product lease authorises a product session, so a normal
+  connection runs until it is stopped instead of ending with a bounded
+  controlled retest.
+- Clearing a quarantine releases the connection manager, and an arm that
+  arrives while the manager is settling is recorded instead of dropped.
+- After a clean disconnect the next Connect works on the same attachment; no
+  unplug required.
+- The manager's liveness is a heartbeat it touches on every poll, so a live
+  manager is not mistaken for a dead one on a loaded machine.
+- `quarantine clear` is verified: it refuses while a host or a UScreen display
+  is alive, archives the record in `quarantine-history.jsonl` and reconciles a
+  lifecycle record whose process is verified gone.
+
+**Unchanged:** ColorSync CPU 50 %, profile rate 300/min, WindowServer CPU,
+memory pressure, heartbeat, the singleton lock, the creation ledger and budget,
+the quarantine semantics and the commissioning model.
+
+**Hardware acceptance:** one attended product session on the published packages
+(M1 Pro, macOS 26.5.1, DOOGEE U12 over USB, 1600×960 @ 60 Hz) — capture
+28.8–43.0 fps, acknowledged 28.0–42.8 fps, 0 blank and 0 dropped frames, live
+desktop / window drag / tap / touch-drag confirmed by the operator, 11+ minutes
+without ending by itself, clean disconnect and a verified reconnect.
+
 ## 0.2.0-preview.2 — 2026-10-25
 
 **Hardware acceptance** — the published packages were installed and exercised once,
