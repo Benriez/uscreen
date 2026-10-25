@@ -31,7 +31,9 @@ desktop, video and touch confirmed by the operator, a normal Connect, a
 Disconnect, a second Connect and multi-hour operation. It is a preview — not a
 generally stable product, and not defect-free.
 
-It is a pre-release: `releases/latest` does not point at it yet.
+It is a pre-release, and so is the development release: `releases/latest` does not
+point at either of them — it lands on the [release list](https://github.com/Benriez/uscreen/releases).
+Use the links below.
 
 | | |
 |---|---|
