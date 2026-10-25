@@ -54,10 +54,27 @@ macOS version, tablet model, Android version, decoder name from
 
 ## Tablet-side application
 
-The receiver is the upstream UScreen Android app (MIT) with local changes for the macOS
-host. This repository publishes the build as `UScreen-0.2.0-preview.2-android.apk`. It is
-signed with a project-local key, not the upstream author’s, so a tablet carrying an
-upstream build must uninstall it first.
+The receiver is the upstream UScreen Android app by majmichu1 (MIT), taken from the
+upstream **1.2.10** release (upstream commit `490b73d`, 2026-10-18) and modified locally
+for the macOS host. This repository publishes the build as
+`UScreen-0.2.0-preview.2-android.apk`. It is signed with a project-local key, not the
+upstream author’s, so a tablet carrying an upstream build must uninstall it first.
+
+**Local modifications to the upstream receiver** (the upstream copyright and MIT licence
+are preserved):
+
+| File | Change | Purpose |
+|---|---|---|
+| `MainActivity.kt` | +20 / −10 | stop overwriting the negotiated frame rate and bitrate on every connect |
+| `Prefs.kt` | +0 / −12 | remove the settings the macOS host now owns |
+| `TouchCapture.kt` | +18 / −1 | pointer event handling for the macOS input channel |
+| `VideoReceiver.kt` | +332 / −23 | streaming stability on real hardware; shallower capture queue; measured ACK window; less idle churn |
+| `build.gradle.kts` | +4 / −2 | release metadata only: version `0.2.0-preview.2` (versionCode 20) and v2+v3 signing |
+
+That is 4 Kotlin source files with **+370 / −46** changed lines, plus **+4 / −2** lines of
+release metadata — 5 files, +374 / −48 in total. The wire protocol, the framing and the
+64-character token handshake are unchanged, so the protocol statements in
+[Architecture](architecture.md) still hold.
 
 | Item | State |
 |---|---|

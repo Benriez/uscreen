@@ -32,7 +32,7 @@ graphics and kernel interfaces is replaced with macOS frameworks.
                     └────────────────────────────────────────┘  │
                                                                 │ USB
                     ┌──────────────── tablet ────────────────────┘
-                    │  UScreen app (unmodified upstream APK)
+                    │  UScreen app (upstream APK + local mods)
                     │    ├─ MediaCodec  H.264 decode
                     │    ├─ SurfaceView present
                     │    └─ TouchCapture → input WebSocket

@@ -100,8 +100,18 @@ notarization.
 
 ## Project and licence
 
-UScreen for macOS builds on the protocol and the unmodified Android application of
-[UScreen for Linux](https://github.com/majmichu1/UScreen) by **majmichu1**. The macOS
-host, the Swift platform layer and the virtual-display work are independent.
+The Android receiver is the application of
+[UScreen for Linux](https://github.com/majmichu1/UScreen) by **majmichu1** (MIT). It is
+taken from the upstream 1.2.10 release and modified locally in four Kotlin files
+(+370/−48 lines): the receiver no longer overwrites the negotiated frame rate and bitrate,
+streaming instability on real hardware was fixed, and stream latency was lowered with a
+shallower capture queue, a measured ACK window and less idle churn. The upstream copyright
+and licence are preserved.
 
-MIT licensed — see [LICENSE](LICENSE). Not affiliated with Apple or Google.
+The macOS host, the Swift platform layer and the virtual-display work are independent work
+and are **not published** in this repository.
+
+MIT licensed — see [LICENSE](LICENSE). That licence covers what this repository publishes:
+the site, the documentation and the redistributed receiver build, upstream copyright
+included. It does **not** extend to the private macOS source, which carries its own licence
+file. Not affiliated with Apple or Google.

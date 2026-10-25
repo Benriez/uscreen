@@ -63,6 +63,11 @@ First public preview build for Apple Silicon.
 - Not notarized; local signing certificate only.
 - No Android APK distributed here.
 
+> Correction (2026-10-25): the statement above describes preview.1 only. The receiver is
+> the upstream app with local streaming modifications (see
+> [Compatibility](docs/compatibility.md#tablet-side-application)), and preview.2 does
+> distribute a signed APK.
+
 ## Earlier history
 
 Development happened in a private repository before publication. The internal phases,

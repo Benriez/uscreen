@@ -153,7 +153,7 @@
         <span class="section-index">02 — Architecture</span>
         <h2 id="how-h">What actually runs where</h2>
         <p>
-          Two processes on the Mac, one unmodified app on the tablet. The host is Rust;
+          Two processes on the Mac, one app on the tablet. The host is Rust;
           the parts that need Apple frameworks are a small Swift library loaded over FFI.
         </p>
       </div>
@@ -181,7 +181,7 @@
             <li><b>SurfaceView</b> — presents the stream</li>
             <li><b>TouchCapture</b> — sends pointer events</li>
             <li><b>StreamingService</b> — keeps it foreground</li>
-            <li><b>Unmodified app</b> — same wire protocol</li>
+            <li><b>Upstream app, locally modified</b> — same wire protocol</li>
           </ul>
         </div>
       </div>
@@ -499,8 +499,9 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, same release</code
         <details>
           <summary>Is this the same project as UScreen for Linux?</summary>
           <div class="body">
-            <p>It is a macOS port built on the same wire protocol and the same unmodified
-               Android app. The Linux host uses EVDI, ffmpeg and uinput; on macOS those are
+            <p>It is a macOS port built on the same wire protocol and the same upstream
+               Android app, with local changes to the receiver's streaming code. The Linux
+               host uses EVDI, ffmpeg and uinput; on macOS those are
                replaced by CGVirtualDisplay, ScreenCaptureKit/VideoToolbox and CGEvent. The
                original Linux project is by <a href="https://github.com/majmichu1/UScreen">majmichu1</a>.</p>
           </div>
@@ -543,6 +544,11 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, same release</code
                The source is developed in a private repository and is not published here.
                The release includes a provenance record naming the exact commit it was built
                from, so claims in these docs can be traced.</p>
+            <p><b>Licence scope.</b> The MIT licence in this repository covers what this
+               repository publishes: the site, the documentation and the redistributed
+               receiver build, including the upstream code it contains and the upstream
+               copyright it preserves. It does not extend to the private macOS source,
+               which carries its own licence file in its own repository.</p>
           </div>
         </details>
         <details>
@@ -553,6 +559,12 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, same release</code
                so a tablet that already has an upstream build has to uninstall it first.
                This exact APK has not been installed on hardware; the receiver code ran in
                earlier debug builds on the same device.</p>
+            <p>The receiver is the upstream UScreen Android app by majmichu1 (MIT), taken from
+               the upstream 1.2.10 release and modified locally in four Kotlin files
+               (+370/−48 lines): the receiver no longer overwrites the negotiated frame rate
+               and bitrate, streaming instability on real hardware was fixed, and the stream
+               latency was lowered with a shallower capture queue and a measured ACK window.
+               The upstream copyright is preserved.</p>
           </div>
         </details>
       </div>

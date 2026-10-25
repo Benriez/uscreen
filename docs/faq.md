@@ -2,8 +2,9 @@
 
 ### Is this a fork of the Linux project?
 
-No. It is a macOS host that speaks the same wire protocol and drives the same unmodified
-Android app. The Linux host uses EVDI, ffmpeg and uinput; macOS needs
+No. It is a macOS host that speaks the same wire protocol and drives the same upstream
+Android app, with local modifications to the receiver's streaming code. The Linux host uses
+EVDI, ffmpeg and uinput; macOS needs
 `CGVirtualDisplay`, ScreenCaptureKit/VideoToolbox and `CGEvent` instead. The upstream
 project is [UScreen for Linux](https://github.com/majmichu1/UScreen) by majmichu1.
 
@@ -77,10 +78,18 @@ This repository hosts the site, documentation and release artifacts. The source 
 developed privately. The release ships a provenance record naming the exact commit, so
 documented claims can be traced to a build.
 
+**Licence scope.** The MIT licence in this repository covers what this repository publishes
+— the site, the documentation and the redistributed receiver build, upstream copyright
+included. It does not extend to the private macOS source, which carries its own licence
+file in its own repository.
+
 ### Where is the Android APK?
 
-Not in this release. Use the upstream UScreen receiver that matches the protocol in
-[Architecture](architecture.md).
+In this release: `UScreen-0.2.0-preview.2-android.apk` (`com.uscreen`, Android 8.1+),
+signed with a project-local key. A tablet that already carries an upstream-signed build
+has to uninstall it first — Android refuses a differently signed update. The receiver is the
+upstream app with local streaming modifications; see
+[Tablet-side application](compatibility.md#tablet-side-application).
 
 ### Will a macOS update break it?
 
