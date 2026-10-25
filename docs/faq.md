@@ -72,6 +72,35 @@ start gate, creation ledger, quarantine, supervisor and commissioning authorizat
 to prevent a second display from being created on top of a stuck one, and to make silent
 recovery impossible. They are accident prevention, not a security boundary.
 
+### What is the difference between the recommended build and the development build?
+
+The recommended build (`v0.2.0-preview.3`) is the last one verified on real
+hardware, and it is the one to use. The development build (`v0.3.0-dev.1`)
+carries the newest fixes — including the normal-Disconnect quarantine fix —
+and is published so that they can be tried and problems reported.
+
+They are separate installations, not two versions of one: separate app
+bundle, bundle identifier, services, configuration and Android application.
+Installing the development build changes nothing about the recommended one.
+
+The development build is **not yet fully hardware-tested** and is not
+recommended as a replacement for the working version.
+
+### Can I return to the recommended version after trying the development build?
+
+Yes, and nothing has to be rebuilt or downloaded again. The recommended
+installation was never modified by the development build. Remove the
+development tree, its two services and the `com.uscreen.dev` app; the
+recommended release stays exactly where it was.
+
+### The recommended build sometimes says "quarantined" after I disconnect. What now?
+
+That is a known defect of the recommended build: after an ordinary Disconnect
+the supervisor can occasionally read the teardown as a failed host and refuse
+the next connection until an operator clears it. The fix is in the
+development build, but it has not yet been accepted on hardware. See
+[Limitations](limitations.md).
+
 ### Is the source code available?
 
 This repository hosts the site, documentation and release artifacts. The source is

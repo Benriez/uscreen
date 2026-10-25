@@ -10,15 +10,26 @@ and scroll events on the Mac.
 This repository hosts the **product website, the documentation and the release
 artifacts**. The source code is developed in a private repository.
 
-> **Status: experimental preview.** One hardware combination has been exercised end
-> to end. Read [Limitations](docs/limitations.md) before installing. The build is
-> signed with a local certificate and is **not notarized**.
+> **Status: experimental preview.** The recommended build has been exercised end
+> to end on real hardware. Read [Limitations](docs/limitations.md) before
+> installing. The build is signed with a local certificate and is **not
+> notarized**.
 
 ---
 
 ## Download
 
+Two channels are published. They are **separate installations**, not two
+versions of one.
+
+### Recommended — the last hardware-tested release
+
 **[UScreen 0.2.0-preview.3 — macOS (arm64, 13+) and Android 8.1+](https://github.com/Benriez/uscreen/releases/tag/v0.2.0-preview.3)**
+
+This is the release that was verified on real hardware: a real extended
+desktop, video and touch confirmed by the operator, a normal Connect, a
+Disconnect, a second Connect and multi-hour operation. It is a preview — not a
+generally stable product, and not defect-free.
 
 It is a pre-release: `releases/latest` does not point at it yet.
 
@@ -47,6 +58,34 @@ adb install UScreen-0.2.0-preview.2-android.apk
 
 Then grant **Screen Recording** and **Accessibility** to the installed backend and
 choose **Connect** in the menu bar. Full walkthrough: [Installation](docs/installation.md).
+
+### Experimental — the latest development build
+
+**[UScreen Development 0.3.0-dev.1 — macOS + Android](https://github.com/Benriez/uscreen/releases/tag/v0.3.0-dev.1)**
+
+> **Not yet fully hardware-tested. Not recommended as a replacement for the
+> working version.** Real hardware acceptance of this exact candidate is
+> pending.
+
+| | |
+|---|---|
+| macOS archive | `UScreen-0.3.0-dev.1-macos-arm64.zip` (2.4 MB) |
+| macOS SHA-256 | `be53617166b04a00b999add7310435ef70717c0c97a80f9226d5fa9b31b98aa3` |
+| Android receiver | `UScreen-0.3.0-dev.1-android.apk` (1.5 MB) — package `com.uscreen.dev` |
+| Android SHA-256 | `8cfb72988c1eb21cffdec94a69d7148335f9b416fdbe5e5c044b2f84cf993b34` |
+| Signature | project-local self-signed keys — the macOS app is **not notarized** |
+| Provenance | [`PUBLICATION_BUILD.json`](https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.1/PUBLICATION_BUILD.json) |
+
+This build carries the normal-Disconnect quarantine fix, the stuck-lock
+recovery, the corrected start gate, the Stable/Development separation, the
+machine-wide installer lock and the release fingerprints.
+
+It installs into its **own** tree — `~/Applications/UScreen-dev`, the
+`com.uscreen.*.dev` services, `~/Library/Application Support/uscreen-dev/` —
+and its Android companion is a separate application (`com.uscreen.dev`) that
+installs alongside the recommended receiver. It never updates or replaces the
+recommended installation, and the recommended installation is not affected by
+it in any way.
 
 ---
 

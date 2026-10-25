@@ -73,6 +73,25 @@ unresponsive, stop the host rather than trying to reconfigure it.
 
 ---
 
+## A Disconnect can quarantine the recommended build
+
+In the recommended build (v0.2.0-preview.3) an ordinary Disconnect can
+occasionally leave the machine in a quarantine state: the next connection is
+refused until an operator clears it. The cause is a race in the supervisor's
+observation of the shutdown — it read the lifecycle record at the start of its
+tick and probed the display at the end, so a teardown in between looked like
+a failed host.
+
+The fix is in the source and is published in the experimental development
+build (`v0.3.0-dev.1`). It has **not** yet been accepted on hardware, so the
+recommended build still carries the defect.
+
+## The development build is not accepted
+
+The experimental `v0.3.0-dev.1` build has completed hardware-free
+verification only. It is published for evaluation and for reporting problems.
+Keep the recommended build as the one you rely on.
+
 ## Distribution
 
 | Limitation | Consequence |

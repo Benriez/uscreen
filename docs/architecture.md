@@ -206,6 +206,37 @@ faster end to end, which is why it is the default.
 
 ---
 
+## Two channels, one machine
+
+UScreen is published in two channels, and the separation is enforced by the
+code rather than by discipline.
+
+The channel is **compiled into the binary**. A development build does not
+name the recommended installation at all, so it cannot be talked into
+writing there, and the installer refuses any path the channel does not own.
+
+What is separate:
+
+* the application bundle and its identifier;
+* the install root and the two launchd service labels;
+* the configuration, the diagnostics and the per-installation runtime state;
+* the Android application id, so the two receivers have their own data and
+  can coexist on the tablet.
+
+What is deliberately **shared**, because the hardware is shared:
+
+* the instance lock, so only one host can own the display;
+* the creation ledger, the product lease and the quarantine;
+* the display, the capture authority and the USB tablet session.
+
+A development host therefore contends for the same lock and the same display
+as the recommended host: installing a second copy cannot bypass the
+single-host invariant.
+
+Installation transactions — a recommended installation, a development
+installation, a promotion and a recovery — are serialized machine-wide with
+an advisory lock, so two of them can never interleave their file copies.
+
 ## Deliberate non-goals
 
 - **No kernel extension.** The Linux host uses EVDI; the macOS host does not use a kext,

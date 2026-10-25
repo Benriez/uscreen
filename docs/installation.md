@@ -211,6 +211,53 @@ must be requested explicitly; it is never enabled by the installer.
 
 ---
 
+## 5b. Installing the experimental development build
+
+The development release (`v0.3.0-dev.1`) is a **separate installation**. It
+never updates the recommended one, and the recommended one is not modified
+in any way.
+
+```bash
+# 1. Unpack and place the development app. It installs into its own tree.
+mkdir -p ~/Applications && cp -R UScreen-dev.app ~/Applications/
+open ~/Applications/UScreen-dev.app          # right-click → Open on first launch
+
+# 2. Install its Android companion. It is a different application
+#    (com.uscreen.dev) and installs alongside the recommended receiver.
+adb install UScreen-0.3.0-dev.1-android.apk
+
+# 3. Set up the development installation.
+~/Applications/UScreen-dev/bin/uscreen-macos setup install --activate \
+  --serial "$(adb devices | awk 'NR==2{print $1}')"
+```
+
+What is different:
+
+| | Recommended | Development |
+|---|---|---|
+| App bundle | `UScreen.app` | `UScreen-dev.app` |
+| Bundle id | `com.uscreen.menubar` | `com.uscreen.menubar.dev` |
+| Backend | `~/Applications/UScreen/bin/uscreen-macos` | `~/Applications/UScreen-dev/bin/uscreen-macos` |
+| Services | `com.uscreen.supervisor`, `com.uscreen.connection` | `com.uscreen.supervisor.dev`, `com.uscreen.connection.dev` |
+| Configuration | `~/Library/Application Support/uscreen/` | `~/Library/Application Support/uscreen-dev/` |
+| Android app | `com.uscreen` | `com.uscreen.dev` |
+
+Both installations need their own Screen Recording and Accessibility
+permissions, because they are separate applications.
+
+**Check which one you are running:**
+
+```bash
+uscreen-macos channel
+```
+
+`stable` is the recommended build, `development` is the experimental one. The
+channel is compiled into the binary: a development build cannot be pointed at
+the recommended installation, and it refuses to write there.
+
+To go back, remove the development tree, its services and its Android app.
+The recommended installation needs no reinstallation.
+
 ## 6. Uninstall
 
 ```bash

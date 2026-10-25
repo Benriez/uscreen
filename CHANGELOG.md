@@ -3,6 +3,47 @@
 Release artifacts and provenance records live on the
 [releases page](https://github.com/Benriez/uscreen/releases).
 
+## 0.3.0-dev.1 — 2026-10-25 (development channel, experimental)
+
+**A separate, isolated development product.** This is not an update of the
+recommended release and it does not replace it. It is published so that the
+newest fixes can be tried on real hardware.
+
+> **Not yet fully hardware-tested. Not recommended as a replacement for the
+> working version.**
+
+**Fixed**
+- The normal-Disconnect quarantine race. The supervisor read the lifecycle
+  record at the start of its tick and probed the display at the end, so a
+  teardown could be read as a failed host and leave a sticky quarantine that
+  blocked the next connection. The display probe and the lifecycle read are
+  now adjacent, a shutdown announcement must precede the display's absence,
+  and the teardown window is bounded on a monotonic clock. A genuinely
+  orphaned, crashed or stuck host still triggers the safety controller.
+- A host that holds the instance lock no longer blocks the product for ever;
+  the operator's one-shot arm is no longer swallowed by the lock state.
+- The start gate and the operator's acceptance name the same conditions, so an
+  accepted test is not refused at the start.
+
+**Added**
+- Stable and Development are separated by construction. The channel is
+  compiled into the binary, so a development build physically cannot write
+  into the recommended installation: separate install roots, bundle
+  identifiers, service labels, configuration, diagnostics and Android
+  application id. The hardware authority — the instance lock, the creation
+  ledger, the product lease, the quarantine — stays shared, so two hosts can
+  never compete for one display.
+- Installation transactions are serialized machine-wide with an advisory lock,
+  so a promotion, a recovery and a development install cannot interleave.
+- The installed Stable payload carries a recorded fingerprint that can be
+  verified at any time, and the rollback artifacts are protected.
+
+**Verification:** 988 Rust tests in the safe configuration and 990 with the
+hardware feature, the Swift menu-bar self-test, 20 Android JVM tests, four
+verified macOS signatures, an APK signed with the project key under the
+`com.uscreen.dev` id, and no build-machine path or secret in any shipped
+binary. No hardware session has been run with this exact candidate.
+
 ## 0.2.0-preview.3 — 2026-10-25
 
 **A normal connection works, and keeps working.** Preview.2 could be connected

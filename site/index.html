@@ -55,7 +55,7 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-      <p class="kicker"><span class="dot" aria-hidden="true"></span> Experimental preview · v0.2.0-preview.3</p>
+      <p class="kicker"><span class="dot" aria-hidden="true"></span> Last hardware-tested release · v0.2.0-preview.3</p>
       <h1>Your Android tablet, as a <em>real</em> second Mac display.</h1>
       <p class="lede">
         Not mirroring, not a remote desktop window, not a browser tab. UScreen creates
@@ -256,18 +256,24 @@
             </tr>
             <tr>
               <td>This exact build on hardware</td>
-              <td><span class="tag tag-ok">one product session</span></td>
-              <td class="dim">An attended <b>product</b> session on the published packages: live desktop on the tablet, a window dragged onto it, tap and touch-drag confirmed by the operator, 11+ minutes without ending by itself, clean disconnect and a verified reconnect</td>
+              <td><span class="tag tag-ok">product sessions</span></td>
+              <td class="dim">An attended <b>product</b> session on the published packages: live desktop on the tablet, a window dragged onto it, tap and touch-drag confirmed by the operator, a session of roughly three hours without ending by itself, then a clean disconnect and a verified reconnect — and, after a full recovery from a failed candidate, the same result again on a second session</td>
+            </tr>
+            <tr>
+              <td>Development build 0.3.0-dev.1</td>
+              <td><span class="tag tag-partial">acceptance pending</span></td>
+              <td class="dim">Hardware-free verification only: 990 Rust tests, the Swift self-test and 20 Android JVM tests pass, all four macOS signatures verify, the Android package id is <code>com.uscreen.dev</code> and the channel isolation is enforced by the binary itself. This exact candidate has <b>not</b> been through the hardware acceptance procedure</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <p class="small muted" style="margin-top:16px">
-        Hardware-free verification for this build: 894 Rust tests pass, the Swift menu-bar
-        self-test passes, all four code signatures verify, and the installer was exercised
-        into a temporary root. That is not the same as a full hardware session, and it is
-        not presented as one.
+        Hardware-free verification for the recommended build: 988 Rust tests pass in the
+        safe configuration and 990 with the hardware feature, the Swift menu-bar self-test
+        passes, all four code signatures verify, and the installer was exercised into a
+        temporary root. That is not the same as a full hardware session, and it is not
+        presented as one.
       </p>
     </div>
   </section>
@@ -389,6 +395,8 @@
         <li><b>Graphics-stack care</b><span>Long sessions stress ColorSync and WindowServer on the test machine. The supervisor watches and can stop a session.</span></li>
         <li><b>Not notarized</b><span>Signed with a local self-signed certificate. macOS will require a per-app override on first launch.</span></li>
         <li><b>Self-signed receiver</b><span>The Android APK is signed with a project-local key, not the upstream author’s. A tablet carrying an upstream build must uninstall it first; Android refuses a differently signed update.</span></li>
+        <li><b>Quarantine after a Disconnect</b><span>In the recommended build, an ordinary Disconnect can occasionally leave the machine in a quarantine state that blocks the next connection until an operator clears it. The cause is a race in the supervisor’s observation of the shutdown, and the fix is in the source and published in the development build — but that fix has not yet been accepted on hardware.</span></li>
+        <li><b>The development build is not accepted</b><span>The experimental 0.3.0-dev.1 build carries that fix and the Stable/Development separation, but it has not completed real-hardware acceptance. Use it to evaluate and to report problems; keep the recommended build as the one you rely on.</span></li>
       </ul>
     </div>
   </section>
@@ -562,6 +570,29 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, unchanged since pr
           </div>
         </details>
         <details>
+          <summary>What is the difference between the recommended build and the development build?</summary>
+          <div class="body">
+            <p>The recommended build (v0.2.0-preview.3) is the last one that was verified on
+               real hardware, and it is the one to use. The development build (0.3.0-dev.1) is
+               published so that the newest fixes can be tried and problems reported.</p>
+            <p>They are separate installations, not two versions of one. The development
+               build installs into <code>~/Applications/UScreen-dev</code> with its own
+               services, its own configuration and its own Android application
+               (<code>com.uscreen.dev</code>). It does not update the recommended
+               installation, and installing it changes nothing about it.</p>
+            <p>The development build is <b>not yet fully hardware-tested</b> and is not
+               recommended as a replacement for the working version.</p>
+          </div>
+        </details>
+        <details>
+          <summary>Can I go back to the recommended version after trying the development build?</summary>
+          <div class="body">
+            <p>Yes, and nothing has to be rebuilt. The recommended installation was never
+               modified by the development build. Remove the development tree, its services
+               and its Android app; the recommended release stays exactly where it was.</p>
+          </div>
+        </details>
+        <details>
           <summary>Where is the source code?</summary>
           <div class="body">
             <p>This repository hosts the site, the documentation and the release artifacts.
@@ -602,8 +633,16 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, unchanged since pr
           <span class="section-index">10 — Download</span>
           <h2 id="dl-h">UScreen 0.2.0-preview.3</h2>
           <p class="muted" style="font-size:.94rem">
+            <b>Recommended — last hardware-tested version.</b> This is the release that was
+            verified on real hardware: a real extended desktop, video and touch confirmed
+            by the operator, a normal Connect, a Disconnect, a second Connect and
+            multi-hour operation.
+          </p>
+          <p class="muted" style="font-size:.94rem">
+            It is a preview, not a generally stable product, and it is not defect-free —
+            read the known limitations before installing.
             Apple Silicon macOS 13+ and Android 8.1+. The macOS archive contains the app
-            bundle, <code>INSTALL.txt</code> and the licence; the receiver is a separate
+            bundle, the installation guide and the licence; the receiver is a separate
             APK in the same release.
           </p>
           <div class="cta-row" style="margin-top:22px">
@@ -631,11 +670,71 @@ shasum -a 256 UScreen-0.2.0-preview.2-android.apk</code></pre>
           <div style="border-bottom:0"><dt>Released</dt><dd><time datetime="2026-10-25">2026-10-25</time></dd></div>
         </dl>
       </div>
+      <div class="download" style="margin-top:28px">
+        <div>
+          <span class="section-index">11 — Experimental</span>
+          <h2 id="dev-h">UScreen Development 0.3.0-dev.1</h2>
+          <p class="muted" style="font-size:.94rem">
+            <b>Experimental — latest development build.</b>
+            <b>Not yet fully hardware-tested. Not recommended as a replacement for the
+            working version.</b> Real hardware acceptance of this exact candidate is
+            still pending.
+          </p>
+          <p class="muted" style="font-size:.94rem">
+            This is a <b>separate installation</b>, not an update of the release above.
+            It has its own application bundle (<code>UScreen-dev.app</code>), its own
+            services (<code>com.uscreen.supervisor.dev</code>,
+            <code>com.uscreen.connection.dev</code>), its own configuration and its own
+            Android application (<code>com.uscreen.dev</code>, which installs alongside
+            the recommended receiver). Installing it does not update, replace or
+            otherwise modify the recommended installation, and the recommended
+            installation is not affected by it in any way.
+          </p>
+          <p class="muted" style="font-size:.94rem">
+            It carries the normal-Disconnect quarantine fix, the stuck-lock recovery, the
+            corrected start gate, the Stable/Development separation, the machine-wide
+            installer lock and the release fingerprints.
+          </p>
+          <div class="cta-row" style="margin-top:22px">
+            <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.1/UScreen-0.3.0-dev.1-macos-arm64.zip">
+              macOS Development .zip <span class="sz">2.4 MB</span>
+            </a>
+            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.1/UScreen-0.3.0-dev.1-android.apk">
+              Android Development .apk <span class="sz">1.5 MB</span>
+            </a>
+          </div>
+          <p class="small muted" style="margin-top:18px">
+            Check both downloads before installing:
+          </p>
+<pre><code>shasum -a 256 UScreen-0.3.0-dev.1-macos-arm64.zip
+shasum -a 256 UScreen-0.3.0-dev.1-android.apk</code></pre>
+          <span class="sha">be53617166b04a00b999add7310435ef70717c0c97a80f9226d5fa9b31b98aa3  macOS</span>
+          <span class="sha">8cfb72988c1eb21cffdec94a69d7148335f9b416fdbe5e5c044b2f84cf993b34  Android</span>
+          <p class="small muted" style="margin-top:18px">
+            To go back to the recommended version, remove the development tree and its
+            services. The recommended installation was never modified and needs no
+            reinstallation.
+          </p>
+        </div>
+        <dl class="meta">
+          <div><dt>Version</dt><dd>0.3.0-dev.1</dd></div>
+          <div><dt>Channel</dt><dd>development</dd></div>
+          <div><dt>macOS</dt><dd>arm64 · 13.0+ · UScreen-dev.app</dd></div>
+          <div><dt>Android</dt><dd>8.1+ · com.uscreen.dev</dd></div>
+          <div><dt>Hardware</dt><dd>acceptance pending</dd></div>
+          <div style="border-bottom:0"><dt>Status</dt><dd>pre-release · experimental</dd></div>
+        </dl>
+      </div>
       <p class="small muted" style="margin-top:20px">
-        Release notes: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.2.0-preview.3.md">v0.2.0-preview.3</a>
-        · Checksums: <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.3/SHA256SUMS">SHA256SUMS</a>
-        · Provenance: <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.3/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
+        Recommended release: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.2.0-preview.3.md">v0.2.0-preview.3 notes</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.3/SHA256SUMS">SHA256SUMS</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.2.0-preview.3/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
         · <a href="https://github.com/Benriez/uscreen/releases">All releases</a>
+      </p>
+      <p class="small muted" style="margin-top:12px">
+        Development release: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.3.0-dev.1.md">v0.3.0-dev.1 notes</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.1/SHA256SUMS">SHA256SUMS</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.1/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
       </p>
     </div>
   </section>
