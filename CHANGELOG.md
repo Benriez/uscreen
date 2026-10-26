@@ -3,6 +3,44 @@
 Release artifacts and provenance records live on the
 [releases page](https://github.com/Benriez/uscreen/releases).
 
+## 0.3.0-dev.2 — 2026-10-26 (development channel, experimental)
+
+**A correctness release for the channel model.** It fixes a defect in
+0.3.0-dev.1 and is published as a pre-release. Not hardware-tested. Not a
+replacement for 0.2.0-preview.3.
+
+**Fixed**
+- 0.3.0-dev.1 installed its Development LaunchAgents into
+  `~/Library/LaunchAgents` with `RunAtLoad` and `KeepAlive`, exactly like
+  Stable. launchd loaded both channels at login and restarted them whenever
+  they exited, so two supervisors and two connection managers competed for one
+  physical display; the loser reported a ColorSync rate it could not have
+  measured. Identity isolation does not survive shared activation.
+- Development installs are now inert: their plists are staged in
+  `~/Library/Application Support/uscreen-dev/services/`, which launchd never
+  scans, and `setup install --activate` is refused for the channel.
+- Development plists carry `RunAtLoad false` and no `KeepAlive`, so a reboot,
+  a logout, a crash or an interrupted test cannot start one.
+- The Development manager refuses to run without an unexpired session bound to
+  the installed backend's SHA-256, and stops its own host when the session
+  expires.
+- `dev start` refuses while another host holds the instance lock or a display
+  is online, and reports the owner instead of offering to kill it.
+
+**Added**
+- `uscreen-macos dev start --authorize --serial <S>` (default 2 h, max 8 h),
+  `dev stop` (bootout, disable, remove, clear session — `.dev` labels only) and
+  `dev status` (read-only).
+- `setup install --migrate` removes legacy Development agents for people coming
+  from 0.3.0-dev.1. Stable is never touched.
+- 27 isolation tests and a shell guard script; `AGENTS.md` 3c now lists the
+  forbidden recovery actions that caused the incident.
+
+**Verification**
+- 1017 hardware-free Rust tests pass; `codesign --verify --strict` 4/4;
+  APK Signature Scheme v2 + v3 with the same project key.
+- 0 occurrences of the build machine's home directory in the shipped backend.
+
 ## 0.3.0-dev.1 — 2026-10-25 (development channel, experimental)
 
 **A separate, isolated development product.** This is not an update of the

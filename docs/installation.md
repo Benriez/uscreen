@@ -213,7 +213,7 @@ must be requested explicitly; it is never enabled by the installer.
 
 ## 5b. Installing the experimental development build
 
-The development release (`v0.3.0-dev.1`) is a **separate installation**. It
+The development release (`v0.3.0-dev.2`) is a **separate installation**. It
 never updates the recommended one, and the recommended one is not modified
 in any way.
 
@@ -224,11 +224,28 @@ open ~/Applications/UScreen-dev.app          # right-click → Open on first lau
 
 # 2. Install its Android companion. It is a different application
 #    (com.uscreen.dev) and installs alongside the recommended receiver.
-adb install UScreen-0.3.0-dev.1-android.apk
+adb install UScreen-0.3.0-dev.2-android.apk
 
-# 3. Set up the development installation.
-~/Applications/UScreen-dev/bin/uscreen-macos setup install --activate \
+# 3. Set up the development installation. Installing does not start it:
+#    the development channel is inert until you authorize a session.
+~/Applications/UScreen-dev/bin/uscreen-macos setup install \
   --serial "$(adb devices | awk 'NR==2{print $1}')"
+
+# 4. Start a bounded development session. The install above is inert:
+#    nothing starts at login, and nothing respawns.
+~/Applications/UScreen-dev/bin/uscreen-macos dev start --authorize \
+  --serial "$(adb devices | awk 'NR==2{print $1}')"
+
+#    The session lasts 2 hours (maximum 8). Check it, and end it:
+~/Applications/UScreen-dev/bin/uscreen-macos dev status
+~/Applications/UScreen-dev/bin/uscreen-macos dev stop
+```
+
+Coming from 0.3.0-dev.1? Its Development agents auto-started from
+`~/Library/LaunchAgents`. Remove them once:
+
+```bash
+~/Applications/UScreen-dev/bin/uscreen-macos setup install --migrate
 ```
 
 What is different:
@@ -238,7 +255,7 @@ What is different:
 | App bundle | `UScreen.app` | `UScreen-dev.app` |
 | Bundle id | `com.uscreen.menubar` | `com.uscreen.menubar.dev` |
 | Backend | `~/Applications/UScreen/bin/uscreen-macos` | `~/Applications/UScreen-dev/bin/uscreen-macos` |
-| Services | `com.uscreen.supervisor`, `com.uscreen.connection` | `com.uscreen.supervisor.dev`, `com.uscreen.connection.dev` |
+| Services | `com.uscreen.supervisor`, `com.uscreen.connection` | `com.uscreen.supervisor.dev`, `com.uscreen.connection.dev` (staged, never auto-started) |
 | Configuration | `~/Library/Application Support/uscreen/` | `~/Library/Application Support/uscreen-dev/` |
 | Android app | `com.uscreen` | `com.uscreen.dev` |
 

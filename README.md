@@ -63,7 +63,7 @@ choose **Connect** in the menu bar. Full walkthrough: [Installation](docs/instal
 
 ### Experimental — the latest development build
 
-**[UScreen Development 0.3.0-dev.1 — macOS + Android](https://github.com/Benriez/uscreen/releases/tag/v0.3.0-dev.1)**
+**[UScreen Development 0.3.0-dev.2 — macOS + Android](https://github.com/Benriez/uscreen/releases/tag/v0.3.0-dev.2)**
 
 > **Not yet fully hardware-tested. Not recommended as a replacement for the
 > working version.** Real hardware acceptance of this exact candidate is
@@ -71,16 +71,20 @@ choose **Connect** in the menu bar. Full walkthrough: [Installation](docs/instal
 
 | | |
 |---|---|
-| macOS archive | `UScreen-0.3.0-dev.1-macos-arm64.zip` (2.4 MB) |
-| macOS SHA-256 | `be53617166b04a00b999add7310435ef70717c0c97a80f9226d5fa9b31b98aa3` |
-| Android receiver | `UScreen-0.3.0-dev.1-android.apk` (1.5 MB) — package `com.uscreen.dev` |
-| Android SHA-256 | `8cfb72988c1eb21cffdec94a69d7148335f9b416fdbe5e5c044b2f84cf993b34` |
+| macOS archive | `UScreen-0.3.0-dev.2-macos-arm64.zip` (2.4 MB) |
+| macOS SHA-256 | `6eec0273d61052a49929d436e8db3622f889a1d9648c7a4858e1c5a5a0d52982` |
+| Android receiver | `UScreen-0.3.0-dev.2-android.apk` (1.5 MB) — package `com.uscreen.dev` |
+| Android SHA-256 | `33c97e9f052e30c97da49abebce3980287e05d35045ba54d83e3cccb65680e3b` |
 | Signature | project-local self-signed keys — the macOS app is **not notarized** |
-| Provenance | [`PUBLICATION_BUILD.json`](https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.1/PUBLICATION_BUILD.json) |
+| Provenance | [`PUBLICATION_BUILD.json`](https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.2/PUBLICATION_BUILD.json) |
 
 This build carries the normal-Disconnect quarantine fix, the stuck-lock
-recovery, the corrected start gate, the Stable/Development separation, the
-machine-wide installer lock and the release fingerprints.
+recovery, the corrected start gate, the machine-wide installer lock and the
+release fingerprints. It also fixes a defect in 0.3.0-dev.1, whose Development
+services were installed into `~/Library/LaunchAgents` with `RunAtLoad` and
+`KeepAlive`, so both channels auto-started and competed for one display. Here
+the Development services are staged outside launchd's scan path and only run
+inside an explicit, expiring session (`uscreen-macos dev start --authorize`).
 
 It installs into its **own** tree — `~/Applications/UScreen-dev`, the
 `com.uscreen.*.dev` services, `~/Library/Application Support/uscreen-dev/` —

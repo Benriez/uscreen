@@ -260,7 +260,7 @@
               <td class="dim">An attended <b>product</b> session on the published packages: live desktop on the tablet, a window dragged onto it, tap and touch-drag confirmed by the operator, a session of roughly three hours without ending by itself, then a clean disconnect and a verified reconnect — and, after a full recovery from a failed candidate, the same result again on a second session</td>
             </tr>
             <tr>
-              <td>Development build 0.3.0-dev.1</td>
+              <td>Development build 0.3.0-dev.2</td>
               <td><span class="tag tag-partial">acceptance pending</span></td>
               <td class="dim">Hardware-free verification only: 990 Rust tests, the Swift self-test and 20 Android JVM tests pass, all four macOS signatures verify, the Android package id is <code>com.uscreen.dev</code> and the channel isolation is enforced by the binary itself. This exact candidate has <b>not</b> been through the hardware acceptance procedure</td>
             </tr>
@@ -396,7 +396,7 @@
         <li><b>Not notarized</b><span>Signed with a local self-signed certificate. macOS will require a per-app override on first launch.</span></li>
         <li><b>Self-signed receiver</b><span>The Android APK is signed with a project-local key, not the upstream author’s. A tablet carrying an upstream build must uninstall it first; Android refuses a differently signed update.</span></li>
         <li><b>Quarantine after a Disconnect</b><span>In the recommended build, an ordinary Disconnect can occasionally leave the machine in a quarantine state that blocks the next connection until an operator clears it. The cause is a race in the supervisor’s observation of the shutdown, and the fix is in the source and published in the development build — but that fix has not yet been accepted on hardware.</span></li>
-        <li><b>The development build is not accepted</b><span>The experimental 0.3.0-dev.1 build carries that fix and the Stable/Development separation, but it has not completed real-hardware acceptance. Use it to evaluate and to report problems; keep the recommended build as the one you rely on.</span></li>
+        <li><b>The development build is not accepted</b><span>The experimental 0.3.0-dev.2 build carries that fix and the Stable/Development separation, but it has not completed real-hardware acceptance. Use it to evaluate and to report problems; keep the recommended build as the one you rely on.</span></li>
       </ul>
     </div>
   </section>
@@ -573,7 +573,7 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, unchanged since pr
           <summary>What is the difference between the recommended build and the development build?</summary>
           <div class="body">
             <p>The recommended build (v0.2.0-preview.3) is the last one that was verified on
-               real hardware, and it is the one to use. The development build (0.3.0-dev.1) is
+               real hardware, and it is the one to use. The development build (0.3.0-dev.2) is
                published so that the newest fixes can be tried and problems reported.</p>
             <p>They are separate installations, not two versions of one. The development
                build installs into <code>~/Applications/UScreen-dev</code> with its own
@@ -673,7 +673,7 @@ shasum -a 256 UScreen-0.2.0-preview.2-android.apk</code></pre>
       <div class="download" style="margin-top:28px">
         <div>
           <span class="section-index">11 — Experimental</span>
-          <h2 id="dev-h">UScreen Development 0.3.0-dev.1</h2>
+          <h2 id="dev-h">UScreen Development 0.3.0-dev.2</h2>
           <p class="muted" style="font-size:.94rem">
             <b>Experimental — latest development build.</b>
             <b>Not yet fully hardware-tested. Not recommended as a replacement for the
@@ -692,24 +692,39 @@ shasum -a 256 UScreen-0.2.0-preview.2-android.apk</code></pre>
           </p>
           <p class="muted" style="font-size:.94rem">
             It carries the normal-Disconnect quarantine fix, the stuck-lock recovery, the
-            corrected start gate, the Stable/Development separation, the machine-wide
-            installer lock and the release fingerprints.
+            corrected start gate and the machine-wide installer lock. It also fixes a
+            defect in 0.3.0-dev.1: that build's Development services were installed into
+            <code>~/Library/LaunchAgents</code> with <code>RunAtLoad</code> and
+            <code>KeepAlive</code>, exactly like Stable, so both channels started at login
+            and competed for one display. This build stages them outside launchd's scan
+            path, removes <code>KeepAlive</code>, and requires an explicit, expiring
+            session (<code>uscreen-macos dev start --authorize</code>). Installing it no
+            longer activates anything.
           </p>
           <div class="cta-row" style="margin-top:22px">
-            <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.1/UScreen-0.3.0-dev.1-macos-arm64.zip">
+            <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.2/UScreen-0.3.0-dev.2-macos-arm64.zip">
               macOS Development .zip <span class="sz">2.4 MB</span>
             </a>
-            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.1/UScreen-0.3.0-dev.1-android.apk">
+            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.2/UScreen-0.3.0-dev.2-android.apk">
               Android Development .apk <span class="sz">1.5 MB</span>
             </a>
           </div>
           <p class="small muted" style="margin-top:18px">
             Check both downloads before installing:
           </p>
-<pre><code>shasum -a 256 UScreen-0.3.0-dev.1-macos-arm64.zip
-shasum -a 256 UScreen-0.3.0-dev.1-android.apk</code></pre>
-          <span class="sha">be53617166b04a00b999add7310435ef70717c0c97a80f9226d5fa9b31b98aa3  macOS</span>
-          <span class="sha">8cfb72988c1eb21cffdec94a69d7148335f9b416fdbe5e5c044b2f84cf993b34  Android</span>
+<pre><code>shasum -a 256 UScreen-0.3.0-dev.2-macos-arm64.zip
+shasum -a 256 UScreen-0.3.0-dev.2-android.apk</code></pre>
+          <span class="sha">6eec0273d61052a49929d436e8db3622f889a1d9648c7a4858e1c5a5a0d52982  macOS</span>
+          <span class="sha">33c97e9f052e30c97da49abebce3980287e05d35045ba54d83e3cccb65680e3b  Android</span>
+          <p class="small muted" style="margin-top:18px">
+            <b>Starting it:</b> installing does not start anything.
+            <code>uscreen-macos dev status</code> shows the state;
+            <code>uscreen-macos dev start --authorize --serial &lt;serial&gt;</code> starts a
+            bounded session (2 h, maximum 8 h); <code>uscreen-macos dev stop</code> ends it
+            and makes the stopped state durable. Coming from 0.3.0-dev.1, run
+            <code>uscreen-macos setup install --migrate</code> once to remove its
+            auto-starting agents.
+          </p>
           <p class="small muted" style="margin-top:18px">
             To go back to the recommended version, remove the development tree and its
             services. The recommended installation was never modified and needs no
@@ -717,7 +732,7 @@ shasum -a 256 UScreen-0.3.0-dev.1-android.apk</code></pre>
           </p>
         </div>
         <dl class="meta">
-          <div><dt>Version</dt><dd>0.3.0-dev.1</dd></div>
+          <div><dt>Version</dt><dd>0.3.0-dev.2</dd></div>
           <div><dt>Channel</dt><dd>development</dd></div>
           <div><dt>macOS</dt><dd>arm64 · 13.0+ · UScreen-dev.app</dd></div>
           <div><dt>Android</dt><dd>8.1+ · com.uscreen.dev</dd></div>
@@ -732,9 +747,9 @@ shasum -a 256 UScreen-0.3.0-dev.1-android.apk</code></pre>
         · <a href="https://github.com/Benriez/uscreen/releases">All releases</a>
       </p>
       <p class="small muted" style="margin-top:12px">
-        Development release: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.3.0-dev.1.md">v0.3.0-dev.1 notes</a>
-        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.1/SHA256SUMS">SHA256SUMS</a>
-        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.1/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
+        Development release: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.3.0-dev.2.md">v0.3.0-dev.2 notes</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.2/SHA256SUMS">SHA256SUMS</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.2/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
       </p>
     </div>
   </section>
