@@ -83,12 +83,12 @@ tick and probed the display at the end, so a teardown in between looked like
 a failed host.
 
 The fix is in the source and is published in the experimental development
-build (`v0.3.0-dev.2`). It has **not** yet been accepted on hardware, so the
+build (`v0.3.0-dev.3`). It has **not** yet been accepted on hardware, so the
 recommended build still carries the defect.
 
 ## The development build is not accepted
 
-The experimental `v0.3.0-dev.2` build has completed hardware-free
+The experimental `v0.3.0-dev.3` build has completed hardware-free
 verification only. It is published for evaluation and for reporting problems.
 Keep the recommended build as the one you rely on.
 

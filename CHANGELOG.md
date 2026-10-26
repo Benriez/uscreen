@@ -3,7 +3,26 @@
 Release artifacts and provenance records live on the
 [releases page](https://github.com/Benriez/uscreen/releases).
 
-## 0.3.0-dev.2 — 2026-10-26 (development channel, experimental)
+## 0.3.0-dev.3 — 2026-10-26 (development channel, experimental)
+
+**The current development build.** It supersedes 0.3.0-dev.2, which is
+published but should no longer be used.
+
+**Fixed**
+- The install summary of 0.3.0-dev.2 ended with "start them with
+  `--activate`" — a switch the development channel refuses, because an install
+  is inert and a session is what runs it. The operator's first instruction
+  pointed at an error. The summary is now channel-aware: the stable line keeps
+  `--activate`, the development line names `uscreen-macos dev start
+  --authorize`. The wording is a tested function.
+
+**Verification**
+- 1018 hardware-free Rust tests pass (28 isolation tests).
+- The published binary was run in an isolated HOME: it stages both plists,
+  creates no `~/Library/LaunchAgents`, refuses `--activate`, and refuses
+  `dev start` without `--authorize`.
+
+## 0.3.0-dev.3 — 2026-10-26 (development channel, experimental)
 
 **A correctness release for the channel model.** It fixes a defect in
 0.3.0-dev.1 and is published as a pre-release. Not hardware-tested. Not a

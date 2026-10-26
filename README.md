@@ -63,7 +63,7 @@ choose **Connect** in the menu bar. Full walkthrough: [Installation](docs/instal
 
 ### Experimental — the latest development build
 
-**[UScreen Development 0.3.0-dev.2 — macOS + Android](https://github.com/Benriez/uscreen/releases/tag/v0.3.0-dev.2)**
+**[UScreen Development 0.3.0-dev.3 — macOS + Android](https://github.com/Benriez/uscreen/releases/tag/v0.3.0-dev.3)**
 
 > **Not yet fully hardware-tested. Not recommended as a replacement for the
 > working version.** Real hardware acceptance of this exact candidate is
@@ -71,12 +71,12 @@ choose **Connect** in the menu bar. Full walkthrough: [Installation](docs/instal
 
 | | |
 |---|---|
-| macOS archive | `UScreen-0.3.0-dev.2-macos-arm64.zip` (2.4 MB) |
-| macOS SHA-256 | `6eec0273d61052a49929d436e8db3622f889a1d9648c7a4858e1c5a5a0d52982` |
-| Android receiver | `UScreen-0.3.0-dev.2-android.apk` (1.5 MB) — package `com.uscreen.dev` |
-| Android SHA-256 | `33c97e9f052e30c97da49abebce3980287e05d35045ba54d83e3cccb65680e3b` |
+| macOS archive | `UScreen-0.3.0-dev.3-macos-arm64.zip` (2.4 MB) |
+| macOS SHA-256 | `9efa7073a10b1061940b0de6e4e435d96fdb5dce7aa0df1d2ee13c564f8e060c` |
+| Android receiver | `UScreen-0.3.0-dev.3-android.apk` (1.5 MB) — package `com.uscreen.dev` |
+| Android SHA-256 | `5f4be0bdeb2df7aa7e9a5f9e4824edd90b66fbe109d789b47835036d96d7fea8` |
 | Signature | project-local self-signed keys — the macOS app is **not notarized** |
-| Provenance | [`PUBLICATION_BUILD.json`](https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.2/PUBLICATION_BUILD.json) |
+| Provenance | [`PUBLICATION_BUILD.json`](https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.3/PUBLICATION_BUILD.json) |
 
 This build carries the normal-Disconnect quarantine fix, the stuck-lock
 recovery, the corrected start gate, the machine-wide installer lock and the
