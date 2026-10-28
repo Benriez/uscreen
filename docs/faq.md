@@ -75,7 +75,7 @@ recovery impossible. They are accident prevention, not a security boundary.
 ### What is the difference between the recommended build and the development build?
 
 The recommended build (`v0.2.0-preview.3`) is the last one verified on real
-hardware, and it is the one to use. The development build (`v0.3.0-dev.3`)
+hardware, and it is the one to use. The development build (`v0.3.0-rc.10`)
 carries the newest fixes — including the normal-Disconnect quarantine fix —
 and is published so that they can be tried and problems reported.
 

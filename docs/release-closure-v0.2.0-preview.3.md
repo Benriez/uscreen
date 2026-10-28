@@ -19,9 +19,8 @@ installed product or to the runtime safety state.
 | Website | https://benriez.github.io/uscreen/ |
 | Release page | https://github.com/Benriez/uscreen/releases/tag/v0.2.0-preview.3 |
 
-Worktrees observed: `/Users/benny/Code/uscreen-macos` (macos-port),
-`/private/tmp/uscreen-base-84fbb68` (detached, 84fbb68) and
-`/private/tmp/uscreen-release.s2EHpJ` (detached, 4e5a674) — the latter two belong to
+Worktrees observed: the `macos-port` worktree of the macOS source repository, plus
+two detached temporary worktrees (`84fbb68` and `4e5a674`) — the latter two belong to
 other sessions and were not touched.
 
 A `UScreen-0.2.0-preview.4-macos-arm64.zip` exists in the local build directory from a

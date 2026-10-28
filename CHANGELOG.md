@@ -3,6 +3,51 @@
 Release artifacts and provenance records live on the
 [releases page](https://github.com/Benriez/uscreen/releases).
 
+## 0.3.0-rc.10 — 2026-10-28 (development channel, experimental)
+
+**The current development build.** It supersedes 0.3.0-dev.3, which is
+published but should no longer be used. Published as a pre-release: the
+hardware acceptance of this exact build did not happen, so it replaces
+nothing.
+
+**Fixed**
+- The Android receiver's launch component was named
+  `com.uscreen.dev.MainActivity`, but the development receiver is the same
+  application with a different application id — the class stays
+  `com.uscreen.MainActivity`. Every token relaunch failed, the tablet kept a
+  stale token and no video session ever authenticated.
+- The two macOS permissions could not be granted: macOS attributes them to
+  the responsible process, and only the launchd-run manager has the host's
+  identity. The menu's *Grant Permissions…* now asks the manager to request
+  them in its own process, and only on an explicit request.
+- A swap-out burst vetoed every start on a routinely loaded Mac. The memory
+  rule now measures the memory the kernel can still hand out, and calls a
+  burst thrashing only when pages are evicted and faulted back at the same
+  time.
+- A reversible handover was refused on a false premise: the Stable session
+  that follows it is judged by the Stable supervisor against Stable's own
+  recorded band, not against the candidate's.
+- The manager could be started before its session record existed, which left
+  the menu showing a reading from an earlier session.
+- A unit test reached the real launchd and could boot the operator's live
+  services out — twice, each time killing the running host and its display.
+  Every launchd mutation now goes through an injectable interface, and only
+  the CLI hands out the real one.
+- The machine's own rate probe could not read its own output (68 098 bytes is
+  one byte over the pipe's capacity), so the machine had no trusted rate
+  window and both the admission gate and the quarantine recovery refused for
+  the wrong reason.
+- The admission judges what an operation *adds*, not what the machine already
+  carries. The directly measured guards — ColorSync CPU at 50 % and memory
+  pressure at level 4 — are unchanged and still live.
+
+**Verification**
+- 1197 hardware-free Rust tests pass, 1199 in the hardware build.
+- The Swift menu-bar self-test passes.
+- `codesign --verify --strict` 4/4, pinned to the local signing identity.
+- The APK is signed with the same project key as the previous development
+  release (v2 + v3), so it installs over it in place.
+
 ## 0.3.0-dev.3 — 2026-10-26 (development channel, experimental)
 
 **The current development build.** It supersedes 0.3.0-dev.2, which is

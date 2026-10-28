@@ -55,7 +55,7 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-      <p class="kicker"><span class="dot" aria-hidden="true"></span> Last hardware-tested release · v0.2.0-preview.3</p>
+      <p class="kicker"><span class="dot" aria-hidden="true"></span> Last hardware-tested release · v0.2.0-preview.3 — latest build · 0.3.0-rc.10</p>
       <h1>Your Android tablet, as a <em>real</em> second Mac display.</h1>
       <p class="lede">
         Not mirroring, not a remote desktop window, not a browser tab. UScreen creates
@@ -67,12 +67,18 @@
           Download macOS + Android
           <span class="sz">2.3 + 1.5 MB</span>
         </a>
+        <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/tag/v0.3.0-rc.10">
+          Latest build 0.3.0-rc.10 ↓
+          <span class="sz">2.5 + 1.5 MB</span>
+        </a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
       </div>
       <ul class="chips">
         <li class="chip is-accent">Apple Silicon · arm64</li>
         <li class="chip">macOS 13+</li>
+        <li class="chip">Android 8.1+</li>
         <li class="chip">USB only — no Wi-Fi, no account</li>
+        <li class="chip is-warn">Latest build 0.3.0-rc.10 · acceptance pending</li>
         <li class="chip is-warn">Pre-release · not notarized</li>
       </ul>
       </div>
@@ -260,9 +266,9 @@
               <td class="dim">An attended <b>product</b> session on the published packages: live desktop on the tablet, a window dragged onto it, tap and touch-drag confirmed by the operator, a session of roughly three hours without ending by itself, then a clean disconnect and a verified reconnect — and, after a full recovery from a failed candidate, the same result again on a second session</td>
             </tr>
             <tr>
-              <td>Development build 0.3.0-dev.3</td>
+              <td>Development build 0.3.0-rc.10</td>
               <td><span class="tag tag-partial">acceptance pending</span></td>
-              <td class="dim">Hardware-free verification only: 990 Rust tests, the Swift self-test and 20 Android JVM tests pass, all four macOS signatures verify, the Android package id is <code>com.uscreen.dev</code> and the channel isolation is enforced by the binary itself. This exact candidate has <b>not</b> been through the hardware acceptance procedure</td>
+              <td class="dim">Hardware-free verification only: 1197 Rust tests in the safe configuration and 1199 with the hardware feature, the Swift menu-bar self-test, all four macOS signatures verify, the Android package id is <code>com.uscreen.dev</code> with the launch component <code>com.uscreen.dev/com.uscreen.MainActivity</code>, signed v2+v3 with the same project key as the previous development release, and the channel isolation is enforced by the binary itself. This exact candidate has <b>not</b> completed a hardware session: every Connect was refused before anything was created, because the installed Development backend had no Screen Recording and Accessibility grant</td>
             </tr>
           </tbody>
         </table>
@@ -371,6 +377,7 @@
             <tr><td>Tablet</td><td class="num">DOOGEE U12</td><td class="dim">Android 8.1+ with USB debugging, H.264 decoder required</td></tr>
             <tr><td>Resolution</td><td class="num">1600×960 · 2000×1200</td><td class="dim">Other modes untested; changes need a host restart</td></tr>
             <tr><td>Android receiver</td><td class="num">0.2.0-preview.2</td><td class="dim"><code>com.uscreen</code> · minSdk 27 · project-local signature</td></tr>
+            <tr><td>Development build</td><td class="num">0.3.0-rc.10</td><td class="dim"><code>com.uscreen.dev</code> · minSdk 27 · same project key, separate application · arm64 · macOS 13.0+ · acceptance pending</td></tr>
             <tr><td>Cable</td><td class="num">USB data</td><td class="dim">Charge-only cables fail; that is the most common setup fault</td></tr>
             <tr><td>Network</td><td class="num">not used</td><td class="dim">Loopback sockets tunneled through adb</td></tr>
           </tbody>
@@ -396,7 +403,7 @@
         <li><b>Not notarized</b><span>Signed with a local self-signed certificate. macOS will require a per-app override on first launch.</span></li>
         <li><b>Self-signed receiver</b><span>The Android APK is signed with a project-local key, not the upstream author’s. A tablet carrying an upstream build must uninstall it first; Android refuses a differently signed update.</span></li>
         <li><b>Quarantine after a Disconnect</b><span>In the recommended build, an ordinary Disconnect can occasionally leave the machine in a quarantine state that blocks the next connection until an operator clears it. The cause is a race in the supervisor’s observation of the shutdown, and the fix is in the source and published in the development build — but that fix has not yet been accepted on hardware.</span></li>
-        <li><b>The development build is not accepted</b><span>The experimental 0.3.0-dev.3 build carries that fix and the Stable/Development separation, but it has not completed real-hardware acceptance. Use it to evaluate and to report problems; keep the recommended build as the one you rely on.</span></li>
+        <li><b>The development build is not accepted</b><span>The experimental 0.3.0-rc.10 build carries that fix and the Stable/Development separation, and it fixes the defects that kept the tablet from authenticating at all, but it has not completed real-hardware acceptance: every Connect was refused before anything was created, because the installed Development backend had no Screen Recording and Accessibility grant. Use it to evaluate and to report problems; keep the recommended build as the one you rely on.</span></li>
       </ul>
     </div>
   </section>
@@ -405,7 +412,7 @@
     <div class="wrap">
       <div class="section-head">
         <span class="section-index">07 — Install</span>
-        <h2 id="install-h">Six steps, one cable</h2>
+        <h2 id="install-h">Seven steps, one cable</h2>
         <p>
           The app installs user-level services into your home folder. No administrator
           password, no kernel extension, no system modification.
@@ -415,15 +422,17 @@
       <ol class="steps">
         <li>
           <div>
-            <h3>Download and move the app</h3>
-            <p>Unzip and put the bundle in your user Applications folder.</p>
-<pre><code>mkdir -p ~/Applications
-cp -R UScreen.app ~/Applications/</code></pre>
+            <h3>Download the macOS application</h3>
+            <p>Take the <code>.zip</code> from the download section above. It contains the signed app bundle.</p>
           </div>
         </li>
         <li>
           <div>
-            <h3>Approve the first launch</h3>
+            <h3>Install and launch it</h3>
+            <p>Unzip it and put the bundle in your user Applications folder, then open it.</p>
+<pre><code>mkdir -p ~/Applications
+cp -R UScreen.app ~/Applications/          # UScreen-dev.app for the development build
+open ~/Applications/UScreen.app</code></pre>
             <p>
               The build is not notarized, so a double-click will be refused once.
               Right-click → <strong>Open</strong> → <strong>Open</strong>, or use
@@ -434,34 +443,52 @@ cp -R UScreen.app ~/Applications/</code></pre>
         </li>
         <li>
           <div>
-            <h3>Connect and authorize the tablet</h3>
-            <p>Enable USB debugging, plug in a data cable, accept the RSA prompt, then check that exactly one device is listed.</p>
+            <h3>Download and install the Android receiver</h3>
+            <p>Install the <code>.apk</code> from the same release on the tablet. It is a separate application per channel, so the development receiver installs alongside the recommended one.</p>
 <pre><code>brew install android-platform-tools   # if adb is missing
-adb devices
-adb install UScreen-0.2.0-preview.2-android.apk   # receiver, unchanged since preview.2</code></pre>
+adb install -r UScreen-0.2.0-preview.2-android.apk   # recommended channel
+adb install -r UScreen-0.3.0-rc.10-android.apk      # development channel</code></pre>
           </div>
         </li>
         <li>
           <div>
-            <h3>Run the built-in setup</h3>
-            <p>Menu-bar icon → <strong>Set Up UScreen</strong>. It installs the backend, the native library and two user LaunchAgents. It creates no display and issues no authorization.</p>
-<pre><code>~/Applications/UScreen/bin/uscreen-macos setup install --activate \
-  --serial &lt;your-adb-serial&gt; --profile low_latency</code></pre>
+            <h3>Connect the tablet over USB</h3>
+            <p>Enable USB debugging, plug in a <b>data</b> cable, accept the RSA prompt, then check that exactly one device is listed. A charge-only cable is the most common setup fault.</p>
+<pre><code>adb devices</code></pre>
           </div>
         </li>
         <li>
           <div>
-            <h3>Grant the two permissions</h3>
+            <h3>Grant Screen Recording and Accessibility</h3>
             <p>
               Screen Recording (capture) and Accessibility (input injection) must be granted
               to the <em>installed</em> backend
               <code>~/Applications/UScreen/bin/uscreen-macos</code>, then the app restarted.
             </p>
+            <p>
+              macOS attributes both permissions to the <em>responsible process</em>, and the
+              backend runs as a launchd job. Use the menu-bar item <strong>Grant
+              Permissions…</strong>: it asks the running manager to request them in its own
+              process. A request raised from a terminal registers the terminal instead and
+              never helps. Then allow the backend in System Settings → Privacy &amp;
+              Security → Screen &amp; System Audio Recording and → Accessibility.
+            </p>
           </div>
         </li>
         <li>
           <div>
-            <h3>Connect</h3>
+            <h3>Authorize the connection</h3>
+            <p>
+              A Connect needs an operator authorization in addition to your approval: a
+              lease that the menu issues on request, or
+              <code>uscreen-macos lease issue --serial &lt;serial&gt;</code>. It is bound to
+              one session and expires; it is not a permanent permission.
+            </p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Connect from the UScreen menu</h3>
             <p>Menu-bar icon → <strong>Connect</strong>, then confirm the Touch ID prompt:
                it authorises one session. The session stays up until you disconnect, you
                unplug the tablet, or a genuine safety condition stops it — there is no
@@ -472,6 +499,13 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, unchanged since pr
       </ol>
 
       <div class="note" style="margin-top:26px">
+        <strong>The development build starts differently.</strong> Installing it activates
+        nothing. It needs a bounded session first:
+        <code>uscreen-macos dev start --authorize --serial &lt;serial&gt;</code>
+        (2 h, maximum 8 h), and <code>uscreen-macos dev stop</code> ends it.
+      </div>
+
+      <div class="note" style="margin-top:14px">
         <strong>Uninstall</strong> is symmetrical:
         <code>uscreen-macos setup uninstall</code> removes both LaunchAgents and the installed
         backend, and deleting <code>~/Applications/UScreen.app</code> plus
@@ -573,7 +607,7 @@ adb install UScreen-0.2.0-preview.2-android.apk   # receiver, unchanged since pr
           <summary>What is the difference between the recommended build and the development build?</summary>
           <div class="body">
             <p>The recommended build (v0.2.0-preview.3) is the last one that was verified on
-               real hardware, and it is the one to use. The development build (0.3.0-dev.3) is
+               real hardware, and it is the one to use. The development build (0.3.0-rc.10) is
                published so that the newest fixes can be tried and problems reported.</p>
             <p>They are separate installations, not two versions of one. The development
                build installs into <code>~/Applications/UScreen-dev</code> with its own
@@ -673,9 +707,9 @@ shasum -a 256 UScreen-0.2.0-preview.2-android.apk</code></pre>
       <div class="download" style="margin-top:28px">
         <div>
           <span class="section-index">11 — Experimental</span>
-          <h2 id="dev-h">UScreen Development 0.3.0-dev.3</h2>
+          <h2 id="dev-h">UScreen Development 0.3.0-rc.10</h2>
           <p class="muted" style="font-size:.94rem">
-            <b>Experimental — latest development build (0.3.0-dev.3; supersedes 0.3.0-dev.2).</b>
+            <b>Experimental — latest development build (0.3.0-rc.10; supersedes 0.3.0-dev.3).</b>
             <b>Not yet fully hardware-tested. Not recommended as a replacement for the
             working version.</b> Real hardware acceptance of this exact candidate is
             still pending.
@@ -691,39 +725,43 @@ shasum -a 256 UScreen-0.2.0-preview.2-android.apk</code></pre>
             installation is not affected by it in any way.
           </p>
           <p class="muted" style="font-size:.94rem">
-            It carries the normal-Disconnect quarantine fix, the stuck-lock recovery, the
-            corrected start gate and the machine-wide installer lock. It also fixes a
-            defect in 0.3.0-dev.1: that build's Development services were installed into
-            <code>~/Library/LaunchAgents</code> with <code>RunAtLoad</code> and
-            <code>KeepAlive</code>, exactly like Stable, so both channels started at login
-            and competed for one display. This build stages them outside launchd's scan
-            path, removes <code>KeepAlive</code>, and requires an explicit, expiring
-            session (<code>uscreen-macos dev start --authorize</code>). Installing it no
-            longer activates anything.
+            It carries the fixes that the operator's own tablet found: the receiver's
+            activity component was named <code>com.uscreen.dev.MainActivity</code>, but the
+            application id changes while the class does not, so every token relaunch
+            failed and no video session ever authenticated — the launch component is
+            now <code>com.uscreen.dev/com.uscreen.MainActivity</code>. The macOS
+            permissions can now be granted, because the request is raised by the
+            connection manager in its own process (the only process with the host's
+            identity), not by a terminal. A swap-out burst no longer vetoes a start on a
+            loaded machine: the rule measures the memory the kernel can still hand out.
+            The handover to the recommended build is judged by the supervisor that will
+            actually judge it. The manager can no longer start before its session record
+            exists. And a unit test can no longer boot your live services out of
+            launchd.
           </p>
           <div class="cta-row" style="margin-top:22px">
-            <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.3/UScreen-0.3.0-dev.3-macos-arm64.zip">
-              macOS Development .zip <span class="sz">2.4 MB</span>
+            <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.10/UScreen-0.3.0-rc.10-macos-arm64.zip">
+              macOS Development .zip <span class="sz">2.5 MB</span>
             </a>
-            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.3/UScreen-0.3.0-dev.3-android.apk">
+            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.10/UScreen-0.3.0-rc.10-android.apk">
               Android Development .apk <span class="sz">1.5 MB</span>
             </a>
           </div>
           <p class="small muted" style="margin-top:18px">
             Check both downloads before installing:
           </p>
-<pre><code>shasum -a 256 UScreen-0.3.0-dev.3-macos-arm64.zip
-shasum -a 256 UScreen-0.3.0-dev.3-android.apk</code></pre>
-          <span class="sha">9efa7073a10b1061940b0de6e4e435d96fdb5dce7aa0df1d2ee13c564f8e060c  macOS</span>
-          <span class="sha">5f4be0bdeb2df7aa7e9a5f9e4824edd90b66fbe109d789b47835036d96d7fea8  Android</span>
+<pre><code>shasum -a 256 UScreen-0.3.0-rc.10-macos-arm64.zip
+shasum -a 256 UScreen-0.3.0-rc.10-android.apk</code></pre>
+          <span class="sha">0d4b0ecc6df82b7b88675e9b9bc41fa508a1af3f9b8e8925c6b8bba3d457abbc  macOS</span>
+          <span class="sha">f619f328578a2c30102174ce9f6b7730cf392ad0aecf4196aa0d35017191ef6d  Android</span>
           <p class="small muted" style="margin-top:18px">
             <b>Starting it:</b> installing does not start anything.
             <code>uscreen-macos dev status</code> shows the state;
             <code>uscreen-macos dev start --authorize --serial &lt;serial&gt;</code> starts a
             bounded session (2 h, maximum 8 h); <code>uscreen-macos dev stop</code> ends it
-            and makes the stopped state durable. Coming from 0.3.0-dev.1, run
-            <code>uscreen-macos setup install --migrate</code> once to remove its
-            auto-starting agents.
+            and makes the stopped state durable. Use the menu-bar item <strong>Grant
+            Permissions…</strong> for the two macOS permissions — a request from a
+            terminal registers the terminal and never helps.
           </p>
           <p class="small muted" style="margin-top:18px">
             To go back to the recommended version, remove the development tree and its
@@ -732,7 +770,7 @@ shasum -a 256 UScreen-0.3.0-dev.3-android.apk</code></pre>
           </p>
         </div>
         <dl class="meta">
-          <div><dt>Version</dt><dd>0.3.0-dev.3</dd></div>
+          <div><dt>Version</dt><dd>0.3.0-rc.10</dd></div>
           <div><dt>Channel</dt><dd>development</dd></div>
           <div><dt>macOS</dt><dd>arm64 · 13.0+ · UScreen-dev.app</dd></div>
           <div><dt>Android</dt><dd>8.1+ · com.uscreen.dev</dd></div>
@@ -747,9 +785,92 @@ shasum -a 256 UScreen-0.3.0-dev.3-android.apk</code></pre>
         · <a href="https://github.com/Benriez/uscreen/releases">All releases</a>
       </p>
       <p class="small muted" style="margin-top:12px">
-        Development release: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.3.0-dev.3.md">v0.3.0-dev.3 notes</a>
-        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.3/SHA256SUMS">SHA256SUMS</a>
-        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.3/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
+        Development release: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.3.0-rc.10.md">v0.3.0-rc.10 notes</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.10/SHA256SUMS">SHA256SUMS</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.10/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="release-notes" aria-labelledby="rn-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-index">12 — Release notes</span>
+        <h2 id="rn-h">What 0.3.0-rc.10 fixes, and what is still open</h2>
+        <p>
+          The development channel moves in small, verifiable steps. Every entry below
+          came out of the operator's own hardware or out of the machine's own
+          instruments, and every one of them has a regression test.
+        </p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <caption class="sr-only">Release notes for 0.3.0-rc.10</caption>
+          <thead>
+            <tr><th scope="col">Area</th><th scope="col">What changed</th><th scope="col">How it is verified</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Android receiver</td>
+              <td>The launch component was named <code>com.uscreen.dev.MainActivity</code>, but the development receiver is the same app with a different application id — the class stays <code>com.uscreen.MainActivity</code>. Every token relaunch failed and the tablet kept a stale token, so no video session ever authenticated.</td>
+              <td class="dim">Read back from the built manifest: <code>com.uscreen.dev</code> · <code>com.uscreen.MainActivity</code> · versionCode 33 · signed v2 + v3 with the same project key as the previous release</td>
+            </tr>
+            <tr>
+              <td>Permissions</td>
+              <td>macOS attributes Screen Recording and Accessibility to the responsible process. Only the launchd-run manager has the host's identity, so the menu now asks the manager to request them in its own process — and only on an explicit request.</td>
+              <td class="dim">Architecture test: permission prompts come only from the manager, on request; the scan itself never prompts</td>
+            </tr>
+            <tr>
+              <td>Memory admission</td>
+              <td>A swap-out burst alone no longer vetoes a start. The rule measures the memory the kernel can still hand out and calls a burst thrashing only when pages are evicted and faulted back at the same time. Below 512 MiB of allocatable memory a start is refused as a real shortfall.</td>
+              <td class="dim">Regression tests: a burst with headroom is advisory, a burst without a headroom measurement stays a blocker, too little memory names the shortfall</td>
+            </tr>
+            <tr>
+              <td>Handover</td>
+              <td>The Stable session that follows a handover is judged by the Stable supervisor against Stable's own band, not against the candidate's. A quieter Development baseline no longer makes the return to Stable look impossible.</td>
+              <td class="dim">Regression tests over the handover plan, per judge</td>
+            </tr>
+            <tr>
+              <td>Manager lifecycle</td>
+              <td>The session record is written before launchd starts anything, so the manager can no longer lose the race and leave a stale reading in the menu.</td>
+              <td class="dim">Regression test: the session exists before the manager is kickstarted</td>
+            </tr>
+            <tr>
+              <td>Test isolation</td>
+              <td>A unit test reached the real launchd and could boot your live services out — twice, each time killing the running host and its display. Every launchd mutation now goes through an injectable interface, and only the CLI hands out the real one.</td>
+              <td class="dim">Architecture test: only <code>main</code> may reach the system launchd</td>
+            </tr>
+            <tr>
+              <td>Instrument</td>
+              <td>The machine's own rate probe could not read its own output: 68 098 bytes is one byte over the pipe's capacity, and the runner waited for the child to exit first. Every probe was killed after 25 s, so the machine had no trusted rate window at all and both the admission gate and the quarantine recovery refused for the wrong reason.</td>
+              <td class="dim">The query now completes in 1.45 s and returns the whole 68 KB; regression test: a child that outgrows the pipe is still read completely</td>
+            </tr>
+            <tr>
+              <td>Admission contract</td>
+              <td>The band and the 300/min constant now judge what an operation <em>adds</em>, not what the machine already carries. The directly measured guards are unchanged and still live: ColorSync CPU at 50 % and memory pressure at level 4.</td>
+              <td class="dim">Regression tests over the budget plan, with real measurements</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="note warn" style="margin-top:22px">
+        <strong>Still open.</strong> The hardware acceptance of this exact build did
+        not happen: every Connect was refused <em>before</em> anything was created
+        (0 start attempts, 0 hosts spawned, the creation ledger unchanged), because the
+        installed Development backend had no Screen Recording and Accessibility grant.
+        The fixes above are therefore verified by regression test and code review — not
+        by a completed video session. The build is published as a pre-release for
+        exactly that reason, and it replaces nothing.
+      </div>
+
+      <p class="small muted" style="margin-top:18px">
+        Full notes:
+        <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.3.0-rc.10.md">v0.3.0-rc.10 release notes</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.10/RELEASE_NOTES.md">RELEASE_NOTES.md</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.10/INSTALL.md">INSTALL.md</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.10/ROLLBACK.md">ROLLBACK.md</a>
       </p>
     </div>
   </section>
