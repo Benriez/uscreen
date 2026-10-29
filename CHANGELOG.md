@@ -3,6 +3,23 @@
 Release artifacts and provenance records live on the
 [releases page](https://github.com/Benriez/uscreen/releases).
 
+## 0.3.0-rc.11 — 2026-10-29 (development channel, experimental)
+
+**The current development build.** It supersedes 0.3.0-rc.10, which is
+published but should no longer be used.
+
+It is the first development build that completed a hardware session: the
+extended desktop was visible on the tablet, a touch moved the pointer, and a
+transport reconnect re-established the video session on the same display. Two
+defects had refused every earlier Connect and are fixed here — the installer
+now signs the backend with a pinned identity, because macOS binds the Screen
+Recording and Accessibility grants to the code identity of the running binary,
+and an unsigned rebuild silently lost them; and the capture start is
+stage-aware and bounded by the host's own startup window instead of a blind
+ten-second cap. The ColorSync ceiling now judges the CPU the daemons actually
+consumed between two ticks rather than `ps`'s decaying average, and the
+Development-primary consent no longer depends on the machine's stream count.
+
 ## 0.3.0-rc.10 — 2026-10-28 (development channel, experimental)
 
 **The current development build.** It supersedes 0.3.0-dev.3, which is
