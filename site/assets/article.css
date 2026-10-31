@@ -1,18 +1,208 @@
 /* UScreen for macOS — developer use case article
    Loads after assets/styles.css and reuses its tokens and components.
-   Only the article-specific layout lives here: the prose measure, the
-   table of contents and the architecture diagram. */
+   Only the article-specific layout lives here: the hero map, the step and
+   role cards, the prose measure and the architecture diagram. */
 
 .article-hero {
-  padding: clamp(44px, 7vw, 92px) 0 clamp(30px, 4vw, 52px);
+  padding: clamp(44px, 7vw, 92px) 0 clamp(28px, 4vw, 48px);
 }
 .article-hero h1 {
-  max-width: 24ch;
-  font-size: clamp(2rem, 4.3vw, 3.05rem);
-  letter-spacing: -.03em;
+  max-width: 21ch;
+  font-size: clamp(2.05rem, 4.6vw, 3.35rem);
+  letter-spacing: -.032em;
 }
-.article-hero .lede { max-width: 66ch; }
+.article-hero .lede { max-width: 68ch; }
 .article-hero .chips { margin-top: 22px; }
+
+/* ---------- hero map: one tablet, two roles ---------- */
+
+.role-map {
+  margin-top: 34px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(70% 120% at 50% -20%, rgba(94, 234, 212, .07), transparent 60%),
+    var(--panel);
+  padding: clamp(18px, 2.4vw, 26px);
+}
+.role-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 14px;
+}
+.role-card {
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--panel-2);
+  padding: 18px 20px 20px;
+}
+.role-tag {
+  font-family: var(--mono);
+  font-size: .66rem;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: block;
+  margin-bottom: 10px;
+}
+.role-card h3 { margin-bottom: 8px; }
+.role-card p { color: var(--fg-dim); font-size: .92rem; margin: 0; }
+.role-card .role-tools {
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .04em;
+  color: var(--fg-faint);
+}
+.role-device {
+  margin-top: 14px;
+  border: 1px dashed var(--line-strong);
+  border-radius: var(--radius-sm);
+  padding: 14px 18px;
+  text-align: center;
+}
+.role-device-name {
+  display: block;
+  font-family: var(--mono);
+  font-size: .78rem;
+  letter-spacing: .06em;
+  color: var(--fg);
+}
+.role-device-sub {
+  display: block;
+  font-size: .84rem;
+  color: var(--fg-faint);
+  margin-top: 4px;
+}
+.role-map .role-caption {
+  margin: 14px 0 0;
+  font-size: .84rem;
+  color: var(--fg-faint);
+  max-width: 70ch;
+}
+
+/* ---------- how it works: four step cards ---------- */
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(260px, 100%), 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+.how-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 20px;
+  position: relative;
+}
+.how-num {
+  font-family: var(--mono);
+  font-size: .74rem;
+  letter-spacing: .12em;
+  color: var(--accent);
+  border: 1px solid #14403a;
+  background: var(--accent-soft);
+  border-radius: 7px;
+  padding: 3px 9px;
+  display: inline-block;
+  margin-bottom: 14px;
+}
+.how-card h3 { margin-bottom: 8px; }
+.how-card p { color: var(--fg-dim); font-size: .92rem; margin: 0; }
+.how-card .how-label {
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .04em;
+  color: var(--fg-faint);
+}
+
+/* ---------- the responsibility split ---------- */
+
+.split-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+.split-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 20px;
+  border-top: 2px solid var(--accent);
+}
+.split-card.is-worker { border-top-color: #8ba4ff; }
+.split-card.is-sync { border-top-color: var(--warn); }
+.split-owner {
+  font-family: var(--mono);
+  font-size: .66rem;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  display: block;
+  margin-bottom: 10px;
+}
+.split-card h3 { margin-bottom: 10px; }
+.split-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.split-list li {
+  display: flex;
+  gap: 9px;
+  align-items: baseline;
+  font-size: .9rem;
+  color: var(--fg-dim);
+  line-height: 1.45;
+}
+.split-list li::before {
+  content: "";
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--line-strong);
+  flex: 0 0 auto;
+  transform: translateY(-2px);
+}
+.split-list li b { color: var(--fg); font-weight: 600; }
+.split-not {
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .04em;
+  color: var(--fg-faint);
+}
+
+/* ---------- the parts, one by one ---------- */
+
+.parts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr));
+  gap: 14px;
+  margin-top: 24px;
+}
+.part-card {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 20px;
+}
+.part-head {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.part-head h3 { margin: 0; }
+.part-head .part-where {
+  font-family: var(--mono);
+  font-size: .66rem;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+.part-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 11px; }
+.part-list li { font-size: .9rem; color: var(--fg-dim); line-height: 1.45; }
+.part-list li b { color: var(--fg); font-weight: 600; display: block; margin-bottom: 2px; }
 
 /* ---------- table of contents ---------- */
 
@@ -54,17 +244,18 @@
 /* ---------- prose ---------- */
 
 .prose { max-width: 74ch; }
-.prose > h2 { margin-top: 46px; scroll-margin-top: 88px; }
+.prose > h2 { margin-top: 52px; scroll-margin-top: 88px; }
 .prose > h2:first-child { margin-top: 0; }
-.prose > h3 { margin-top: 26px; scroll-margin-top: 88px; }
+.prose > h3 { margin-top: 28px; scroll-margin-top: 88px; }
 .prose p { color: var(--fg); }
 .prose p.lede-line { color: var(--fg-dim); }
 .prose ul, .prose ol { color: var(--fg-dim); padding-left: 1.15em; }
 .prose li { margin-bottom: .45em; }
 .prose li b, .prose li strong { color: var(--fg); }
 .prose li::marker { color: var(--fg-faint); }
-.prose .note { margin-top: 18px; }
-.prose .table-wrap { margin-top: 18px; }
+.prose .note { margin-top: 20px; }
+.prose .grid { margin-top: 24px; }
+.prose .pull { margin: 28px 0; }
 
 /* ---------- architecture diagram ---------- */
 
@@ -183,6 +374,7 @@
 }
 
 @media (max-width: 520px) {
-  .prose > h2 { margin-top: 38px; }
+  .prose > h2 { margin-top: 40px; }
   .toc { padding: 16px; }
+  .role-cols { gap: 12px; }
 }

@@ -3,21 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Beyond a Second Screen: Building an AI Development Worker with an Android Tablet — UScreen for macOS</title>
-<meta name="description" content="How one setup uses a DOOGEE U12 as an extended Mac display with UScreen and, at the same time, as an independent AI development worker running Termux, SSH and OpenCode on its own hardware.">
+<title>An Android tablet as an external display and an AI development worker — UScreen for macOS</title>
+<meta name="description" content="One Android tablet, two roles: a real extended display for the Mac through UScreen, and an independent AI development worker running Termux, SSH and OpenCode on its own hardware.">
 <meta name="theme-color" content="#07080a">
 <meta name="color-scheme" content="dark">
 <link rel="canonical" href="https://benriez.github.io/uscreen/use-cases/android-tablet-ai-development-worker/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="UScreen for macOS">
-<meta property="og:title" content="Beyond a Second Screen: Building an AI Development Worker with an Android Tablet">
-<meta property="og:description" content="An Android tablet can be an extended Mac display and an independent AI development worker at the same time. UScreen provides the display; Termux, SSH and OpenCode provide the work.">
+<meta property="og:title" content="An Android tablet as an external display and an AI development worker">
+<meta property="og:description" content="One tablet, two roles at once: a real extended macOS display through UScreen, and an independent AI development worker running Termux, SSH and OpenCode on its own hardware.">
 <meta property="og:url" content="https://benriez.github.io/uscreen/use-cases/android-tablet-ai-development-worker/">
 <meta property="article:section" content="Developer use case">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307080a'/%3E%3Crect x='6.5' y='6.5' width='19' height='19' rx='4' fill='none' stroke='%235eead4' stroke-width='2'/%3E%3Crect x='12' y='12' width='8' height='8' rx='1.5' fill='%235eead4'/%3E%3C/svg%3E">
 <link rel="stylesheet" href="../../assets/styles.css?v=20261025-6">
-<link rel="stylesheet" href="../../assets/article.css?v=20261031-1">
+<link rel="stylesheet" href="../../assets/article.css?v=20261031-2">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -54,218 +54,262 @@
   <section class="hero article-hero">
     <div class="wrap">
       <p class="kicker"><span class="dot" aria-hidden="true"></span> Developer use case</p>
-      <h1>Beyond a Second Screen: Building an AI Development Worker with an Android Tablet</h1>
+      <h1>An Android tablet can be both your external display and your AI development worker.</h1>
       <p class="lede">
-        A DOOGEE U12 plugged into a MacBook Pro as an extended display can also be a
-        workstation that runs its own coding agents. UScreen gives the tablet the
-        screen. Everything else — Termux, SSH, OpenCode, Syncthing — is ordinary,
-        open tooling that the operator assembles by hand. The separation between
-        those two halves is the whole point of this article.
+        Plug a tablet into a MacBook Pro and you have a real extended macOS display.
+        Open an SSH session into Termux on that same tablet and you have a second
+        machine that runs its own coding agents — on its own CPU and memory, with
+        the model called remotely. One device, two roles, no new hardware.
       </p>
       <ul class="chips">
-        <li class="chip">Published 2026-10-31</li>
-        <li class="chip">The operator’s own setup, in daily use</li>
-        <li class="chip is-accent">UScreen = the display, nothing else</li>
-        <li class="chip">MacBook Pro · DOOGEE U12 · Galaxy S24 Ultra</li>
+        <li class="chip is-accent">A real extended display</li>
+        <li class="chip">Agents that run on the tablet</li>
+        <li class="chip">Continue the work on another worker</li>
       </ul>
+
+      <div class="role-map" role="img" aria-label="One Android tablet in two roles at the same time: as an external display for the MacBook Pro, driven by UScreen over the USB cable, and as an AI development worker running Termux, SSH and OpenCode, calling a remote model endpoint.">
+        <div class="role-cols">
+          <div class="role-card">
+            <span class="role-tag">Role 1 · Display</span>
+            <h3>The external display</h3>
+            <p>UScreen registers a genuine extended display with the Mac’s window
+               server, streams it down the USB cable and turns taps on the glass
+               back into pointer events.</p>
+            <p class="role-tools">UScreen · USB · adb reverse</p>
+          </div>
+          <div class="role-card">
+            <span class="role-tag">Role 2 · Worker</span>
+            <h3>The AI development worker</h3>
+            <p>Termux, SSH and OpenCode run the agent and the tools it calls on the
+               tablet’s own hardware, while the model is served remotely.</p>
+            <p class="role-tools">Termux · OpenSSH · OpenCode</p>
+          </div>
+        </div>
+        <div class="role-device">
+          <span class="role-device-name">DOOGEE U12 — one tablet, both roles</span>
+          <span class="role-device-sub">the screen you look at and the machine that works are the same device</span>
+        </div>
+        <p class="role-caption">
+          UScreen provides the display. The worker, the shell and the file
+          synchronization are separate tools that happen to live on the same
+          tablet — assembled by hand, and kept visibly separate.
+        </p>
+      </div>
     </div>
   </section>
 
   <section class="section">
     <div class="wrap">
-      <div class="note">
-        <strong>What UScreen does, and what it does not.</strong>
-        UScreen creates a genuine extended macOS display on the Android tablet,
-        streams that display over the USB cable and returns touch to the Mac.
-        It does <b>not</b> run AI models, does <b>not</b> distribute agents to other
-        machines, does <b>not</b> synchronize project files, and it has no built-in
-        AI worker feature. Everything in this article beyond the display is
-        third-party tooling running on the tablet.
-      </div>
-
-      <nav class="toc" aria-label="On this page" style="margin-top:22px">
+      <nav class="toc" aria-label="On this page">
         <h2>On this page</h2>
         <ol>
-          <li><a href="#problem">The problem</a></li>
-          <li><a href="#opportunity">The unexpected opportunity</a></li>
-          <li><a href="#setup">The real setup</a></li>
-          <li><a href="#architecture">Architecture</a></li>
-          <li><a href="#using-it">How it feels to use</a></li>
-          <li><a href="#synchronization">Project synchronization</a></li>
-          <li><a href="#benefits">Benefits</a></li>
-          <li><a href="#limits">Limitations</a></li>
-          <li><a href="#getting-started">Getting started</a></li>
+          <li><a href="#why">Why you would build this</a></li>
+          <li><a href="#how">How it works in four steps</a></li>
+          <li><a href="#split">The line: what belongs to which tool</a></li>
+          <li><a href="#parts">The parts, one by one</a></li>
+          <li><a href="#architecture">How the pieces connect</a></li>
+          <li><a href="#benefits">What you gain</a></li>
+          <li><a href="#notes">Notes that matter in practice</a></li>
+          <li><a href="#limits">What this is not</a></li>
           <li><a href="#closing">Closing</a></li>
         </ol>
       </nav>
     </div>
   </section>
 
-  <section class="section section-soft" id="problem" aria-labelledby="problem-h">
+  <section class="section section-soft" id="why" aria-labelledby="why-h">
     <div class="wrap">
       <div class="prose">
-        <span class="section-index">01 — The problem</span>
-        <h2 id="problem-h">Every agent session wants the same machine</h2>
+        <span class="section-index">01 — The reason</span>
+        <h2 id="why-h">Why you would build this</h2>
         <p>
-          Run several coding agents at once on one Mac and they all want the same two
-          resources: CPU time and memory. The agent runtime, the language server, the
-          build tools, the test runner and the model client all live inside the same
-          machine as the editor, the browser and everything else you have open.
+          The Mac is where the editor, the browser and the terminal live. It is also
+          where every coding-agent session wants to run at the same time — and
+          several of them competing for the same cores and the same memory is a
+          real constraint, not a theory.
         </p>
         <p>
-          That is not a defect in any one tool — it is what happens when several
-          genuinely parallel workloads share one set of cores and one pool of RAM.
-          The usual answers are to run fewer sessions at a time, to keep the local
-          model small, or to buy a second machine. The first two cost you the thing
-          you wanted in the first place. The third costs money you may not have.
+          The usual answers each cost something: run fewer sessions at a time,
+          keep the local model small, or buy a second machine. The first two take
+          away the thing you wanted. The third costs money and desk space.
         </p>
         <p>
-          The move that worked here was different: <b>keep the interface on the Mac
-          and move the execution to hardware that already exists.</b> Not a new
-          machine — a tablet. It is smaller and slower, but it is idle, it is already
-          on the desk, and it has a screen of its own.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="opportunity" aria-labelledby="opportunity-h">
-    <div class="wrap">
-      <div class="prose">
-        <span class="section-index">02 — The unexpected opportunity</span>
-        <h2 id="opportunity-h">A tablet is a computer, not a panel</h2>
-        <p>
-          When people say “second screen”, they picture a passive rectangle. A modern
-          Android tablet is not that: it has an ARM CPU with several cores, a few
-          gigabytes of RAM, internal storage and a complete operating system with its
-          own package management and permission model.
-        </p>
-        <p>
-          Termux gives that hardware a Linux-like userland on top of Android — a
-          shell, a package manager, an SSH server, <code>git</code>, language
-          runtimes and compilers. In that userland the tablet can hold a checkout of
-          a project, run a coding agent, run the tools that agent calls, and keep
-          working while the Mac is busy or asleep.
-        </p>
-        <p class="lede-line">
-          The catch, stated early: Android is not Linux. It uses Bionic rather than
-          glibc, it has no systemd, and it puts its own limits on background work.
-          Those limits are real and are listed further down — but they are limits of
-          the platform, not of the idea.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-soft" id="setup" aria-labelledby="setup-h">
-    <div class="wrap">
-      <div class="prose">
-        <span class="section-index">03 — The real setup</span>
-        <h2 id="setup-h">The real setup, component by component</h2>
-        <p>
-          Two machines are doing the work here, and a third is kept in reserve. One
-          component in this table is UScreen. The rest are third-party tools, and
-          keeping that line sharp is what makes the setup understandable.
+          This setup uses the hardware that was already on the desk. A tablet has
+          an ARM CPU with several cores, a few gigabytes of RAM, storage and a
+          full operating system — and Termux gives it a Linux-like userland on
+          top. So it can hold a project, run an agent, run the tools that agent
+          calls, and keep working while the Mac is busy.
         </p>
 
-        <div class="table-wrap">
-          <table>
-            <caption class="sr-only">The components of the setup and the job each one performs</caption>
-            <thead>
-              <tr>
-                <th scope="col">Component</th>
-                <th scope="col">The job it does</th>
-                <th scope="col">Whose</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>MacBook Pro</td>
-                <td class="dim">The desktop, the keyboard, the editor and the browser. It is where the operator reads and types, and it stays responsive because it is no longer the machine doing the agent’s work.</td>
-                <td>Apple’s hardware</td>
-              </tr>
-              <tr>
-                <td><b>UScreen for Mac</b></td>
-                <td class="dim">Creates the extended display, captures it, encodes it, sends it down the USB cable and returns touch to the Mac. That is the entire scope of UScreen in this setup.</td>
-                <td><b>UScreen</b></td>
-              </tr>
-              <tr>
-                <td>DOOGEE U12</td>
-                <td class="dim">Two roles at once: the physical extended display, and the machine that actually runs the agent and its tools.</td>
-                <td>The operator’s hardware</td>
-              </tr>
-              <tr>
-                <td>Termux</td>
-                <td class="dim">The userland on the tablet: shell, package manager, development tools, and the place the agent runs.</td>
-                <td>Third party</td>
-              </tr>
-              <tr>
-                <td>OpenSSH (in Termux)</td>
-                <td class="dim">The door between the two machines. The Mac logs into the tablet with a key, so the shell is unattended and the password never travels.</td>
-                <td>Third party</td>
-              </tr>
-              <tr>
-                <td>Tailscale</td>
-                <td class="dim">The private network that makes the tablet reachable from the Mac without exposing a port to any public network. SSH rides on it.</td>
-                <td>Third party</td>
-              </tr>
-              <tr>
-                <td>Herdr</td>
-                <td class="dim">A terminal workspace manager for AI coding agents. On the Mac it opens the session; over SSH it attaches that session to the tablet’s shell, so the agent’s output lands in a Mac window — which is then visible on the extended display.</td>
-                <td>Third party</td>
-              </tr>
-              <tr>
-                <td>OpenCode</td>
-                <td class="dim">The coding agent itself. It runs on the tablet, in the tablet’s project directory, and calls the model endpoint remotely.</td>
-                <td>Third party</td>
-              </tr>
-              <tr>
-                <td>Git</td>
-                <td class="dim">Version control on the tablet’s copy of the project, so the worker produces ordinary commits rather than a private mess.</td>
-                <td>Third party</td>
-              </tr>
-              <tr>
-                <td>Syncthing</td>
-                <td class="dim">Keeps the project directories the same on every machine, in both directions, without a central server.</td>
-                <td>Third party</td>
-              </tr>
-              <tr>
-                <td>Remote model endpoint</td>
-                <td class="dim">Where inference actually happens. The agent on the tablet orchestrates and runs tools; the model is called on the operator’s own AI computer, over the network.</td>
-                <td>The operator’s existing infrastructure</td>
-              </tr>
-              <tr>
-                <td>Galaxy S24 Ultra</td>
-                <td class="dim">A second, independent worker with its own copy of the project. The operator picks which device runs a session; nothing is scheduled automatically.</td>
-                <td>The operator’s hardware</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div class="note" style="margin-top:18px">
-          <strong>The division of labour in one sentence.</strong>
-          UScreen provides the extended display. Termux, SSH, OpenCode and Syncthing
-          provide the independent remote development workflow. The tablet is where
-          those two halves meet — and they are separate halves, not one product.
+        <div class="note" style="margin-top:22px">
+          <strong>The goal is not a faster Mac.</strong>
+          It is a second place where work can happen, without taking anything away
+          from the Mac you are already using.
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section" id="architecture" aria-labelledby="architecture-h">
+  <section class="section" id="how" aria-labelledby="how-h">
     <div class="wrap">
       <div class="prose">
-        <span class="section-index">04 — Architecture</span>
-        <h2 id="architecture-h">Four channels, four different jobs</h2>
+        <span class="section-index">02 — The workflow</span>
+        <h2 id="how-h">How it works in four steps</h2>
+
+        <div class="how-grid">
+          <article class="how-card">
+            <span class="how-num">01</span>
+            <h3>Connect the tablet with UScreen</h3>
+            <p>The Mac’s desktop extends onto the tablet as a real second screen,
+               and touching the glass moves the pointer back on the Mac.</p>
+            <p class="how-label">UScreen · USB</p>
+          </article>
+          <article class="how-card">
+            <span class="how-num">02</span>
+            <h3>Open a session to the tablet</h3>
+            <p>A terminal workspace on the Mac opens an SSH session into Termux.
+               The window stays on the desk; the shell lives on the tablet.</p>
+            <p class="how-label">Herdr · OpenSSH</p>
+          </article>
+          <article class="how-card">
+            <span class="how-num">03</span>
+            <h3>Run OpenCode in Termux</h3>
+            <p>The agent starts in the project directory on the tablet. Its tools
+               run there too, and the model is called on a remote endpoint.</p>
+            <p class="how-label">OpenCode · model endpoint</p>
+          </article>
+          <article class="how-card">
+            <span class="how-num">04</span>
+            <h3>Continue the work anywhere</h3>
+            <p>The project directory is synchronized, so the same checkout is
+               waiting on the other worker. Pick the session up there.</p>
+            <p class="how-label">Syncthing · second worker</p>
+          </article>
+        </div>
+
+        <div class="pull">
+          <p>
+            The display device and the compute device are the same tablet. The
+            Mac’s keyboard drives a window on the tablet’s screen, and the agent
+            answering it runs on the tablet’s own processor.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="split" aria-labelledby="split-h">
+    <div class="wrap">
+      <div class="prose">
+        <span class="section-index">03 — The line</span>
+        <h2 id="split-h">The line: what belongs to which tool</h2>
         <p>
-          The diagram below is the whole setup. It is deliberately drawn as four
-          separate channels, because they are four separate things and confusing
-          them is the most common mistake when a display, a shell, a folder and a
-          model request all live on the same desk.
+          This is the part worth keeping straight, because three different pieces
+          of software sit on the same desk and it is easy to credit the wrong one.
         </p>
 
-        <figure class="arch" style="margin-top:22px">
+        <div class="split-grid">
+          <article class="split-card">
+            <span class="split-owner">UScreen</span>
+            <h3>The display, and only the display</h3>
+            <ul class="split-list">
+              <li><b>Creates</b> a genuine extended macOS display</li>
+              <li><b>Streams</b> that display over the USB cable</li>
+              <li><b>Returns</b> touch to the Mac</li>
+            </ul>
+          </article>
+          <article class="split-card is-worker">
+            <span class="split-owner">The Android worker</span>
+            <h3>The agent and its tools</h3>
+            <ul class="split-list">
+              <li><b>Termux</b> gives the tablet a userland</li>
+              <li><b>SSH</b> opens the door from the Mac</li>
+              <li><b>OpenCode</b> runs the agent on the tablet</li>
+            </ul>
+          </article>
+          <article class="split-card is-sync">
+            <span class="split-owner">Project sync</span>
+            <h3>The same files everywhere</h3>
+            <ul class="split-list">
+              <li><b>Syncthing</b> synchronizes the project, both ways</li>
+              <li><b>Git</b> keeps the history the workers share</li>
+              <li><b>You</b> choose which worker runs the session</li>
+            </ul>
+          </article>
+        </div>
+
+        <p class="split-not">
+          What none of them does: UScreen does not host a model, does not
+          distribute agents, does not synchronize files, and does not orchestrate
+          workers. That is not a gap in the product — it is what keeps the setup
+          inspectable.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="parts" aria-labelledby="parts-h">
+    <div class="wrap">
+      <div class="prose">
+        <span class="section-index">04 — The parts</span>
+        <h2 id="parts-h">The parts, one by one</h2>
+
+        <div class="parts-grid">
+          <article class="part-card">
+            <div class="part-head">
+              <h3>On the MacBook Pro</h3>
+              <span class="part-where">the desk</span>
+            </div>
+            <ul class="part-list">
+              <li><b>UScreen for Mac</b>the display host: virtual display, capture, encode, touch</li>
+              <li><b>Herdr</b>the terminal workspace that holds the agent session</li>
+              <li><b>Your editor and browser</b>the work you actually look at</li>
+              <li><b>Tailscale</b>the private route to the tablet</li>
+              <li><b>Syncthing</b>the shared project folder</li>
+            </ul>
+          </article>
+          <article class="part-card">
+            <div class="part-head">
+              <h3>On the tablet</h3>
+              <span class="part-where">the worker</span>
+            </div>
+            <ul class="part-list">
+              <li><b>The UScreen receiver</b>decodes the stream and presents it</li>
+              <li><b>Termux</b>the userland: shell, packages, compilers</li>
+              <li><b>OpenSSH</b>the door the Mac comes in through</li>
+              <li><b>OpenCode</b>the coding agent</li>
+              <li><b>Git</b>the project’s history</li>
+              <li><b>Syncthing</b>the shared project folder</li>
+            </ul>
+          </article>
+          <article class="part-card">
+            <div class="part-head">
+              <h3>Off the devices</h3>
+              <span class="part-where">the inference</span>
+            </div>
+            <ul class="part-list">
+              <li><b>The model endpoint</b>inference runs on the operator’s own AI computer</li>
+              <li><b>The private route</b>the tablet reaches it over its own network path</li>
+              <li><b>No model on the tablet</b>and none on the Mac</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="architecture" aria-labelledby="architecture-h">
+    <div class="wrap">
+      <div class="prose">
+        <span class="section-index">05 — Architecture</span>
+        <h2 id="architecture-h">How the pieces connect</h2>
+        <p>
+          Four channels, four different jobs. Confusing them is the most common
+          mistake when a display, a shell, a folder and a model request all live
+          on the same desk — so the diagram names each one.
+        </p>
+
+        <figure class="arch" style="margin-top:24px">
           <div class="arch-block">
             <div class="arch-head">
               <h3>Display and shell — between the Mac and the tablet</h3>
@@ -366,197 +410,114 @@
           </div>
 
           <figcaption>
-            Four channels with different jobs: UScreen carries the picture and the
-            touch over the USB cable, SSH carries the shell over the private
-            network, Syncthing carries the project files peer to peer, and the
-            model endpoint carries the inference. Only the first of them is UScreen.
+            Video and touch travel over the USB cable, the shell over the private
+            network, the project files peer to peer, and the model request over
+            the network. Only the first of these is UScreen.
           </figcaption>
         </figure>
       </div>
     </div>
   </section>
 
-  <section class="section section-soft" id="using-it" aria-labelledby="using-it-h">
+  <section class="section" id="benefits" aria-labelledby="benefits-h">
     <div class="wrap">
       <div class="prose">
-        <span class="section-index">05 — In practice</span>
-        <h2 id="using-it-h">How it feels to use</h2>
-        <ol class="steps" style="margin-top:22px">
-          <li>
-            <div>
-              <h3>Plug in the tablet and connect</h3>
-              <p>UScreen creates the extended display; the operator authorises the session in the menu bar and the desktop extends onto the tablet.</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h3>Open Herdr on the Mac</h3>
-              <p>The terminal workspace manager is the operator’s usual place for agent sessions. It runs on the Mac, next to the keyboard.</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h3>Attach to the tablet over SSH</h3>
-              <p>Herdr opens a remote session against the tablet’s Termux shell over the private network. The prompt now lives on the tablet; the keyboard does not.</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h3>Start OpenCode in the project directory</h3>
-              <p>The agent starts in the tablet’s copy of the repository, on the tablet’s CPU and memory.</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h3>Type prompts on the Mac</h3>
-              <p>The Mac keyboard and the Mac’s own tooling stay in play; the work happens on the other machine.</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h3>Watch the output in the window on the tablet</h3>
-              <p>The Herdr window is drawn on the extended display, so the agent’s output is visible on the tablet while the tools it calls run there too.</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h3>Move the work if you want to</h3>
-              <p>The session is not tied to one machine. The operator can pick up the same project on the Galaxy S24 Ultra and continue there.</p>
-            </div>
-          </li>
-        </ol>
+        <span class="section-index">06 — The payoff</span>
+        <h2 id="benefits-h">What you gain</h2>
 
-        <div class="pull">
-          <p>
-            The display device and the compute device can be the same tablet. The
-            Mac keyboard drives a terminal window that lives on the tablet’s screen,
-            and the agent answering it runs on the tablet’s own processor.
-          </p>
-        </div>
-
-        <p>
-          That is the part that is genuinely unusual, and it is worth being precise
-          about it. The tablet is not a remote display of a session that is really
-          running on the Mac. It is a real second screen <em>and</em> a real
-          computer, and the operator is using both roles of it at once.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="synchronization" aria-labelledby="sync-h">
-    <div class="wrap">
-      <div class="prose">
-        <span class="section-index">06 — The files</span>
-        <h2 id="sync-h">Project synchronization (optional, and manual)</h2>
-        <p>
-          Syncthing keeps the project directories the same on the Mac, the tablet and
-          the phone. It is a peer-to-peer tool with no central server, and the
-          operator shares one folder per repository with the other machines. Files
-          travel in both directions.
-        </p>
-        <p>
-          Three rules keep that safe in practice, and they are worth copying:
-        </p>
-        <ul>
-          <li>
-            <b>Device-local secrets stay out.</b> The ignore rules exclude
-            secret-shaped files that are not part of the repository, so a key or a
-            token never travels to another machine by accident. Tracked files are
-            always synchronized.
-          </li>
-          <li>
-            <b>Generated dependencies and platform-specific binaries are local.</b>
-            Build output, dependency directories and native artifacts are rebuilt on
-            the device that needs them; they are not copied around.
-          </li>
-          <li>
-            <b>Git metadata is treated as local.</b> A synchronized repository
-            directory is not a substitute for a remote. Each device keeps its own
-            history and talks to the remote the normal way, so a synchronization
-            conflict can never rewrite committed history.
-          </li>
-        </ul>
-
-        <div class="note warn" style="margin-top:18px">
-          <strong>Two honest limits of file synchronization.</strong>
-          It is not instantaneous — an edit can take seconds to appear on the other
-          machine, and a worker that starts a few seconds too early can read a
-          slightly older file. And it is not a merge algorithm: if two machines edit
-          the same file before the change has travelled, the conflict is resolved
-          by hand.
-        </div>
-
-        <p>
-          There is no scheduler and no exclusive project lock. Which machine runs
-          the session is a decision the operator makes every time, and the
-          synchronization layer is deliberately kept out of that decision.
-        </p>
-        <p>
-          One thing that does <b>not</b> travel, and that this article will not
-          pretend otherwise: the agent’s own state. The conversation database of the
-          coding agent and any agent-specific memory it keeps live on the device
-          that produced them. They are not synchronized, and a session started on
-          the tablet does not continue on the phone.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-soft" id="benefits" aria-labelledby="benefits-h">
-    <div class="wrap">
-      <div class="prose">
-        <span class="section-index">07 — Benefits</span>
-        <h2 id="benefits-h">What this actually buys you</h2>
-        <div class="grid grid-2" style="margin-top:22px">
+        <div class="grid grid-2">
           <article class="card">
-            <span class="ico">CAPACITY</span>
-            <h3>More CPU and memory for supported work</h3>
-            <p>Agent sessions and the tools they call run on hardware the Mac is not
-               already using. This is real capacity, on a slower processor with less
-               RAM than the Mac — not Mac-class performance.</p>
+            <span class="ico">THE MAC</span>
+            <h3>Less pressure on the Mac</h3>
+            <p>Agent sessions and the tools they call run on the tablet, so the Mac
+               keeps the editor, the browser and the terminal — and stays
+               responsive while they run.</p>
           </article>
           <article class="card">
-            <span class="ico">MAC</span>
-            <h3>Fewer agent runtimes on the Mac</h3>
-            <p>The Mac keeps what it is good at: the editor, the browser, the
-               terminal. It is no longer the machine on which every agent, language
-               server and test runner competes.</p>
+            <span class="ico">THE SCREEN</span>
+            <h3>A second working surface</h3>
+            <p>Not a mirror and not a small picture of the desktop: a real extended
+               display, where a terminal, a review pane or a second window can
+               live permanently.</p>
           </article>
           <article class="card">
-            <span class="ico">REUSE</span>
-            <h3>Existing hardware, used again</h3>
-            <p>No new machine, no server rack. A tablet that was bought for reading
-               and video becomes a worker with a display of its own.</p>
+            <span class="ico">THE PROJECT</span>
+            <h3>A portable, synchronized workspace</h3>
+            <p>The same source is on every worker, kept in step peer to peer. The
+               project follows the work instead of living on one machine.</p>
           </article>
           <article class="card">
-            <span class="ico">WORKSPACE</span>
-            <h3>One Mac-controlled workspace</h3>
-            <p>The operator still types on the Mac, in the tools they know. The work
-               simply happens elsewhere — and the output is visible on the extended
-               display.</p>
+            <span class="ico">THE PICKUP</span>
+            <h3>Continue on another worker</h3>
+            <p>A session is not tied to one device. Move the work to the other
+               worker and pick it up there, with the same files already in place.</p>
           </article>
           <article class="card">
-            <span class="ico">ISOLATION</span>
-            <h3>Independent worker environments</h3>
-            <p>A build that goes wrong on the tablet takes down the tablet’s
-               session, not the Mac’s. Each worker has its own shell, its own tools
-               and its own project copy.</p>
-          </article>
-          <article class="card">
-            <span class="ico">SOURCE</span>
-            <h3>The same source, everywhere</h3>
-            <p>Through synchronization, the worker has the same project as the desk.
-               The work continues on another device without a manual copy step.</p>
+            <span class="ico">THE HARDWARE</span>
+            <h3>Equipment you already own</h3>
+            <p>No second machine and no server. A tablet that was bought for
+               reading and video becomes a working surface with its own CPU and
+               memory.</p>
           </article>
         </div>
 
-        <div class="note" style="margin-top:20px">
+        <div class="note" style="margin-top:22px">
           <strong>What this does not do.</strong>
-          It does not make the Mac’s memory pressure disappear — it moves part of the
-          load to another machine. And it does not make an Android tablet as fast as
-          a Mac. Both statements would be false, and both are worth stating before
-          somebody builds a plan on them.
+          It does not make the Mac’s memory pressure disappear — it moves part of
+          it to another machine. And a tablet is not Mac-class performance. This is
+          a workflow enhancement, not a replacement for the machine you type on.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-soft" id="notes" aria-labelledby="notes-h">
+    <div class="wrap">
+      <div class="prose">
+        <span class="section-index">07 — Practical notes</span>
+        <h2 id="notes-h">Notes that matter in practice</h2>
+        <p>
+          Synchronization is the part of this setup that can surprise you. Three
+          rules keep it predictable, and they are worth copying.
+        </p>
+
+        <div class="grid grid-3">
+          <article class="card">
+            <span class="ico">SECRETS</span>
+            <h3>Keep device-local secrets out</h3>
+            <p>Secret-shaped files that are not part of the repository stay out of
+               the shared folder, so a key never travels to another machine by
+               accident. Tracked files always synchronize.</p>
+          </article>
+          <article class="card">
+            <span class="ico">BUILD OUTPUT</span>
+            <h3>Rebuild generated files locally</h3>
+            <p>Dependencies, build output and platform-specific binaries are
+               rebuilt on the device that needs them, not copied around between
+               machines.</p>
+          </article>
+          <article class="card">
+            <span class="ico">GIT</span>
+            <h3>Treat repository metadata as local</h3>
+            <p>A synchronized directory is not a substitute for a remote. Each
+               device keeps its own history and talks to the remote the normal
+               way, so a conflict can never rewrite committed history.</p>
+          </article>
+        </div>
+
+        <div class="note warn" style="margin-top:22px">
+          <strong>Two honest limits of file synchronization.</strong>
+          It is not instantaneous — an edit can take seconds to reach the other
+          machine. And it is not a merge algorithm: if two machines change the
+          same file before the change has travelled, the conflict is resolved by
+          hand.
+        </div>
+
+        <div class="note" style="margin-top:14px">
+          <strong>What does not travel.</strong>
+          The agent’s own conversation history and any agent-specific memory stay
+          on the device that produced them. A session started on the tablet does
+          not continue on the phone, and this article does not pretend otherwise.
         </div>
       </div>
     </div>
@@ -565,141 +526,76 @@
   <section class="section" id="limits" aria-labelledby="limits-h">
     <div class="wrap">
       <div class="prose">
-        <span class="section-index">08 — Limitations</span>
-        <h2 id="limits-h">Limitations, stated plainly</h2>
+        <span class="section-index">08 — The honest part</span>
+        <h2 id="limits-h">What this is not</h2>
         <p>
-          This setup is worth copying because its limits are knowable in advance.
-          Here they are.
-        </p>
-        <ul class="limits" style="margin-top:22px">
-          <li><b>Bionic, not glibc</b><span>Android’s C library is not the standard
-            Linux one. A tool that links against glibc-specific behaviour needs an
-            Android-compatible build or a compatibility layer.</span></li>
-          <li><b>Some tools need other packages</b><span>Command-line tools often
-            exist in Termux under a different name or a different version than in a
-            normal Linux distribution. What is available is not the same set.</span></li>
-          <li><b>Some tools are simply missing</b><span>Development tools that
-            depend on kernel interfaces, or on desktop frameworks, are not available
-            on Android at all. The worker is a second location for supported work,
-            not a replacement for the desktop.</span></li>
-          <li><b>macOS-only frameworks cannot run</b><span>Anything built on
-            Apple’s own frameworks belongs on the Mac. The tablet can call the same
-            tools over SSH; it cannot load them.</span></li>
-          <li><b>Background restrictions</b><span>Android limits what keeps
-            running when the app is not in the foreground. A persistent session can
-            be killed by the system when the screen goes off or the app is
-            swiped away, and a wake-up has to be arranged deliberately.</span></li>
-          <li><b>Heat and battery</b><span>Sustained compile and test load throttles
-            a tablet, and the tablet runs on battery. A long session is a warm
-            device.</span></li>
-          <li><b>The display and the worker compete</b><span>Decoding a video
-            stream and running an agent’s toolchain on the same system-on-chip is
-            two real workloads. They share memory bandwidth and thermal headroom.</span></li>
-          <li><b>Networking is separate work</b><span>Reaching the model endpoint
-            from the tablet needs its own route — the private network, in this
-            setup — and its own configuration. None of that comes with UScreen.</span></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="section section-soft" id="getting-started" aria-labelledby="start-h">
-    <div class="wrap">
-      <div class="prose">
-        <span class="section-index">09 — Getting started</span>
-        <h2 id="start-h">A safe order to build it in</h2>
-        <p>
-          Each step stands on its own, so the setup can be built and checked one
-          piece at a time. The examples use placeholder names — <code>dev-tablet</code>
-          and <code>dev-host</code> — because a public document should not carry
-          anyone’s real host names, addresses or keys.
+          The value of this setup is only real if its limits are knowable in
+          advance. Here they are.
         </p>
 
-        <ol class="steps" style="margin-top:22px">
-          <li>
-            <div>
-              <h3>Install UScreen and prove the display</h3>
-              <p>Do this first and on its own: install the macOS application and the
-                 Android receiver, connect the tablet over USB and confirm that a
-                 window can be dragged onto it and that touch comes back. Everything
-                 after this point assumes the display already works.</p>
-              <p><a href="../../#install">The installation steps on this site</a> ·
-                 <a href="https://github.com/Benriez/uscreen/blob/main/docs/installation.md">the installation guide</a></p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h3>Give the tablet a userland</h3>
-              <p>Install Termux on the tablet and add the pieces a worker needs: a
-                 shell, an SSH server and Git.</p>
-<pre><code>pkg install openssh termux-services git
-passwd                       # a password for the tablet account
-sshd                         # start the SSH server</code></pre>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h3>Let the Mac in without a password</h3>
-              <p>Put the Mac’s public key into the tablet’s
-                 <code>~/.ssh/authorized_keys</code>, then reach the tablet over the
-                 private network instead of an address on the open internet.</p>
-<pre><code>ssh dev-tablet 'echo connected'   # dev-tablet is a Tailscale name</code></pre>
-              <p>Set the private network up first:
-                 <a href="https://tailscale.com/">Tailscale</a> on both machines.</p>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h3>Attach the terminal to the tablet</h3>
-              <p>With the shell reachable, Herdr can hold the session on the tablet
-                 while the window stays on the Mac.</p>
-<pre><code>herdr --remote dev-tablet</code></pre>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h3>Start the agent in the project directory</h3>
-              <p>On the tablet, inside the checkout, start the agent. It runs where
-                 the files are, and it calls the model endpoint you configure for
-                 it — the tablet does not host a model.</p>
-<pre><code>cd ~/projects/example
-opencode</code></pre>
-            </div>
-          </li>
-          <li>
-            <div>
-              <h3>Only then add the files</h3>
-              <p>Synchronization is the part that can surprise you. Add it once the
-                 worker is proven: install <a href="https://syncthing.net/">Syncthing</a>
-                 on both machines, share one repository folder, and keep secrets and
-                 build output out of it.</p>
-            </div>
-          </li>
-        </ol>
-
-        <div class="note" style="margin-top:22px">
-          <strong>One habit worth keeping.</strong>
-          Test each step on its own before adding the next. The display is easy to
-          check, the shell is easy to check, the agent is easy to check — and each
-          one tells you plainly whether it worked.
+        <div class="grid grid-2">
+          <article class="card">
+            <span class="ico">PERFORMANCE</span>
+            <h3>Not Mac-class performance</h3>
+            <p>A tablet’s cores are slower and its memory is smaller. It is
+               additional capacity of a different kind, not a replacement
+               machine.</p>
+          </article>
+          <article class="card">
+            <span class="ico">PLATFORM</span>
+            <h3>Android is not Linux</h3>
+            <p>Android uses Bionic rather than glibc. Tools that depend on
+               glibc-specific behaviour need an Android-compatible build or a
+               compatibility layer.</p>
+          </article>
+          <article class="card">
+            <span class="ico">COVERAGE</span>
+            <h3>Some tools are simply missing</h3>
+            <p>Apple-only frameworks and desktop toolchains do not run on Android
+               at all. The worker is a second location for supported work, not a
+               second desktop.</p>
+          </article>
+          <article class="card">
+            <span class="ico">BACKGROUND</span>
+            <h3>Background limits apply</h3>
+            <p>Android can end a persistent session when the app leaves the
+               foreground or the screen goes off. A long-running worker has to be
+               arranged deliberately.</p>
+          </article>
+          <article class="card">
+            <span class="ico">THERMALS</span>
+            <h3>Heat and battery matter</h3>
+            <p>Sustained compile and test load throttles a tablet, and the tablet
+               runs on battery. A long session is a warm device.</p>
+          </article>
+          <article class="card">
+            <span class="ico">CONTENTION</span>
+            <h3>Two workloads, one chip</h3>
+            <p>Decoding the video stream and running an agent’s toolchain at the
+               same time are two real jobs. They share memory bandwidth and
+               thermal headroom.</p>
+          </article>
+          <article class="card">
+            <span class="ico">NETWORK</span>
+            <h3>Networking is separate work</h3>
+            <p>The tablet needs its own route to the model endpoint and its own
+               configuration. None of that comes with the display.</p>
+          </article>
+          <article class="card">
+            <span class="ico">CHOICE</span>
+            <h3>You choose the worker</h3>
+            <p>There is no scheduler and no exclusive project lock. Which machine
+               runs a session is decided by hand, every time.</p>
+          </article>
         </div>
-
-        <p class="small muted" style="margin-top:20px">
-          Documentation used in this setup:
-          <a href="https://termux.dev/">Termux</a> ·
-          <a href="https://tailscale.com/">Tailscale</a> ·
-          <a href="https://opencode.ai/">OpenCode</a> ·
-          <a href="https://syncthing.net/">Syncthing</a> ·
-          <a href="../../">UScreen for macOS</a>
-        </p>
       </div>
     </div>
   </section>
 
-  <section class="section" id="closing" aria-labelledby="closing-h">
+  <section class="section section-soft" id="closing" aria-labelledby="closing-h">
     <div class="wrap">
       <div class="prose">
-        <span class="section-index">10 — Closing</span>
+        <span class="section-index">09 — Closing</span>
         <h2 id="closing-h">A second screen can be part of the machine</h2>
 
         <div class="pull">
@@ -713,15 +609,14 @@ opencode</code></pre>
         <p>
           The setup works because the two halves stay separate. UScreen’s job is
           narrow and it does it properly: a real extended display, video over the
-          cable that is already plugged in, and touch that comes back. The
-          development-worker half is ordinary tooling — a userland, an SSH session,
-          an agent, a folder — assembled by hand, on hardware that was already
-          bought.
+          cable that is already plugged in, and touch that comes back. The worker
+          half is ordinary tooling — a userland, an SSH session, an agent, a
+          folder — assembled by hand, on hardware that was already bought.
         </p>
         <p>
-          The tablet in this setup is not a second computer on the desk. It is the
-          second screen, doing double duty, and the operator gets a workstation out
-          of it without a second purchase.
+          The tablet is not a second computer on the desk. It is the second
+          screen, doing double duty, and it turns into a working surface without
+          a second purchase.
         </p>
 
         <div class="cta-row">
@@ -730,9 +625,10 @@ opencode</code></pre>
         </div>
 
         <p class="small muted" style="margin-top:20px">
-          This article describes one operator’s setup. UScreen provides the display
-          and nothing else on that desk — the model, the agent, the shell and the
-          file synchronization are separate tools, running separately.
+          This is one operator’s setup, described as it is used. UScreen provides
+          the display and nothing else on that desk — the model, the agent, the
+          shell and the file synchronization are separate tools, running
+          separately.
         </p>
       </div>
     </div>
