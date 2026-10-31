@@ -27,12 +27,23 @@ unmeasured.
 
 ### The Android receiver, updated
 
-The development release now carries a new receiver: version 0.3.0-rc.12,
-version code 36, signed with the same project key, so it installs over the
-previous one without uninstalling it. It brings the upstream 1.2.11 behaviour
-that stops the tablet from pushing its own frame rate and bitrate into the
-host's configuration, and the tablet keeps its waiting screen until a frame
-has actually been presented.
+The development release carries a receiver with its own version line:
+version 0.3.0-rc.13, version code 37, signed with the same project key, so
+it installs over the previous one without uninstalling it. It brings the
+upstream 1.2.11 behaviour that stops the tablet from pushing its own frame
+rate and bitrate into the host's configuration, and the tablet keeps its
+waiting screen until a frame has actually been presented.
+
+It also repairs the update check. The receiver asked the **upstream Linux**
+release feed and compared that project's version line (1.2.x) against ours
+(0.3.0-rc.x). The Linux major version is always the larger one, so every
+macOS receiver was told that "Update 1.2.11 available" was waiting for it —
+in every build, forever. The check now reads the UScreen for Mac releases,
+compares only version identifiers of its own series, and offers a candidate
+only when the APK carries this channel's own application id, this project's
+signing certificate and a higher version code. Twenty-three regression tests
+cover the rules, including the upstream Linux release, the two channels, a
+downgrade, a failed lookup and an APK signed with another key.
 
 Verified on the operator's DOOGEE U12 on 2026-10-31: installed in place over
 the running receiver, the display came up, the picture was presented, a touch
