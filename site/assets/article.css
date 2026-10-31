@@ -1,0 +1,188 @@
+/* UScreen for macOS — developer use case article
+   Loads after assets/styles.css and reuses its tokens and components.
+   Only the article-specific layout lives here: the prose measure, the
+   table of contents and the architecture diagram. */
+
+.article-hero {
+  padding: clamp(44px, 7vw, 92px) 0 clamp(30px, 4vw, 52px);
+}
+.article-hero h1 {
+  max-width: 24ch;
+  font-size: clamp(2rem, 4.3vw, 3.05rem);
+  letter-spacing: -.03em;
+}
+.article-hero .lede { max-width: 66ch; }
+.article-hero .chips { margin-top: 22px; }
+
+/* ---------- table of contents ---------- */
+
+.toc {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 18px 20px 20px;
+}
+.toc h2 {
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  margin-bottom: 12px;
+}
+.toc ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+  gap: 6px 24px;
+  counter-reset: toc;
+}
+.toc li { counter-increment: toc; }
+.toc a { color: var(--fg-dim); font-size: .9rem; }
+.toc a:hover { color: var(--accent); }
+.toc a::before {
+  content: counter(toc, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: .76rem;
+  color: var(--accent);
+  opacity: .8;
+  margin-right: 8px;
+}
+
+/* ---------- prose ---------- */
+
+.prose { max-width: 74ch; }
+.prose > h2 { margin-top: 46px; scroll-margin-top: 88px; }
+.prose > h2:first-child { margin-top: 0; }
+.prose > h3 { margin-top: 26px; scroll-margin-top: 88px; }
+.prose p { color: var(--fg); }
+.prose p.lede-line { color: var(--fg-dim); }
+.prose ul, .prose ol { color: var(--fg-dim); padding-left: 1.15em; }
+.prose li { margin-bottom: .45em; }
+.prose li b, .prose li strong { color: var(--fg); }
+.prose li::marker { color: var(--fg-faint); }
+.prose .note { margin-top: 18px; }
+.prose .table-wrap { margin-top: 18px; }
+
+/* ---------- architecture diagram ---------- */
+
+.arch { margin: 0; }
+.arch-block {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel);
+  padding: 18px;
+}
+.arch-block + .arch-block { margin-top: 14px; }
+.arch-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 16px;
+  margin-bottom: 14px;
+}
+.arch-head h3 {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+  margin: 0;
+  font-weight: 600;
+}
+.arch-head .arch-note { font-family: var(--mono); font-size: .68rem; color: var(--fg-faint); }
+
+/* The transports. Each lane names itself in text as well as in colour, so
+   the four channels stay distinguishable without relying on hue. */
+.lane { display: grid; gap: 4px; justify-items: center; text-align: center; }
+.lane-name {
+  font-family: var(--mono);
+  font-size: .64rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--fg-dim);
+}
+.lane-arrow { font-size: .95rem; line-height: 1; }
+.lane.is-video .lane-arrow { color: var(--accent); }
+.lane.is-shell .lane-arrow { color: #8ba4ff; }
+.lane.is-files .lane-arrow { color: var(--warn); }
+.lane.is-model .lane-arrow { color: var(--fg); }
+.lane-via {
+  font-family: var(--mono);
+  font-size: .6rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fg-faint);
+}
+
+/* The synchronization chain: three peers, one folder each. */
+.chain {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+}
+.chain-node {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+.chain-node h4 {
+  font-family: var(--mono);
+  font-size: .72rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--fg);
+  margin: 0 0 6px;
+}
+.chain-node p { margin: 0; font-size: .84rem; color: var(--fg-dim); }
+.chain-link {
+  display: grid;
+  place-content: center;
+  gap: 3px;
+  padding: 0 14px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: .62rem;
+  letter-spacing: .06em;
+  color: var(--fg-faint);
+  text-transform: uppercase;
+}
+.chain-link .arrow { color: var(--warn); font-size: .95rem; letter-spacing: 0; }
+
+.arch figcaption {
+  color: var(--fg-faint);
+  font-size: .82rem;
+  line-height: 1.6;
+  margin-top: 12px;
+  max-width: 74ch;
+}
+
+/* ---------- closing pull quote ---------- */
+
+.pull {
+  border-left: 2px solid var(--accent);
+  background: rgba(94, 234, 212, .035);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 20px 24px;
+  margin: 24px 0;
+  font-size: clamp(1.05rem, 1.7vw, 1.22rem);
+  line-height: 1.5;
+  color: var(--fg);
+}
+.pull p { margin: 0; }
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 860px) {
+  .chain { grid-template-columns: minmax(0, 1fr); }
+  .chain-link { padding: 12px 0; }
+}
+
+@media (max-width: 520px) {
+  .prose > h2 { margin-top: 38px; }
+  .toc { padding: 16px; }
+}

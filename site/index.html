@@ -153,10 +153,47 @@
     </div>
   </section>
 
+  <section class="section section-soft" id="use-case" aria-labelledby="use-case-h">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-index">02 — Developer use case</span>
+        <h2 id="use-case-h">More than a second screen.</h2>
+        <p>Use your Android tablet as an external Mac display and an independent AI development worker.</p>
+      </div>
+      <div class="grid grid-2">
+        <article class="card">
+          <span class="ico">DISPLAY — USCREEN</span>
+          <h3>The tablet shows your macOS desktop</h3>
+          <p>UScreen creates the extended display, sends the picture down the USB
+             cable and returns touch to the Mac. That is the whole of its job here.</p>
+        </article>
+        <article class="card">
+          <span class="ico">WORKER — TERMUX + SSH</span>
+          <h3>The same tablet runs the tools</h3>
+          <p>Termux, OpenSSH and OpenCode turn that tablet into an independent
+             worker: the prompts are typed on the Mac, the agent and its tools run
+             on the tablet's own hardware, and the model is called remotely.</p>
+        </article>
+      </div>
+      <p class="muted" style="font-size:.94rem; margin-top:18px; max-width:66ch">
+        With UScreen, Termux and SSH, a tablet can display your macOS workspace
+        while running development tools on its own hardware. UScreen itself does
+        not run models, distribute agents or synchronize files &mdash; those parts
+        are separate tools, and the article says which is which.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="use-cases/android-tablet-ai-development-worker/">
+          Explore the developer setup
+        </a>
+        <a class="btn btn-ghost" href="#how">How UScreen works</a>
+      </div>
+    </div>
+  </section>
+
   <section class="section section-soft" id="how" aria-labelledby="how-h">
     <div class="wrap">
       <div class="section-head">
-        <span class="section-index">02 — Architecture</span>
+        <span class="section-index">03 — Architecture</span>
         <h2 id="how-h">What actually runs where</h2>
         <p>
           Two processes on the Mac, one app on the tablet. The host is Rust;
@@ -205,7 +242,7 @@
   <section class="section" id="status" aria-labelledby="status-h">
     <div class="wrap">
       <div class="section-head">
-        <span class="section-index">03 — Status</span>
+        <span class="section-index">04 — Status</span>
         <h2 id="status-h">What is proven, and what is not</h2>
         <p>
           This is a preview, so the table below separates "verified with evidence" from
@@ -287,7 +324,7 @@
   <section class="section section-soft" id="performance" aria-labelledby="perf-h">
     <div class="wrap">
       <div class="section-head">
-        <span class="section-index">04 — Performance</span>
+        <span class="section-index">05 — Performance</span>
         <h2 id="perf-h">Numbers, with the conditions attached</h2>
         <p>
           Measured on one machine: Apple Silicon M1 Pro, macOS 26.5.1, DOOGEE U12 tablet
@@ -357,7 +394,7 @@
   <section class="section" id="compatibility" aria-labelledby="compat-h">
     <div class="wrap">
       <div class="section-head">
-        <span class="section-index">05 — Compatibility</span>
+        <span class="section-index">06 — Compatibility</span>
         <h2 id="compat-h">Narrow, and stated as such</h2>
         <p>
           One hardware combination has been exercised end to end. Everything else is
@@ -389,7 +426,7 @@
   <section class="section section-soft" id="limitations" aria-labelledby="lim-h">
     <div class="wrap">
       <div class="section-head">
-        <span class="section-index">06 — Limitations</span>
+        <span class="section-index">07 — Limitations</span>
         <h2 id="lim-h">Read this before you install</h2>
         <p>These are properties of the current design, not unfinished UI.</p>
       </div>
@@ -411,7 +448,7 @@
   <section class="section" id="install" aria-labelledby="install-h">
     <div class="wrap">
       <div class="section-head">
-        <span class="section-index">07 — Install</span>
+        <span class="section-index">08 — Install</span>
         <h2 id="install-h">Seven steps, one cable</h2>
         <p>
           The app installs user-level services into your home folder. No administrator
@@ -518,7 +555,7 @@ adb install -r UScreen-0.3.0-rc.10-android.apk      # development channel</code>
   <section class="section section-soft" id="security" aria-labelledby="sec-h">
     <div class="wrap">
       <div class="section-head">
-        <span class="section-index">08 — Security &amp; privacy</span>
+        <span class="section-index">09 — Security &amp; privacy</span>
         <h2 id="sec-h">What leaves the machine: nothing</h2>
       </div>
       <div class="grid grid-2">
@@ -558,7 +595,7 @@ adb install -r UScreen-0.3.0-rc.10-android.apk      # development channel</code>
   <section class="section" id="faq" aria-labelledby="faq-h">
     <div class="wrap">
       <div class="section-head">
-        <span class="section-index">09 — Questions</span>
+        <span class="section-index">10 — Questions</span>
         <h2 id="faq-h">Frequently asked</h2>
       </div>
       <div class="faq">
@@ -664,7 +701,7 @@ adb install -r UScreen-0.3.0-rc.10-android.apk      # development channel</code>
     <div class="wrap">
       <div class="download">
         <div>
-          <span class="section-index">10 — Download</span>
+          <span class="section-index">11 — Download</span>
           <h2 id="dl-h">UScreen 0.2.0-preview.3</h2>
           <p class="muted" style="font-size:.94rem">
             <b>Recommended — last hardware-tested version.</b> This is the release that was
@@ -706,7 +743,7 @@ shasum -a 256 UScreen-0.2.0-preview.2-android.apk</code></pre>
       </div>
       <div class="download" style="margin-top:28px">
         <div>
-          <span class="section-index">11 — Experimental</span>
+          <span class="section-index">12 — Experimental</span>
           <h2 id="dev-h">UScreen Development 0.3.0-rc.12</h2>
           <p class="muted" style="font-size:.94rem">
             <b>Experimental — latest development build (0.3.0-rc.12; supersedes 0.3.0-rc.11).</b>
@@ -798,7 +835,7 @@ shasum -a 256 UScreen-0.3.0-rc.10-android.apk</code></pre>
   <section class="section" id="release-notes" aria-labelledby="rn-h">
     <div class="wrap">
       <div class="section-head">
-        <span class="section-index">12 — Release notes</span>
+        <span class="section-index">13 — Release notes</span>
         <h2 id="rn-h">What 0.3.0-rc.12 fixes, and what is still open</h2>
         <p>
           The development channel moves in small, verifiable steps. Every entry below
@@ -897,6 +934,7 @@ shasum -a 256 UScreen-0.3.0-rc.10-android.apk</code></pre>
         <h3>Product</h3>
         <ul>
           <li><a href="#how">How it works</a></li>
+          <li><a href="use-cases/android-tablet-ai-development-worker/">Developer use case</a></li>
           <li><a href="#status">Status</a></li>
           <li><a href="#performance">Performance</a></li>
           <li><a href="#install">Install</a></li>
