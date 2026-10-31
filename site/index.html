@@ -51,34 +51,51 @@
 </header>
 
 <main id="main" tabindex="-1" class="product-home">
-  <section class="story-hero product-hero" aria-labelledby="product-title">
-    <div class="wrap">
-      <p class="kicker"><span class="dot" aria-hidden="true"></span> UScreen for macOS · Experimental preview</p>
-      <h1 id="product-title">Your Android tablet.<br> <em>A second display for your Mac.</em></h1>
-      <div class="product-deck">
-        <p>Extend your desktop over USB. Move a window onto the tablet, and use touch to interact with your Mac.</p>
-        <div class="hero-actions"><a class="btn btn-primary" href="#download">Get UScreen <span aria-hidden="true">↓</span></a><a class="text-link" href="#how">How it works <span aria-hidden="true">↘</span></a></div>
+  <section class="hero" aria-labelledby="product-title">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+      <p class="kicker"><span class="dot" aria-hidden="true"></span> Last hardware-tested release · v0.2.0-preview.3 — latest build · 0.3.0-rc.12</p>
+      <h1 id="product-title">Your Android tablet, as a <em>real</em> second Mac display.</h1>
+      <p class="lede">
+        Not mirroring, not a remote desktop window, not a browser tab. UScreen creates
+        an actual extended display in macOS and drives the tablet over the USB cable
+        you already have — with touch flowing back to the Mac.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#download">
+          Download macOS + Android
+          <span class="sz">2.3 + 1.5 MB</span>
+        </a>
+        <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/tag/v0.3.0-rc.12">
+          Latest build 0.3.0-rc.12 ↓
+          <span class="sz">2.5 + 1.5 MB</span>
+        </a>
+        <a class="btn btn-ghost" href="#how">See how it works</a>
       </div>
-      <figure class="setup-visual product-visual">
-        <div class="setup-stage product-stage" role="img" aria-label="Conceptual illustration: a MacBook Pro and an Android tablet form one extended desktop connected by UScreen over USB. The Mac holds your main application; a different window has been moved onto the tablet. This is additional desktop space, not a mirrored copy. Touch on the tablet controls the Mac.">
-          <div class="mac-device">
-            <p class="device-label">Your Mac <span>Display 01</span></p>
-            <div class="mac-lid product-screen">
-              <span class="role-eyebrow">The main workspace</span>
-              <div class="workspace-art main-workspace" aria-hidden="true"><span class="window-sidebar"></span><span class="window-body"><i></i><i></i><i></i><i></i></span></div>
-              <strong>Your main app.</strong>
-            </div>
-            <div class="mac-base" aria-hidden="true"></div>
-          </div>
-          <div class="desktop-bridge" aria-hidden="true"><span>UScreen / USB</span><i>→</i><small>Move a window across</small></div>
-          <div class="tablet-device">
-            <p class="device-label">Your Android tablet <span>Display 02</span></p>
-            <div class="tablet-shell"><div class="product-screen tablet-workspace"><span class="role-eyebrow">The extended desktop</span><div class="workspace-art extra-workspace" aria-hidden="true"><span class="note-lines"><i></i><i></i><i></i></span><span class="note-square"></span></div><strong>Another window.<br>Its own space.</strong></div></div>
-          </div>
+      <ul class="chips">
+        <li class="chip is-accent">Apple Silicon · arm64</li>
+        <li class="chip">macOS 13+</li>
+        <li class="chip">Android 8.1+</li>
+        <li class="chip">USB only — no Wi-Fi, no account</li>
+        <li class="chip is-warn">Latest build 0.3.0-rc.12 · development channel, hardware-accepted</li>
+        <li class="chip is-warn">Pre-release · not notarized</li>
+      </ul>
+      </div>
+
+      <aside class="spec" aria-label="Pipeline at a glance">
+        <div class="spec-head">
+          <span>pipeline</span>
+          <span class="spec-state"><span class="dot" aria-hidden="true"></span>local only</span>
         </div>
-        <figcaption><span>Conceptual illustration</span> One Mac desktop. Two different places for your windows.</figcaption>
-      </figure>
-      <div class="hero-footnote"><span>Apple Silicon · macOS 13+ · Android 8.1+</span><a href="#compatibility">Check requirements <span aria-hidden="true">↗</span></a></div>
+        <dl class="spec-list">
+          <div class="spec-row"><dt>capture</dt><dd>ScreenCaptureKit · bound to the virtual display</dd></div>
+          <div class="spec-row"><dt>encode</dt><dd>VideoToolbox · H.264 · realtime, no reordering</dd></div>
+          <div class="spec-row"><dt>transport</dt><dd><code>adb reverse</code> · <code>127.0.0.1:8890</code></dd></div>
+          <div class="spec-row"><dt>decode</dt><dd>MediaCodec · tablet hardware</dd></div>
+          <div class="spec-row"><dt>input</dt><dd>CGEvent · tap, drag, two-finger scroll</dd></div>
+          <div class="spec-row"><dt>display</dt><dd>CGVirtualDisplay · extended, not mirrored</dd></div>
+        </dl>
+      </aside>
     </div>
   </section>
 
