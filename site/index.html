@@ -16,7 +16,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%2307080a'/%3E%3Crect x='6.5' y='6.5' width='19' height='19' rx='4' fill='none' stroke='%235eead4' stroke-width='2'/%3E%3Crect x='12' y='12' width='8' height='8' rx='1.5' fill='%235eead4'/%3E%3C/svg%3E">
 <!-- Bump ?v= on styles.css/app.js whenever either file changes:
        GitHub Pages caches assets for 10 minutes. -->
-  <link rel="stylesheet" href="assets/styles.css?v=20261025-6">
+  <link rel="stylesheet" href="assets/styles.css?v=20261031-3">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -50,7 +50,7 @@
   </div>
 </header>
 
-<main id="main">
+<main id="main" tabindex="-1">
 
   <section class="hero">
     <div class="wrap hero-grid">
@@ -153,40 +153,18 @@
     </div>
   </section>
 
-  <section class="section section-soft" id="use-case" aria-labelledby="use-case-h">
-    <div class="wrap">
-      <div class="section-head">
-        <span class="section-index">02 — Developer use case</span>
-        <h2 id="use-case-h">One tablet, two jobs.</h2>
-        <p>Use your Android tablet as an external Mac display and an independent AI
-           development worker &mdash; at the same time.</p>
-        <ul class="chips">
-          <li class="chip is-accent">A real extended display</li>
-          <li class="chip">Agents that run on the tablet</li>
-          <li class="chip">Continue the work on another worker</li>
-        </ul>
+  <section class="section developer-teaser" id="use-case" aria-labelledby="use-case-h">
+    <div class="wrap teaser-layout">
+      <div>
+        <span class="section-index">02 — Developer story</span>
+        <h2 id="use-case-h">One tablet. Two jobs.</h2>
+        <p>An external Mac display through UScreen. An independent AI development worker through Termux and OpenCode, on the same Android tablet.</p>
+        <a class="teaser-link" href="use-cases/android-tablet-ai-development-worker/">Explore the developer story <span aria-hidden="true">↗</span></a>
       </div>
-      <div class="grid grid-2">
-        <article class="card">
-          <span class="ico">AS A DISPLAY</span>
-          <h3>The tablet extends your Mac</h3>
-          <p>UScreen creates the extended display, streams it down the USB cable
-             and returns touch to the Mac. That is the whole of its job here.</p>
-        </article>
-        <article class="card">
-          <span class="ico">AS A WORKER</span>
-          <h3>The same tablet runs the agent</h3>
-          <p>Termux, SSH and OpenCode turn it into a second machine: the prompts
-             are typed on the Mac, the agent and its tools run on the tablet's
-             own hardware, and the model is called remotely.</p>
-        </article>
-      </div>
-      <div class="cta-row">
-        <a class="btn btn-primary" href="use-cases/android-tablet-ai-development-worker/">
-          Explore the developer setup
-        </a>
-        <a class="btn btn-ghost" href="#how">How UScreen works</a>
-      </div>
+      <figure class="teaser-concept" aria-label="Conceptual preview: one Android tablet acts as both an extended Mac display and an independent development worker.">
+        <div class="teaser-tablet"><span><b>01</b> Mac display <i aria-hidden="true">↗</i></span><span><b>02</b> Android worker <i aria-hidden="true">↳</i></span></div>
+        <figcaption>One device. Both at once.</figcaption>
+      </figure>
     </div>
   </section>
 
@@ -250,7 +228,7 @@
         </p>
       </div>
 
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0">
         <table>
           <caption class="sr-only">Component status with verification evidence</caption>
           <thead>
@@ -333,7 +311,7 @@
         </p>
       </div>
 
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0">
         <table>
           <caption class="sr-only">Measured performance on the development host</caption>
           <thead>
@@ -402,7 +380,7 @@
         </p>
       </div>
 
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0">
         <table>
           <caption class="sr-only">Compatibility matrix</caption>
           <thead>
@@ -467,7 +445,7 @@
           <div>
             <h3>Install and launch it</h3>
             <p>Unzip it and put the bundle in your user Applications folder, then open it.</p>
-<pre><code>mkdir -p ~/Applications
+<pre tabindex="0"><code>mkdir -p ~/Applications
 cp -R UScreen.app ~/Applications/          # UScreen-dev.app for the development build
 open ~/Applications/UScreen.app</code></pre>
             <p>
@@ -482,7 +460,7 @@ open ~/Applications/UScreen.app</code></pre>
           <div>
             <h3>Download and install the Android receiver</h3>
             <p>Install the <code>.apk</code> from the same release on the tablet. It is a separate application per channel, so the development receiver installs alongside the recommended one.</p>
-<pre><code>brew install android-platform-tools   # if adb is missing
+<pre tabindex="0"><code>brew install android-platform-tools   # if adb is missing
 adb install -r UScreen-0.2.0-preview.2-android.apk   # recommended channel
 adb install -r UScreen-0.3.0-rc.10-android.apk      # development channel</code></pre>
           </div>
@@ -491,7 +469,7 @@ adb install -r UScreen-0.3.0-rc.10-android.apk      # development channel</code>
           <div>
             <h3>Connect the tablet over USB</h3>
             <p>Enable USB debugging, plug in a <b>data</b> cable, accept the RSA prompt, then check that exactly one device is listed. A charge-only cable is the most common setup fault.</p>
-<pre><code>adb devices</code></pre>
+<pre tabindex="0"><code>adb devices</code></pre>
           </div>
         </li>
         <li>
@@ -530,7 +508,7 @@ adb install -r UScreen-0.3.0-rc.10-android.apk      # development channel</code>
                it authorises one session. The session stays up until you disconnect, you
                unplug the tablet, or a genuine safety condition stops it — there is no
                time limit. Drag a window across and touch the tablet.</p>
-<pre><code>~/Applications/UScreen/bin/uscreen-macos stop</code></pre>
+<pre tabindex="0"><code>~/Applications/UScreen/bin/uscreen-macos stop</code></pre>
           </div>
         </li>
       </ol>
@@ -727,9 +705,9 @@ adb install -r UScreen-0.3.0-rc.10-android.apk      # development channel</code>
           <p class="small muted" style="margin-top:18px">
             Check both downloads before installing:
           </p>
-<pre><code>shasum -a 256 UScreen-0.2.0-preview.3-macos-arm64.zip
+<pre tabindex="0"><code>shasum -a 256 UScreen-0.2.0-preview.3-macos-arm64.zip
 shasum -a 256 UScreen-0.2.0-preview.2-android.apk</code></pre>
-          <span class="sha">36cd6ba7f20c43b85db38bcdca3673ab2164c9e6a15d5e9b3cc887b9ad5662cb  macOS</span>
+          <span class="sha">524377140fe9fc60545da7fe19d7b3dfbaa1e290859f15bee9cc510cc5ebceea  macOS</span>
           <span class="sha">510f24e76557727c15f1e603a5172c2a2564a412eee5f3af3e50b0198dde7c8e  Android</span>
         </div>
         <dl class="meta">
@@ -790,7 +768,7 @@ notarised, and the Stable channel is not offered yet.
           <p class="small muted" style="margin-top:18px">
             Check both downloads before installing:
           </p>
-<pre><code>shasum -a 256 UScreen-0.3.0-rc.12-macos-arm64.zip
+<pre tabindex="0"><code>shasum -a 256 UScreen-0.3.0-rc.12-macos-arm64.zip
 shasum -a 256 UScreen-0.3.0-rc.10-android.apk</code></pre>
           <span class="sha">68d21a3d6b9273ed0b6c5881eec1b49aaed0c1c93a5de96b084a6a45562c5998  macOS</span>
           <span class="sha">f619f328578a2c30102174ce9f6b7730cf392ad0aecf4196aa0d35017191ef6d  Android</span>
@@ -844,7 +822,7 @@ shasum -a 256 UScreen-0.3.0-rc.10-android.apk</code></pre>
         </p>
       </div>
 
-      <div class="table-wrap">
+      <div class="table-wrap" tabindex="0">
         <table>
           <caption class="sr-only">Release notes for 0.3.0-rc.12</caption>
           <thead>
