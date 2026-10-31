@@ -25,6 +25,21 @@ system time. The Android receiver does not resume presenting frames after a
 transport loss in the tested window, so the warm-reconnect latency is still
 unmeasured.
 
+### The Android receiver, updated
+
+The development release now carries a new receiver: version 0.3.0-rc.12,
+version code 36, signed with the same project key, so it installs over the
+previous one without uninstalling it. It brings the upstream 1.2.11 behaviour
+that stops the tablet from pushing its own frame rate and bitrate into the
+host's configuration, and the tablet keeps its waiting screen until a frame
+has actually been presented.
+
+Verified on the operator's DOOGEE U12 on 2026-10-31: installed in place over
+the running receiver, the display came up, the picture was presented, a touch
+was injected into the extended display in 31 ms, and a deliberate transport
+loss was recovered — the video session resumed at an IDR and the picture came
+back. The warm-reconnect latency itself is still not measured.
+
 ## 0.3.0-rc.11 — 2026-10-29 (development channel, experimental)
 
 **The current development build.** It supersedes 0.3.0-rc.10, which is
