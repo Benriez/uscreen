@@ -55,7 +55,7 @@
   <section class="hero">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-      <p class="kicker"><span class="dot" aria-hidden="true"></span> Last hardware-tested release · v0.2.0-preview.3 — latest build · 0.3.0-rc.11</p>
+      <p class="kicker"><span class="dot" aria-hidden="true"></span> Last hardware-tested release · v0.2.0-preview.3 — latest build · 0.3.0-rc.12</p>
       <h1>Your Android tablet, as a <em>real</em> second Mac display.</h1>
       <p class="lede">
         Not mirroring, not a remote desktop window, not a browser tab. UScreen creates
@@ -67,8 +67,8 @@
           Download macOS + Android
           <span class="sz">2.3 + 1.5 MB</span>
         </a>
-        <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/tag/v0.3.0-rc.11">
-          Latest build 0.3.0-rc.11 ↓
+        <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/tag/v0.3.0-rc.12">
+          Latest build 0.3.0-rc.12 ↓
           <span class="sz">2.5 + 1.5 MB</span>
         </a>
         <a class="btn btn-ghost" href="#how">See how it works</a>
@@ -78,7 +78,7 @@
         <li class="chip">macOS 13+</li>
         <li class="chip">Android 8.1+</li>
         <li class="chip">USB only — no Wi-Fi, no account</li>
-        <li class="chip is-warn">Latest build 0.3.0-rc.11 · development channel, hardware-accepted</li>
+        <li class="chip is-warn">Latest build 0.3.0-rc.12 · development channel, hardware-accepted</li>
         <li class="chip is-warn">Pre-release · not notarized</li>
       </ul>
       </div>
@@ -266,7 +266,7 @@
               <td class="dim">An attended <b>product</b> session on the published packages: live desktop on the tablet, a window dragged onto it, tap and touch-drag confirmed by the operator, a session of roughly three hours without ending by itself, then a clean disconnect and a verified reconnect — and, after a full recovery from a failed candidate, the same result again on a second session</td>
             </tr>
             <tr>
-              <td>Development build 0.3.0-rc.11</td>
+              <td>Development build 0.3.0-rc.12</td>
               <td><span class="tag tag-ok">accepted on hardware</span></td>
               <td class="dim">Accepted on the operator’s machine: the extended desktop was visible on the tablet, a touch moved the pointer, and a transport reconnect re-established the video session on the <b>same</b> display — the creation ledger did not grow. The session then ran for hours with the supervisor healthy. Two defects had blocked every earlier Connect and are fixed here: the installer now signs the backend with a pinned identity (macOS binds the Screen Recording and Accessibility grants to the code identity of the running binary, so an unsigned rebuild lost them), and the capture start is stage-aware and bounded by the host’s own startup window instead of a blind ten-second cap. The ColorSync ceiling now judges the CPU the daemons actually consumed between two ticks rather than a decaying average, and the Development-primary consent no longer depends on the machine’s stream count. Also: 1224 Rust tests in the safe configuration and 1226 with the hardware feature, the Swift menu-bar self-test, all four macOS signatures verify, the Android package id is <code>com.uscreen.dev</code> with the launch component <code>com.uscreen.dev/com.uscreen.MainActivity</code>, signed v2+v3 with the same project key as the previous development release, and the channel isolation is enforced by the binary itself</td>
             </tr>
@@ -377,7 +377,7 @@
             <tr><td>Tablet</td><td class="num">DOOGEE U12</td><td class="dim">Android 8.1+ with USB debugging, H.264 decoder required</td></tr>
             <tr><td>Resolution</td><td class="num">1600×960 · 2000×1200</td><td class="dim">Other modes untested; changes need a host restart</td></tr>
             <tr><td>Android receiver</td><td class="num">0.2.0-preview.2</td><td class="dim"><code>com.uscreen</code> · minSdk 27 · project-local signature</td></tr>
-            <tr><td>Development build</td><td class="num">0.3.0-rc.11</td><td class="dim"><code>com.uscreen.dev</code> · minSdk 27 · same project key, separate application · arm64 · macOS 13.0+ · accepted on hardware</td></tr>
+            <tr><td>Development build</td><td class="num">0.3.0-rc.12</td><td class="dim"><code>com.uscreen.dev</code> · minSdk 27 · same project key, separate application · arm64 · macOS 13.0+ · accepted on hardware</td></tr>
             <tr><td>Cable</td><td class="num">USB data</td><td class="dim">Charge-only cables fail; that is the most common setup fault</td></tr>
             <tr><td>Network</td><td class="num">not used</td><td class="dim">Loopback sockets tunneled through adb</td></tr>
           </tbody>
@@ -403,7 +403,7 @@
         <li><b>Not notarized</b><span>Signed with a local self-signed certificate. macOS will require a per-app override on first launch.</span></li>
         <li><b>Self-signed receiver</b><span>The Android APK is signed with a project-local key, not the upstream author’s. A tablet carrying an upstream build must uninstall it first; Android refuses a differently signed update.</span></li>
         <li><b>Quarantine after a Disconnect</b><span>In the recommended build, an ordinary Disconnect can occasionally leave the machine in a quarantine state that blocks the next connection until an operator clears it. The cause is a race in the supervisor’s observation of the shutdown, and the fix is in the source and published in the development build — but that fix has not yet been accepted on hardware.</span></li>
-        <li><b>The development build is accepted, the Stable one is not</b><span>The experimental 0.3.0-rc.11 build carries the quarantine fix and the Stable/Development separation, and it completes real-hardware acceptance: the extended desktop was visible on the tablet, a touch moved the pointer, and a transport reconnect re-established the video session on the same display. Two defects had kept every Connect from being accepted — the installer never signed the backend, so macOS bound the Screen Recording and Accessibility grants to an identity that changed with every build, and the capture start was cut off by a blind ten-second cap. Both are fixed in 0.3.0-rc.11. It is still a pre-release on the Development channel; keep the recommended build as the one you rely on.</span></li>
+        <li><b>The development build is accepted, the Stable one is not</b><span>The experimental 0.3.0-rc.12 build completes real-hardware acceptance in the Development channel: the extended desktop was visible on the tablet, the tablet's decoder acknowledged the frames, a touch was injected into the extended display, and a transport reconnect reused the same display without growing the creation ledger. Nine defects were fixed to get there — the status panel that did not update while it was open, the panel that did not open on the first click, the machine's own swap churn vetoing every Connect, a backend refusal that was read as a success, a dead manager that read as a permission problem, the missing recovery, a second start that destroyed the live session, the handover that had no executable path, and a manager that mistook its own host for a second one. It is still a pre-release on the Development channel; keep the recommended build as the one you rely on.</span></li>
       </ul>
     </div>
   </section>
@@ -607,7 +607,7 @@ adb install -r UScreen-0.3.0-rc.10-android.apk      # development channel</code>
           <summary>What is the difference between the recommended build and the development build?</summary>
           <div class="body">
             <p>The recommended build (v0.2.0-preview.3) is the last one that was verified on
-               real hardware, and it is the one to use. The development build (0.3.0-rc.11) is
+               real hardware, and it is the one to use. The development build (0.3.0-rc.12) is
                published so that the newest fixes can be tried and problems reported.</p>
             <p>They are separate installations, not two versions of one. The development
                build installs into <code>~/Applications/UScreen-dev</code> with its own
@@ -707,9 +707,9 @@ shasum -a 256 UScreen-0.2.0-preview.2-android.apk</code></pre>
       <div class="download" style="margin-top:28px">
         <div>
           <span class="section-index">11 — Experimental</span>
-          <h2 id="dev-h">UScreen Development 0.3.0-rc.11</h2>
+          <h2 id="dev-h">UScreen Development 0.3.0-rc.12</h2>
           <p class="muted" style="font-size:.94rem">
-            <b>Experimental — latest development build (0.3.0-rc.11; supersedes 0.3.0-rc.10).</b>
+            <b>Experimental — latest development build (0.3.0-rc.12; supersedes 0.3.0-rc.11).</b>
 <b>Accepted on real hardware in the Development channel. Not recommended as a
 replacement for the working version.</b> This candidate completed a hardware
 session: the extended desktop was visible on the tablet, a touch moved the
@@ -743,19 +743,19 @@ notarised, and the Stable channel is not offered yet.
             launchd.
           </p>
           <div class="cta-row" style="margin-top:22px">
-            <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.11/UScreen-0.3.0-rc.11-macos-arm64.zip">
+            <a class="btn btn-primary" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.12/UScreen-0.3.0-rc.12-macos-arm64.zip">
               macOS Development .zip <span class="sz">2.5 MB</span>
             </a>
-            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.11/UScreen-0.3.0-rc.10-android.apk">
+            <a class="btn btn-ghost" href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.12/UScreen-0.3.0-rc.10-android.apk">
               Android Development .apk <span class="sz">1.5 MB</span>
             </a>
           </div>
           <p class="small muted" style="margin-top:18px">
             Check both downloads before installing:
           </p>
-<pre><code>shasum -a 256 UScreen-0.3.0-rc.11-macos-arm64.zip
+<pre><code>shasum -a 256 UScreen-0.3.0-rc.12-macos-arm64.zip
 shasum -a 256 UScreen-0.3.0-rc.10-android.apk</code></pre>
-          <span class="sha">36cd6ba7f20c43b85db38bcdca3673ab2164c9e6a15d5e9b3cc887b9ad5662cb  macOS</span>
+          <span class="sha">68d21a3d6b9273ed0b6c5881eec1b49aaed0c1c93a5de96b084a6a45562c5998  macOS</span>
           <span class="sha">f619f328578a2c30102174ce9f6b7730cf392ad0aecf4196aa0d35017191ef6d  Android</span>
           <p class="small muted" style="margin-top:18px">
             <b>Starting it:</b> installing does not start anything.
@@ -773,7 +773,7 @@ shasum -a 256 UScreen-0.3.0-rc.10-android.apk</code></pre>
           </p>
         </div>
         <dl class="meta">
-          <div><dt>Version</dt><dd>0.3.0-rc.11</dd></div>
+          <div><dt>Version</dt><dd>0.3.0-rc.12</dd></div>
           <div><dt>Channel</dt><dd>development</dd></div>
           <div><dt>macOS</dt><dd>arm64 · 13.0+ · UScreen-dev.app</dd></div>
           <div><dt>Android</dt><dd>8.1+ · com.uscreen.dev</dd></div>
@@ -788,9 +788,9 @@ shasum -a 256 UScreen-0.3.0-rc.10-android.apk</code></pre>
         · <a href="https://github.com/Benriez/uscreen/releases">All releases</a>
       </p>
       <p class="small muted" style="margin-top:12px">
-        Development release: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.3.0-rc.11.md">v0.3.0-rc.11 notes</a>
-        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.11/SHA256SUMS">SHA256SUMS</a>
-        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.11/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
+        Development release: <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.3.0-rc.12.md">v0.3.0-rc.12 notes</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.12/SHA256SUMS">SHA256SUMS</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.12/PUBLICATION_BUILD.json">PUBLICATION_BUILD.json</a>
       </p>
     </div>
   </section>
@@ -799,7 +799,7 @@ shasum -a 256 UScreen-0.3.0-rc.10-android.apk</code></pre>
     <div class="wrap">
       <div class="section-head">
         <span class="section-index">12 — Release notes</span>
-        <h2 id="rn-h">What 0.3.0-rc.11 fixes, and what is still open</h2>
+        <h2 id="rn-h">What 0.3.0-rc.12 fixes, and what is still open</h2>
         <p>
           The development channel moves in small, verifiable steps. Every entry below
           came out of the operator's own hardware or out of the machine's own
@@ -809,7 +809,7 @@ shasum -a 256 UScreen-0.3.0-rc.10-android.apk</code></pre>
 
       <div class="table-wrap">
         <table>
-          <caption class="sr-only">Release notes for 0.3.0-rc.11</caption>
+          <caption class="sr-only">Release notes for 0.3.0-rc.12</caption>
           <thead>
             <tr><th scope="col">Area</th><th scope="col">What changed</th><th scope="col">How it is verified</th></tr>
           </thead>
@@ -870,10 +870,10 @@ shasum -a 256 UScreen-0.3.0-rc.10-android.apk</code></pre>
 
       <p class="small muted" style="margin-top:18px">
         Full notes:
-        <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.3.0-rc.11.md">v0.3.0-rc.11 release notes</a>
-        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.11/RELEASE_NOTES.md">RELEASE_NOTES.md</a>
-        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.11/INSTALL.md">INSTALL.md</a>
-        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.11/ROLLBACK.md">ROLLBACK.md</a>
+        <a href="https://github.com/Benriez/uscreen/blob/main/docs/release-notes/v0.3.0-rc.12.md">v0.3.0-rc.12 release notes</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.12/RELEASE_NOTES.md">RELEASE_NOTES.md</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.12/INSTALL.md">INSTALL.md</a>
+        · <a href="https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.12/ROLLBACK.md">ROLLBACK.md</a>
       </p>
     </div>
   </section>

@@ -3,6 +3,28 @@
 Release artifacts and provenance records live on the
 [releases page](https://github.com/Benriez/uscreen/releases).
 
+## 0.3.0-rc.12 — 2026-10-31 (development channel, experimental)
+
+**The current development build.** It supersedes 0.3.0-rc.11, which is
+published but should no longer be used.
+
+Nine defects were fixed on the operator's own hardware. The status panel now
+updates in place while it is open and opens on the first click; the machine's
+own swap churn no longer vetoes a Connect; a refusal from the backend is no
+longer read as a success, so the app never answers a runtime problem with a
+permission message; a dead Development manager is recovered automatically
+without extending the operator's authorization; a second start no longer
+destroys a live session; the documented Stable → Development handover is a
+command; and the manager no longer mistakes its own host for a second one.
+
+Measured on the DOOGEE U12 on 2026-10-30: the display at 1600 × 960, the
+capture running, the tablet acknowledging the frames (2.0 fps, last
+acknowledgement 340 ms), the input channel authenticated with a touch
+injected in 18 ms, and a cold Connect to the first visible frame in 12.9 s of
+system time. The Android receiver does not resume presenting frames after a
+transport loss in the tested window, so the warm-reconnect latency is still
+unmeasured.
+
 ## 0.3.0-rc.11 — 2026-10-29 (development channel, experimental)
 
 **The current development build.** It supersedes 0.3.0-rc.10, which is
