@@ -63,28 +63,32 @@ choose **Connect** in the menu bar. Full walkthrough: [Installation](docs/instal
 
 ### Experimental — the latest development build
 
-**[UScreen Development 0.3.0-dev.3 — macOS + Android](https://github.com/Benriez/uscreen/releases/tag/v0.3.0-dev.3)**
+**[UScreen Development 0.3.0-rc.14 — macOS + Android](https://github.com/Benriez/uscreen/releases/tag/v0.3.0-rc.14)**
 
-> **Not yet fully hardware-tested. Not recommended as a replacement for the
-> working version.** Real hardware acceptance of this exact candidate is
-> pending.
+> **Experimental. Not recommended as a replacement for the working version.**
+> The real extended desktop was confirmed on the operator's DOOGEE U12 on
+> 2026-11-02 with this source; touch, a controlled reconnect and a sustained
+> session are not yet re-accepted on this exact build.
 
 | | |
 |---|---|
-| macOS archive | `UScreen-0.3.0-dev.3-macos-arm64.zip` (2.4 MB) |
-| macOS SHA-256 | `9efa7073a10b1061940b0de6e4e435d96fdb5dce7aa0df1d2ee13c564f8e060c` |
-| Android receiver | `UScreen-0.3.0-dev.3-android.apk` (1.5 MB) — package `com.uscreen.dev` |
-| Android SHA-256 | `5f4be0bdeb2df7aa7e9a5f9e4824edd90b66fbe109d789b47835036d96d7fea8` |
+| macOS archive | `UScreen-0.3.0-rc.14-macos-arm64.zip` (2.9 MB) |
+| macOS SHA-256 | `43405d1035624ad54679fbdb07334f0b5b3864aa7b2bc336bb3fb18cf3b2894f` |
+| Android receiver | `UScreen-0.3.0-rc.14-android.apk` (1.5 MB) — package `com.uscreen.dev`, version code 38 |
+| Android SHA-256 | `a4fdc546e54a5965364415d4123e56f606d4184ad625a4a423afd84755b6890e` |
 | Signature | project-local self-signed keys — the macOS app is **not notarized** |
-| Provenance | [`PUBLICATION_BUILD.json`](https://github.com/Benriez/uscreen/releases/download/v0.3.0-dev.3/PUBLICATION_BUILD.json) |
+| Provenance | [`PUBLICATION_BUILD.json`](https://github.com/Benriez/uscreen/releases/download/v0.3.0-rc.14/PUBLICATION_BUILD.json) |
 
-This build carries the normal-Disconnect quarantine fix, the stuck-lock
-recovery, the corrected start gate, the machine-wide installer lock and the
-release fingerprints. It also fixes a defect in 0.3.0-dev.1, whose Development
-services were installed into `~/Library/LaunchAgents` with `RunAtLoad` and
-`KeepAlive`, so both channels auto-started and competed for one display. Here
-the Development services are staged outside launchd's scan path and only run
-inside an explicit, expiring session (`uscreen-macos dev start --authorize`).
+This build fixes the receiver's waiting screen, which from the second session
+on stayed over a picture the tablet was presenting; makes the host's video
+state session-scoped (a sent frame without a presentation report for 5 s is
+reported as stalled, never as streaming); keeps the ColorSync measurement
+across a display coming online, which used to stop every Connect after about
+two minutes; and verifies a zero machine-wide rate with a quiet, resident
+ColorSync producer. The Development services are staged outside launchd's
+scan path and only run inside an explicit, expiring session
+(`uscreen-macos dev start --authorize`). Full notes:
+[release notes](docs/release-notes/v0.3.0-rc.14.md).
 
 It installs into its **own** tree — `~/Applications/UScreen-dev`, the
 `com.uscreen.*.dev` services, `~/Library/Application Support/uscreen-dev/` —

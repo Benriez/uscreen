@@ -224,7 +224,7 @@ open ~/Applications/UScreen-dev.app          # right-click → Open on first lau
 
 # 2. Install its Android companion. It is a different application
 #    (com.uscreen.dev) and installs alongside the recommended receiver.
-adb install UScreen-0.3.0-rc.13-android.apk
+adb install -r UScreen-0.3.0-rc.14-android.apk
 
 # 3. Set up the development installation. Installing does not start it:
 #    the development channel is inert until you authorize a session.
